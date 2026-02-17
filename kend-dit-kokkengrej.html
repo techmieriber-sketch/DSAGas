@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hvad hedder redskabet?</title>
+
+    <style>
+      :root {
+        --bg: #0f1115;
+        --panel: rgba(15, 17, 21, 0.55);
+        --card: rgba(255, 255, 255, 0.93);
+        --card2: rgba(255, 255, 255, 0.97);
+        --text: #e9edf5;
+        --muted: rgba(233, 237, 245, 0.7);
+        --ring: #7aa2ff;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+        --ok: rgba(46, 204, 113, 0.95);
+        --bad: rgba(231, 76, 60, 0.95);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background-image: url("Køkkenting baggrundsbillede.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: var(--text);
+        line-height: 1.4;
+      }
+
+      header {
+        max-width: 880px;
+        margin: 8px auto 4px;
+        padding: 0 16px;
+        text-align: center;
+        position: relative;
+      }
+
+      .back-link {
+        display: inline-block;
+        color: var(--text);
+        text-decoration: underline;
+        font-weight: 600;
+        position: fixed;
+        left: 16px;
+        top: 16px;
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.8),
+          1px -1px 0 rgba(0, 0, 0, 0.8),
+          -1px 1px 0 rgba(0, 0, 0, 0.8),
+          1px 1px 0 rgba(0, 0, 0, 0.8),
+          0 0 4px rgba(0, 0, 0, 0.9);
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        font-size: clamp(18px, 2.5vw, 22px);
+        letter-spacing: 0.2px;
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.8),
+          1px -1px 0 rgba(0, 0, 0, 0.8),
+          -1px 1px 0 rgba(0, 0, 0, 0.8),
+          1px 1px 0 rgba(0, 0, 0, 0.8),
+          0 0 4px rgba(0, 0, 0, 0.9);
+      }
+
+      header p {
+        margin: 0 auto;
+        max-width: 75ch;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.7),
+          1px -1px 0 rgba(0, 0, 0, 0.7),
+          -1px 1px 0 rgba(0, 0, 0, 0.7),
+          1px 1px 0 rgba(0, 0, 0, 0.7);
+      }
+
+      .header-box {
+        padding: 6px 10px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: var(--panel);
+        backdrop-filter: blur(4px);
+        margin-top: 4px;
+      }
+
+      .header-box h1 {
+        margin: 0 0 2px;
+      }
+
+      .header-box p {
+        margin: 0;
+      }
+
+      main {
+        max-width: 880px;
+        margin: 6px auto 16px;
+        padding: 0 16px;
+      }
+
+      .wrap {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: 1.25fr 0.75fr;
+        align-items: start;
+      }
+
+      @media (max-width: 720px) {
+        .wrap { grid-template-columns: 1fr; }
+      }
+
+      .card {
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(255, 255, 255, 0.93) 52%, rgba(255, 255, 255, 0.97) 100%);
+      }
+
+      .completionMsg {
+        display: none;
+        position: absolute;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(30, 45, 61, 0.85) 0%, rgba(15, 25, 35, 0.9) 100%);
+        border-radius: var(--radius);
+        color: #fff;
+        font-weight: 800;
+        font-size: clamp(1.25rem, 3vw, 1.75rem);
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      .completionMsg.visible {
+        display: flex;
+      }
+
+      .completionMsg .sub {
+        font-size: 0.9em;
+        font-weight: 600;
+        opacity: 0.9;
+      }
+
+      .imgArea {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        max-height: 165px;
+        background: transparent;
+      }
+
+      .imgArea img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .imgLabel {
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        padding: 6px 8px;
+        border-radius: 999px;
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.2px;
+        backdrop-filter: blur(3px);
+      }
+
+      .content {
+        padding: 8px 10px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .question {
+        color: #111;
+        font-weight: 800;
+        font-size: 14px;
+      }
+
+      .answers {
+        display: grid;
+        gap: 4px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      @media (max-width: 560px) {
+        .answers { grid-template-columns: 1fr; }
+      }
+
+      .btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font-weight: 800;
+        background: rgba(30, 45, 61, 0.95);
+        color: var(--text);
+        box-shadow: 0 10px 18px rgba(0,0,0,0.18);
+        transition: transform 0.05s ease, filter 0.15s ease;
+        text-align: left;
+      }
+
+      .btn:hover { filter: brightness(1.06); }
+      .btn:active { transform: translateY(1px); }
+
+      .btn:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      .btn[disabled] {
+        cursor: default;
+        opacity: 0.9;
+        filter: none;
+        transform: none;
+      }
+
+      .btn.correct {
+        background: linear-gradient(180deg, rgba(46,204,113,0.95), rgba(39,174,96,0.95));
+      }
+      .btn.wrong {
+        background: linear-gradient(180deg, rgba(231,76,60,0.95), rgba(192,57,43,0.95));
+      }
+
+      .feedback {
+        border-radius: 10px;
+        padding: 6px 8px;
+        font-weight: 700;
+        font-size: 13px;
+        color: #111;
+        background: rgba(255, 255, 255, 0.78);
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .controlBtn {
+        border: 0;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 13px;
+        cursor: pointer;
+        font-weight: 800;
+        color: var(--text);
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(3px);
+      }
+
+      .controlBtn:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      .side {
+        padding: 10px 12px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: var(--panel);
+        backdrop-filter: blur(4px);
+      }
+
+      .side h2 {
+        margin: 0 0 10px;
+        font-size: 16px;
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.7),
+          1px -1px 0 rgba(0, 0, 0, 0.7),
+          -1px 1px 0 rgba(0, 0, 0, 0.7),
+          1px 1px 0 rgba(0,  0, 0, 0.7);
+      }
+
+      .stat {
+        display: grid;
+        gap: 8px;
+        color: rgba(255,255,255,0.92);
+        font-weight: 700;
+      }
+
+      .statRow {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 10px;
+        border-radius: 14px;
+        background: rgba(0,0,0,0.45);
+      }
+
+      .small {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 12px;
+      }
+
+      .end {
+        display: grid;
+        gap: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a class="back-link" href="kokkenting.html">Tilbage</a>
+
+      <div class="header-box">
+        <h1>Hvad hedder redskabet?</h1>
+        <p>Se billedet og vælg det korrekte navn. Der er 4 svarmuligheder. Ordet bliver læst op, når du klikker på en svarmulighed.</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <section class="card" aria-label="Quiz">
+          <div class="imgArea">
+            <img id="qImg" alt="" />
+            <div class="imgLabel" id="imgLabel">Spørgsmål</div>
+            <div class="completionMsg" id="completionMsg">
+              <span>Opgaven er gennemført</span>
+              <span class="sub">Godt gået!</span>
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="question" id="qText">Hvad hedder redskabet på billedet?</div>
+
+            <div class="answers" id="answers"></div>
+
+            <div id="feedback" class="feedback" style="display:none;"></div>
+
+            <div class="controls">
+              <button class="controlBtn" id="nextBtn" type="button" style="display:none;">Næste</button>
+              <button class="controlBtn" id="restartBtn" type="button">Start forfra</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side" aria-label="Status">
+          <h2>Status</h2>
+          <div class="stat">
+            <div class="statRow"><span>Spørgsmål</span><span id="progress">0/0</span></div>
+            <div class="statRow"><span>Korrekte</span><span id="score">0</span></div>
+            <div class="statRow"><span>Forkerte</span><span id="wrong">0</span></div>
+          </div>
+          <div class="end" id="endBox" style="display:none; margin-top: 12px;">
+            <div class="statRow"><span>Resultat</span><span id="resultText">—</span></div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      // -----------------------------
+      // DATA (fra dine to ordkort-filer)
+      // -----------------------------
+      const itemsRaw = [
+        // Ordkort – køkkenting (1-25)
+        { term: "knivmagnet",   img: "Køkkenting/1-25/Knivmagnet.png" },
+        { term: "kokkejakke",   img: "Køkkenting/1-25/Kokkejakke.png" },
+        { term: "stavblender",  img: "Køkkenting/1-25/Stavblender.png" },
+        { term: "stegeplade",   img: "Køkkenting/1-25/Stegeplade.png" },
+        { term: "strygestål",   img: "Køkkenting/1-25/Strygestål.png" },
+        { term: "termokande",   img: "Køkkenting/1-25/Termokande.png" },
+        { term: "tærteform",    img: "Køkkenting/1-25/Tærteform.jpg" },
+        { term: "urtekniv",     img: "Køkkenting/1-25/Urtekniv.jpg" },
+        { term: "varmluftsovn", img: "Køkkenting/1-25/Varmluftsovn.png" },
+        { term: "viskestykke",  img: "Køkkenting/1-25/Viskestykke.png" },
+        { term: "ostehøvl",     img: "Køkkenting/1-25/Ostehøvl.png" },
+        { term: "piskeris",     img: "Køkkenting/1-25/Piskeris.png" },
+        { term: "røremaskine",  img: "Køkkenting/1-25/Røremaskine.png" },
+        { term: "saks",         img: "Køkkenting/1-25/Saks.png" },
+        { term: "si",           img: "Køkkenting/1-25/Si.jpg" },
+        { term: "skrællekniv",  img: "Køkkenting/1-25/Skrællekniv.jpg" },
+        { term: "skuffeske",    img: "Køkkenting/1-25/Skuffeske.png" },
+        { term: "skærebræt",    img: "Køkkenting/1-25/Skærebræt.jpg" },
+        { term: "spaghettitang",img: "Køkkenting/1-25/Spaghettitang.png" },
+        { term: "æggeur",       img: "Køkkenting/1-25/Æggeur.png" },
+        { term: "affaldsstativ",img: "Køkkenting/1-25/Affaldsstativ.jpg" },
+        { term: "bagepensel",   img: "Køkkenting/1-25/Bagepensel.png" },
+        { term: "bestik",       img: "Køkkenting/1-25/Bestik.png" },
+        { term: "bradepande",   img: "Køkkenting/1-25/Bradepande.png" },
+        { term: "brødkniv",     img: "Køkkenting/1-25/brødkniv.jpg" },
+
+        // Ordkort – flere køkkenting (25-50)
+        { term: "brødkurv",        img: "Køkkenting/25-50/Brødkurv.png" },
+        { term: "citruspresser",   img: "Køkkenting/25-50/Citruspresser.png" },
+        { term: "decilitermål",    img: "Køkkenting/25-50/decilitermål.jpg" },
+        { term: "dejkrog",         img: "Køkkenting/25-50/Dejkrog.png" },
+        { term: "dejskraber",      img: "Køkkenting/25-50/Dejskraber.png" },
+        { term: "dørslag",         img: "Køkkenting/25-50/Dørslag.png" },
+        { term: "dåseåbner",       img: "Køkkenting/25-50/Dåseåbner.png" },
+        { term: "forklæde",        img: "Køkkenting/25-50/Forklæde.png" },
+        { term: "gryde",           img: "Køkkenting/25-50/Gryde.jpg" },
+        { term: "grydeske",        img: "Køkkenting/25-50/Grydeske.png" },
+        { term: "hulske",          img: "Køkkenting/25-50/Hulske.jpg", audio: "Hulske.mp3?v=2" },
+        { term: "kaffemaskine",    img: "Køkkenting/25-50/Kaffemaskine.png" },
+        { term: "kagerulle",       img: "Køkkenting/25-50/Kagerulle.png" },
+        { term: "karklude",        img: "Køkkenting/25-50/Karklude.png" },
+        { term: "kasserolle",      img: "Køkkenting/25-50/Kasserolle.jpg" },
+        { term: "kipgryde",        img: "Køkkenting/25-50/Kipgryde.png" },
+        { term: "krus",            img: "Køkkenting/25-50/Krus.png" },
+        { term: "køkkenvægt",      img: "Køkkenting/25-50/Køkkenvægt.jpg" },
+        { term: "opvaskemaskine",  img: "Køkkenting/25-50/Opvaskemaskine.png" },
+        { term: "paletkniv",       img: "Køkkenting/25-50/Paletkniv.png" },
+        { term: "pålægsmaskine",   img: "Køkkenting/25-50/Pålægsmaskine.jpg" },
+        { term: "rivejern",        img: "Køkkenting/25-50/Rivejern.jpg" },
+        { term: "røreskål",        img: "Køkkenting/25-50/Røreskål.jpg" },
+
+        // De findes også i 1-25, men her vælger vi 25-50-versionerne
+        { term: "skærebræt",       img: "Køkkenting/25-50/Skærebræt.jpg" },
+        { term: "tærteform",       img: "Køkkenting/25-50/Tærteform.jpg" },
+      ];
+
+      // Fjern dubletter på "term" (beholder seneste forekomst)
+      const dedupeByTerm = (arr) => {
+        const map = new Map();
+        arr.forEach((x) => map.set(x.term, x));
+        return Array.from(map.values());
+      };
+
+      const items = dedupeByTerm(itemsRaw);
+
+      // -----------------------------
+      // QUIZ-LOGIK
+      // -----------------------------
+      const qImg = document.getElementById("qImg");
+      const imgLabel = document.getElementById("imgLabel");
+      const completionMsg = document.getElementById("completionMsg");
+      const answersEl = document.getElementById("answers");
+      const feedbackEl = document.getElementById("feedback");
+      const nextBtn = document.getElementById("nextBtn");
+      const restartBtn = document.getElementById("restartBtn");
+
+      const progressEl = document.getElementById("progress");
+      const scoreEl = document.getElementById("score");
+      const wrongEl = document.getElementById("wrong");
+      const endBox = document.getElementById("endBox");
+      const resultText = document.getElementById("resultText");
+
+      const audio = new Audio();
+      const audioFolder = "Køkkenting/";
+
+      function getAudioPath(term) {
+        const item = items.find((i) => i.term === term);
+        if (!item) return null;
+        if (item.audio) return audioFolder + item.audio;
+        if (!item.img) return null;
+        const base = item.img.split("/").pop().replace(/\.[^.]+$/, "");
+        return audioFolder + base + ".mp3";
+      }
+
+      function playAudioForTerm(term) {
+        const path = getAudioPath(term);
+        if (path) {
+          audio.src = path;
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+        }
+      }
+
+      let order = [];
+      let idx = 0;
+      let score = 0;
+      let wrong = 0;
+      let locked = false;
+
+      const cap = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+
+      const shuffle = (a) => {
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      };
+
+      function makeOrder() {
+        order = shuffle(items.map((_, i) => i));
+      }
+
+      function updateStats() {
+        progressEl.textContent = `${Math.min(idx + 1, order.length)}/${order.length}`;
+        scoreEl.textContent = String(score);
+        wrongEl.textContent = String(wrong);
+      }
+
+      function setEndState() {
+        endBox.style.display = "grid";
+        const total = order.length;
+        const pct = Math.round((score / total) * 100);
+        resultText.textContent = `${score}/${total} (${pct}%)`;
+      }
+
+      function hideEndState() {
+        endBox.style.display = "none";
+        resultText.textContent = "—";
+      }
+
+      function buildOptions(correctTerm) {
+        const allTerms = items.map((x) => x.term).filter((t) => t !== correctTerm);
+        shuffle(allTerms);
+        const distractors = allTerms.slice(0, 3);
+        const opts = shuffle([correctTerm, ...distractors]);
+        return opts;
+      }
+
+      function renderQuestion() {
+        locked = false;
+        feedbackEl.style.display = "none";
+        feedbackEl.textContent = "";
+        nextBtn.style.display = "none";
+
+        // slut?
+        if (idx >= order.length) {
+          answersEl.innerHTML = "";
+          qImg.style.display = "none";
+          qImg.src = "";
+          qImg.alt = "";
+          imgLabel.style.display = "none";
+          completionMsg.classList.add("visible");
+          setEndState();
+          updateStats();
+          return;
+        }
+
+        hideEndState();
+        completionMsg.classList.remove("visible");
+        qImg.style.display = "block";
+        imgLabel.style.display = "block";
+
+        const item = items[order[idx]];
+        qImg.src = item.img;
+        qImg.alt = `Billede af: ${cap(item.term)}`;
+        imgLabel.textContent = `Spørgsmål ${idx + 1}`;
+
+        if (item.term === "stavblender" || item.term === "hulske") {
+          qImg.style.objectPosition = "center bottom";
+        } else if (item.term === "termokande") {
+          qImg.style.objectPosition = "center top";
+        } else if (item.term === "bagepensel") {
+          qImg.style.objectPosition = "center 25%";
+        } else {
+          qImg.style.objectPosition = "center center";
+        }
+
+        const opts = buildOptions(item.term);
+        answersEl.innerHTML = "";
+
+        opts.forEach((t) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "btn";
+          b.textContent = cap(t);
+
+          b.addEventListener("click", () => chooseAnswer(b, t, item.term));
+          answersEl.appendChild(b);
+        });
+
+        updateStats();
+      }
+
+      function chooseAnswer(btnEl, chosen, correct) {
+        if (locked) return;
+        locked = true;
+
+        playAudioForTerm(chosen);
+
+        const buttons = Array.from(answersEl.querySelectorAll("button.btn"));
+        buttons.forEach((b) => b.disabled = true);
+
+        const isCorrect = chosen === correct;
+
+        buttons.forEach((b) => {
+          const t = b.textContent.trim().toLowerCase();
+          if (t === correct) b.classList.add("correct");
+        });
+
+        if (isCorrect) {
+          score += 1;
+          btnEl.classList.add("correct");
+          feedbackEl.textContent = `Korrekt: ${cap(correct)}.`;
+        } else {
+          wrong += 1;
+          btnEl.classList.add("wrong");
+          feedbackEl.textContent = `Forkert. Korrekt svar er: ${cap(correct)}.`;
+        }
+
+        feedbackEl.style.display = "block";
+        nextBtn.style.display = "inline-block";
+        updateStats();
+      }
+
+      nextBtn.addEventListener("click", () => {
+        idx += 1;
+        renderQuestion();
+      });
+
+      restartBtn.addEventListener("click", () => {
+        score = 0;
+        wrong = 0;
+        idx = 0;
+        makeOrder();
+        renderQuestion();
+      });
+
+      // Start
+      makeOrder();
+      renderQuestion();
+    </script>
+  </body>
+</html>

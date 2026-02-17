@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple choice – chokolade</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Søde sager.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #3b2314;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: transparent;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 251, 245, 0.7);
+        color: #3b2314;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(92, 55, 24, 0.25);
+        border: 1px solid rgba(221, 196, 169, 0.9);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a2f1d;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #3b2314;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #e3cbb1;
+        border-radius: 10px;
+        background: #fff6ea;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(143, 90, 42, 0.18);
+      }
+      .option input {
+        accent-color: #9c5b2a;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #9c5b2a;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(156, 91, 42, 0.28);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(156, 91, 42, 0.32);
+      }
+      button.secondary {
+        background: #5a4637;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #3b2314;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #f4ebe1;
+        border: 1px solid #dcc7b0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="soede-sager.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple choice – chokolade</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="D">
+          <h2>1. Hvor stammer chokolade oprindeligt fra?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A) Afrika</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B) Europa</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C) Asien</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D) Sydamerika</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvad er Criollo-kakaotræet kendt for?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A) Det er billigt at dyrke</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B) Det er den mest almindelige type</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C) Det producerer de fineste kakaobønner</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D) Det er en hybrid af andre træer</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>3. Hvordan lavede mayaerne og aztekerne oprindeligt chokoladedrik?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A) Med sukker og mælk</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B) Med krydderier som kanel og chili</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C) Som en fast chokoladeplade</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D) Med kaffe og kakao</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>4. Hvilken proces er vigtig for at reducere syrligheden i kakaobønnerne?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A) Fermentering</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B) Tørring</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C) Ristning</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D) Conching</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>5. Hvad kaldes den flydende masse, der dannes efter maling af kakaonibs?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A) Kakaopulver</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B) Chokoladelikør</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C) Kakaosmør</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D) Chokoladesirup</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>6. Hvilken type chokolade indeholder ingen mælkeprodukter?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A) Lys chokolade</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B) Hvid chokolade</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C) Mørk chokolade</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D) Ruby chokolade</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>7. Hvilket stof i chokolade er kendt som "kærlighedens kemikalie"?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A) Theobromin</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B) Phenylethylamin</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C) Tryptophan</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D) Koffein</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>8. Hvor meget af verdens kakao kommer fra Afrika?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A) 50 %</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B) 60 %</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C) 70 %</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D) 80 %</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>9. Hvilken maskine bruges til at finjustere chokoladens smag og tekstur?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A) Rister</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B) Fermenteringsmaskine</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C) Conche</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D) Kværn</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>10. Hvorfor smelter chokolade i munden ved kropstemperatur?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A) Fordi det indeholder sukker</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B) På grund af indholdet af phenylethylamin</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C) Fordi det indeholder kakaosmør</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D) På grund af den høje andel af kakao</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+  </body>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+</html>

@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort – flere køkkenting</title>
+
+    <style>
+      :root {
+        --bg: #0f1115;
+        --card: rgba(255, 255, 255, 0.93);
+        --card2: rgba(255, 255, 255, 0.97);
+        --text: #e9edf5;
+        --muted: #b8c0d6;
+        --ring: #7aa2ff;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background-image: url("Køkkenting baggrundsbillede.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: var(--text);
+        line-height: 1.4;
+      }
+
+      header {
+        max-width: 1100px;
+        margin: 28px auto 10px;
+        padding: 0 16px;
+        text-align: center;
+        position: relative;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: var(--text);
+        text-decoration: underline;
+        font-weight: 600;
+        position: absolute;
+        left: 16px;
+        top: 0;
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.8),
+          1px -1px 0 rgba(0, 0, 0, 0.8),
+          -1px 1px 0 rgba(0, 0, 0, 0.8),
+          1px 1px 0 rgba(0, 0, 0, 0.8),
+          0 0 4px rgba(0, 0, 0, 0.9);
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(22px, 3vw, 30px);
+        letter-spacing: 0.2px;
+      }
+      p {
+        margin: 0 auto;
+        color: rgba(255, 255, 255, 0.92);
+        max-width: 70ch;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 18px auto 44px;
+        padding: 0 16px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        align-items: stretch;
+      }
+
+      .card {
+        perspective: 1000px;
+        min-height: 320px;
+      }
+
+      .inner {
+        position: relative;
+        height: 100%;
+        border-radius: var(--radius);
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+        box-shadow: var(--shadow);
+      }
+
+      .card.is-flipped .inner {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+        backface-visibility: hidden;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        background: linear-gradient(180deg, var(--card) 0%, var(--card2) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .front {
+        background: linear-gradient(180deg, transparent 0%, transparent 78%, rgba(255, 255, 255, 0.93) 88%, rgba(255, 255, 255, 0.97) 100%);
+      }
+
+      .front .imgwrap {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      .front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.02);
+      }
+
+      .label {
+        padding: 12px 12px 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .label strong {
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.8),
+          1px -1px 0 rgba(0, 0, 0, 0.8),
+          -1px 1px 0 rgba(0, 0, 0, 0.8),
+          1px 1px 0 rgba(0, 0, 0, 0.8),
+          0 0 4px rgba(0, 0, 0, 0.9);
+      }
+
+      .hint {
+        font-size: 12px;
+        color: rgba(233, 237, 245, 0.65);
+        white-space: nowrap;
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        padding: 14px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 10px;
+        background: linear-gradient(180deg, #1e2d3d 0%, #15202b 100%);
+      }
+
+      .back h2 {
+        margin: 0;
+        font-size: 17px;
+        text-align: center;
+        color: var(--text);
+      }
+
+      .back .def {
+        margin: 0;
+        color: var(--text);
+        font-size: 14px;
+        text-align: left;
+      }
+
+      .meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        color: rgba(233, 237, 245, 0.7);
+        font-size: 12px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .flipBtn {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        border-radius: var(--radius);
+      }
+
+      .flipBtn:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 520px) {
+        .card {
+          min-height: 300px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a class="back-link" href="kokkenting.html">Tilbage</a>
+      <h1>Ordkort – flere køkkenting</h1>
+      <p>Ordet på kortet læses op, når du klikker på kortet.</p>
+    </header>
+
+    <main>
+      <section class="grid" id="grid" aria-label="Ordkort"></section>
+    </main>
+
+    <script>
+      const audioPlayer = new Audio();
+
+      // Billeder ligger i "Køkkenting/25-50/", lydfiler i "Køkkenting/"
+      const assetFolder = "Køkkenting/25-50/";
+      const audioFolder = "Køkkenting/";
+
+      const cards = [
+        {
+          term: "brødkurv",
+          img: "Køkkenting/25-50/Brødkurv.png",
+          def: "En kurv (ofte flettet), der bruges til at servere og opbevare brød eller rundstykker på bordet.",
+          tags: ["servering", "brød"],
+          imgFit: "contain"
+        },
+        {
+          term: "citruspresser",
+          img: "Køkkenting/25-50/Citruspresser.png",
+          def: "Et redskab til at presse saft ud af citrusfrugter som citroner og appelsiner.",
+          tags: ["saft", "citrus"],
+          imgFit: "contain"
+        },
+        {
+          term: "decilitermål",
+          img: "Køkkenting/25-50/decilitermål.jpg",
+          def: "Et målebæger til at måle væske eller tørvarer i deciliter.",
+          tags: ["måling", "opskrift"],
+          imgFit: "contain"
+        },
+        {
+          term: "dejkrog",
+          img: "Køkkenting/25-50/Dejkrog.png",
+          def: "Tilbehør til røremaskine, der bruges til at ælte dej.",
+          tags: ["dej", "æltning"],
+          imgFit: "contain"
+        },
+        {
+          term: "dejskraber",
+          img: "Køkkenting/25-50/Dejskraber.png",
+          def: "Bruges til at skrabe dej og masser ud af skåle.",
+          tags: ["bagning"],
+          imgFit: "contain"
+        },
+        {
+          term: "dørslag",
+          img: "Køkkenting/25-50/Dørslag.png",
+          def: "En skål med huller til at dræne væske fra fx pasta.",
+          tags: ["dræn", "pasta"],
+          imgFit: "contain"
+        },
+        {
+          term: "dåseåbner",
+          img: "Køkkenting/25-50/Dåseåbner.png",
+          def: "Redskab til at åbne konservesdåser.",
+          tags: ["dåse"],
+          imgFit: "contain"
+        },
+        {
+          term: "forklæde",
+          img: "Køkkenting/25-50/Forklæde.png",
+          def: "Arbejdstøj der beskytter tøjet under madlavning.",
+          tags: ["hygiejne"],
+          imgFit: "contain"
+        },
+        {
+          term: "gryde",
+          img: "Køkkenting/25-50/Gryde.jpg",
+          def: "Beholder med håndtag til at koge og simre mad.",
+          tags: ["kogning"],
+          imgFit: "cover"
+        },
+        {
+          term: "grydeske",
+          img: "Køkkenting/25-50/Grydeske.png",
+          def: "En ske (ofte af træ eller plast), der bruges til at røre i gryder med, fx suppe eller sovs.",
+          tags: ["omrøring", "gryde"],
+          imgFit: "contain"
+        },
+        {
+          term: "hulske",
+          img: "Køkkenting/25-50/Hulske.jpg",
+          audio: "Hulske.mp3?v=2",
+          def: "En ske med huller, der bruges til at tage mad op af væske, fx kartofler eller grøntsager.",
+          tags: ["dræn", "kogning"],
+          imgFit: "contain"
+        },
+        {
+          term: "kaffemaskine",
+          img: "Køkkenting/25-50/Kaffemaskine.png",
+          def: "En maskine, der brygger kaffe ved at lade varmt vand løbe gennem malet kaffe.",
+          tags: ["kaffe", "drikke"],
+          imgFit: "contain"
+        },
+        {
+          term: "kagerulle",
+          img: "Køkkenting/25-50/Kagerulle.png",
+          def: "Et redskab, der bruges til at rulle dej flad, fx til kager eller tærter.",
+          tags: ["bagning", "dej"],
+          imgFit: "contain"
+        },
+        {
+          term: "karklude",
+          img: "Køkkenting/25-50/Karklude.png",
+          def: "Små klude, der bruges til rengøring og aftørring i køkkenet.",
+          tags: ["rengøring", "hygiejne"],
+          imgFit: "contain"
+        },
+        {
+          term: "kasserolle",
+          img: "Køkkenting/25-50/Kasserolle.jpg",
+          def: "En mindre gryde med langt håndtag, der bruges til opvarmning af fx sovs eller grød.",
+          tags: ["kogning", "varme"],
+          imgFit: "cover"
+        },
+        {
+          term: "kipgryde",
+          img: "Køkkenting/25-50/Kipgryde.png",
+          def: "En stor professionel gryde, der kan vippes for nem tømning, ofte brugt i storkøkkener.",
+          tags: ["storkøkken", "professionel"],
+          imgFit: "contain"
+        },
+        {
+          term: "krus",
+          img: "Køkkenting/25-50/Krus.png",
+          def: "En kop med hank, der bruges til varme drikke som kaffe eller te.",
+          tags: ["drikke", "servering"],
+          imgFit: "contain"
+        },
+        {
+          term: "køkkenvægt",
+          img: "Køkkenting/25-50/Køkkenvægt.jpg",
+          def: "Et redskab til at veje ingredienser præcist, fx mel, sukker eller smør.",
+          tags: ["måling", "opskrift"],
+          imgFit: "contain"
+        },
+        {
+          term: "opvaskemaskine",
+          img: "Køkkenting/25-50/Opvaskemaskine.png",
+          def: "En maskine, der vasker service som tallerkener, glas og bestik automatisk.",
+          tags: ["opvask", "hygiejne"],
+          imgFit: "contain"
+        },
+        {
+          term: "paletkniv",
+          img: "Køkkenting/25-50/Paletkniv.png",
+          def: "Et fladt redskab, der bruges til at smøre, løfte eller fordele fx creme og glasur.",
+          tags: ["bagning", "servering"],
+          imgFit: "contain"
+        },
+        {
+          term: "pålægsmaskine",
+          img: "Køkkenting/25-50/Pålægsmaskine.jpg",
+          def: "En maskine, der skærer pålæg som skinke og salami i tynde skiver.",
+          tags: ["skæring", "professionel"],
+          imgFit: "contain"
+        },
+        {
+          term: "rivejern",
+          img: "Køkkenting/25-50/Rivejern.jpg",
+          def: "Et redskab med skarpe huller, der bruges til at rive fx ost, grøntsager eller citrus.",
+          tags: ["rivning", "forberedelse"],
+          imgFit: "contain"
+        },
+        {
+          term: "røreskål",
+          img: "Køkkenting/25-50/Røreskål.jpg",
+          def: "En skål, der bruges til at blande ingredienser i, fx dej eller fars.",
+          tags: ["blanding", "bagning"],
+          imgFit: "contain"
+        },
+      ];
+
+      // Udleder altid et brugbart navn
+      const deriveTermFromImg = (imgPath) => {
+        if (!imgPath) return "ukendt";
+        const file = (imgPath.split("/").pop() || "").trim();
+        const base = file.replace(/\.[^.]+$/, "");
+        const withoutLeadingNumbers = base.replace(/^[\d]+[\s._-]*/g, "");
+        const spaced = withoutLeadingNumbers.replace(/[_-]+/g, " ");
+        const cleaned = spaced.replace(/\s+/g, " ").trim().toLowerCase();
+        return cleaned || "ukendt";
+      };
+
+      const getSafeTerm = (c) => {
+        const t = (c.term ?? "").toString().trim();
+        return t.length ? t : deriveTermFromImg(c.img);
+      };
+
+      const grid = document.getElementById("grid");
+
+      function capitalizeFirst(text) {
+        if (!text) return "";
+        return text.charAt(0).toUpperCase() + text.slice(1);
+      }
+
+      function createCard(item) {
+        const safeTerm = getSafeTerm(item);
+        const titleText = capitalizeFirst(safeTerm);
+        const defText = capitalizeFirst(item.def || "");
+
+        const imgBase = (item.img || "").split("/").pop().replace(/\.[^.]+$/, "") || safeTerm;
+        const audioFile = item.audio || `${imgBase}.mp3`;
+
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "flipBtn";
+        btn.setAttribute("aria-label", `Vend ordkort: ${titleText}`);
+        btn.dataset.audio = encodeURI(`${audioFolder}${audioFile}`);
+
+        const inner = document.createElement("div");
+        inner.className = "inner";
+
+        const front = document.createElement("div");
+        front.className = "face front";
+
+        const imgwrap = document.createElement("div");
+        imgwrap.className = "imgwrap";
+
+        const img = document.createElement("img");
+        img.alt = titleText;
+        img.src = item.img;
+        img.loading = "lazy";
+
+        if (item.imgFit) img.style.objectFit = item.imgFit;
+        if (item.imgPosition) img.style.objectPosition = item.imgPosition;
+
+        imgwrap.appendChild(img);
+
+        const label = document.createElement("div");
+        label.className = "label";
+
+        const strong = document.createElement("strong");
+        strong.textContent = titleText;
+
+        const hint = document.createElement("span");
+        hint.className = "hint";
+        hint.textContent = "Klik for forklaring";
+
+        label.appendChild(strong);
+        label.appendChild(hint);
+
+        front.appendChild(imgwrap);
+        front.appendChild(label);
+
+        const back = document.createElement("div");
+        back.className = "face back";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = titleText;
+
+        const def = document.createElement("p");
+        def.className = "def";
+        def.textContent = defText;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        (item.tags || []).forEach((t) => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = capitalizeFirst(t);
+          meta.appendChild(tag);
+        });
+
+        back.appendChild(h2);
+        back.appendChild(def);
+        back.appendChild(meta);
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+
+        btn.appendChild(inner);
+        card.appendChild(btn);
+
+        btn.addEventListener("click", () => {
+          card.classList.toggle("is-flipped");
+          if (btn.dataset.audio) {
+            audioPlayer.src = btn.dataset.audio;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch(() => {});
+          }
+        });
+
+        btn.addEventListener("keydown", (e) => {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault();
+            card.classList.toggle("is-flipped");
+            if (btn.dataset.audio) {
+              audioPlayer.src = btn.dataset.audio;
+              audioPlayer.currentTime = 0;
+              audioPlayer.play().catch(() => {});
+            }
+          }
+        });
+
+        return card;
+      }
+
+      cards.forEach((item) => grid.appendChild(createCard(item)));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple choice – fisk</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("file:///C:/Users/mirm/.cursor/projects/c-Users-mirm-OneDrive-AARHUS-TECH-Desktop-Cursor-test-DSA-Gastronom/assets/fisk-fjerkrae-vildt-bg-16x9.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #2d2d2d;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.82);
+        color: #2d2d2d;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a4a4a;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #2d2d2d;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #d6d6d6;
+        border-radius: 10px;
+        background: #ffffff;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+      .option input {
+        accent-color: #3b82f6;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #3b82f6;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(59, 130, 246, 0.35);
+      }
+      button.secondary {
+        background: #6b7280;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #2d2d2d;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #e9f2ff;
+        border: 1px solid #c9dcff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="fisk-fjerkrae-og-vildt.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple choice – fisk</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="B">
+          <h2>1. Hvilket næringsstof findes i fisk og er vigtigt for hjernesundhed?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. Vitamin C</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. Omega-3-fedtsyrer</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. Kalcium</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. Fiber</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>2. Hvad er et tegn på, at en fisk er frisk?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. Fiskens skind er tørt</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. Fiskens øjne er klare</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. Gællerne er gule</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. Skællene er skinnende</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>3. Hvilket trin er vigtigt, når du steger fisk for at opnå sprødt skind?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. Skindet skal ridses før stegning</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. Skindet skal dryppes med olie før stegning</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. Fisken skal koges først</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. Fisken skal vendes ofte under stegningen</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>4. Hvad er en fordel ved at bruge både olie og smør under stegning af fisk?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. Olie gør fisken blødere</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. Smør tilføjer smag, mens olie gør det muligt at stege ved højere temperaturer</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. Smør er sundere end olie</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. Olie reducerer fiskens fedtindhold</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>5. Hvorfor er det vigtigt, at torskens kød bliver hvidt under stegning?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. Fordi det er sundere, når det er hvidt</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. Fordi fisken er tilberedt, når kødet bliver hvidt og flager</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. Fordi det betyder, at fisken er marineret korrekt</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. Fordi fisken bliver sprødere</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>6. Hvordan kan man bedst tjekke, om torsk er færdigtilberedt?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. Ved at se om fisken er blevet brun på ydersiden</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. Ved at sikre, at kødet let kan adskilles i flager</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. Ved at måle fiskens temperatur</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. Ved at lugte til fisken</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>7. Hvilket næringsstof i fisk er nødvendigt for en sund skjoldbruskkirtel?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. Selen</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. Kalcium</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. Jod</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. Vitamin A</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>8. Hvilken type mad kan man købe færdigtilberedt hos lokale fiskehandlere i Aarhus?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. Kødretter</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. Stjerneskud</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. Vegetariske retter</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. Pølsebrød</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>9. Hvilken retning anbefales det at lægge fisken på panden, når man steger den?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. Lægge den først længst væk fra dig</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. Lægge den tættest på dig selv først og derefter væk fra dig</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. Lægge fisken med skindsiden opad</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. Lægge fisken midt på panden</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>10. Hvad anbefales at bruge som krydderi til stegt torsk?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. Karrypulver</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. Salt, peber og citronsaft</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. Sukker</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. Paprika</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+  </body>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+</html>

@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple choice – køkkenting</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Køkkenting baggrundsbillede.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #2d2d2d;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.82);
+        color: #2d2d2d;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a4a4a;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #2d2d2d;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #d6d6d6;
+        border-radius: 10px;
+        background: #ffffff;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+      .option input {
+        accent-color: #3b82f6;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #3b82f6;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(59, 130, 246, 0.35);
+      }
+      button.secondary {
+        background: #6b7280;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #2d2d2d;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #e9f2ff;
+        border: 1px solid #c9dcff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="kokkenting.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple choice – køkkenting</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="B">
+          <h2>1. Hvad bruges en knivmagnet primært til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. At slibe knive</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. At opbevare knive på væggen</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. At vaske knive</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. At beskytte hænder mod snit</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvad er formålet med en kokkejakke?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. At vise rang i køkkenet</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. At holde kroppen varm</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. At beskytte mod varme og stænk</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. At opbevare redskaber</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>3. Hvad kan man bruge en stavblender til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. At hakke grøntsager tørt</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. At blende direkte i gryde eller skål</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. At ælte dej</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. At skære kød i skiver</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>4. Hvad kendetegner en stegeplade?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. Den har høj kant</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. Den giver ujævn varme</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. Den bruges kun i ovn</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. Den giver stor, jævn stegeflade</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>5. Hvad bruges et strygestål til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. At slibe knive</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. At rette knivsæggen op</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. At vaske knive</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. At opbevare knive</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>6. Hvad er funktionen ved en termokande?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. At køle drikke hurtigt</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. At holde drikke varme eller kolde</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. At blande drikke</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. At dosere væske</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>7. Hvad bruges en tærteform til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. At bage brød i</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. At stege kød på</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. At bage tærter i</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. At servere kolde retter</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>8. Hvad er en urtekniv særligt god til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. At skære brød</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. At hakke store stykker kød</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. Præcisionsarbejde med små råvarer</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. At filetere fisk</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>9. Hvad er fordelen ved en varmluftsovn?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. Den bruger mindre strøm</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. Den giver sprødere overflade</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. Den fordeler varmen jævnt</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. Den varmer hurtigere op</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>10. Hvad kan et viskestykke blandt andet bruges til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. At slibe knive</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. At dække dej eller brød</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. At måle ingredienser</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. At si væske</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>11. Hvad bruges en ostehøvl til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q11" value="A" /> A. At rive ost</label>
+            <label class="option"><input type="radio" name="q11" value="B" /> B. At smelte ost</label>
+            <label class="option"><input type="radio" name="q11" value="C" /> C. At skære tykke ostestykker</label>
+            <label class="option"><input type="radio" name="q11" value="D" /> D. At lave tynde osteskiver</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>12. Hvad er formålet med et piskeris?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q12" value="A" /> A. At røre tunge deje</label>
+            <label class="option"><input type="radio" name="q12" value="B" /> B. At slå luft ind i en masse</label>
+            <label class="option"><input type="radio" name="q12" value="C" /> C. At hakke ingredienser</label>
+            <label class="option"><input type="radio" name="q12" value="D" /> D. At skrælle grøntsager</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>13. Hvad kendetegner en røremaskine?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q13" value="A" /> A. Den er håndholdt</label>
+            <label class="option"><input type="radio" name="q13" value="B" /> B. Den bruges kun til piskning</label>
+            <label class="option"><input type="radio" name="q13" value="C" /> C. Den er stationær med skål og tilbehør</label>
+            <label class="option"><input type="radio" name="q13" value="D" /> D. Den bruges kun i storkøkkener</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>14. Hvad bruges en si til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q14" value="A" /> A. At rive grøntsager</label>
+            <label class="option"><input type="radio" name="q14" value="B" /> B. At hakke urter</label>
+            <label class="option"><input type="radio" name="q14" value="C" /> C. At si eller dræne væske fra</label>
+            <label class="option"><input type="radio" name="q14" value="D" /> D. At blande ingredienser</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>15. Hvad er formålet med et skærebræt?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q15" value="A" /> A. At beskytte knive</label>
+            <label class="option"><input type="radio" name="q15" value="B" /> B. At give stabilt underlag ved skæring</label>
+            <label class="option"><input type="radio" name="q15" value="C" /> C. At opbevare mad</label>
+            <label class="option"><input type="radio" name="q15" value="D" /> D. At servere varme retter</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+  </body>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+</html>

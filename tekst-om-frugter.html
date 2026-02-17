@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tekst om frugter</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Frugter.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #fff;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #3b2314;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+      }
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #3b2314;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem 2rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+      }
+      p {
+        margin: 0 0 0.9rem 0;
+        line-height: 1.6;
+      }
+      .summary {
+        margin-top: 1.2rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .summary h2 {
+        margin: 0 0 0.6rem 0;
+        font-size: 1.2rem;
+      }
+      ul {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+      li {
+        margin-bottom: 0.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="frugter.html">Tilbage</a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/1bILIW-29GHvMMfLvG25nXSVXXouezSWL?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent teksten som PDF
+      </a>
+      <article class="card">
+        <h1>Frugter</h1>
+        <p>
+          Frugter er opdelt i forskellige grupper, herunder saftige frugter og
+          fedtrige frugter. Saftige frugter indeholder meget vand og er fyldt med
+          vitaminer og mineraler. De kan bruges i mange forskellige retter som
+          desserter, bagværk og hovedretter. Saftige frugter er yderligere
+          opdelt i stenfrugter, kernefrugter, danske bær og tranebær, eksotiske
+          frugter og citrusfrugter.
+        </p>
+        <p>
+          Stenfrugter har en sten indeni og smager sødt. Nogle eksempler på
+          stenfrugter er blommer, kirsebær, nektariner, mango, abrikoser og
+          ferskner. Kernefrugter omfatter æbler og pærer, der har et kernehus og
+          saftigt frugtkød. Æbler og pærer dyrkes i Danmark og kan holde sig i
+          køleskab i lang tid. Der findes mange forskellige slags æbler og
+          pærer, der modner på forskellige tidspunkter.
+        </p>
+        <p>
+          Bærfrugter har en saftig og blød konsistens og dyrkes enten
+          industrielt eller vokser vildt i Danmark. Nogle eksempler på bærfrugter
+          er jordbær, hindbær, solbær, ribs, blåbær, stikkelsbær, brombær og
+          tyttebær. Eksotiske frugter importeres til Danmark og inkluderer
+          ananas, figner, papaja, stjernefrugt, vandmelon og vindruer.
+          Citrusfrugter er også importerede og inkluderer appelsiner, citroner,
+          klementiner, grapefrugter, kumquats, lime og rabarber.
+        </p>
+        <p>
+          Fedtrige frugter inkluderer nødder som mandler, hasselnødder, valnødder
+          og pistacienødder samt frø som solsikkekerner, hørfrø, sesamfrø og
+          græskarkerner. Disse frugter kan spises som slik eller bruges i
+          bagværk og slikindustrien. Oliven og kokosnødder er også fedtrige
+          frugter.
+        </p>
+        <section class="summary">
+          <h2>Resumé</h2>
+          <ul>
+            <li>
+              Frugter er opdelt i forskellige grupper, herunder saftige frugter
+              og fedtrige frugter.
+            </li>
+            <li>
+              Saftige frugter indeholder meget vand og er fyldt med vitaminer
+              og mineraler.
+            </li>
+            <li>
+              Stenfrugter som blommer, kirsebær, nektariner, mango, abrikoser og
+              ferskner har en sten indeni og smager sødt.
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <audio id="frugterAudio" src="Frugter/Frugter.mp3"></audio>
+    <script>
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("frugterAudio");
+
+      readButton.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          readButton.textContent = "Stop oplæsning";
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          readButton.textContent = "Få teksten læst højt";
+        }
+      });
+      audio.addEventListener("ended", () => {
+        readButton.textContent = "Få teksten læst højt";
+      });
+    </script>
+  </body>
+</html>

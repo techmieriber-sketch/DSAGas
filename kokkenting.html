@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Køkkenting</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Køkkenting baggrundsbillede.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #fff;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.25);
+      }
+      .page-content {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        width: 100%;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .start-panel {
+        text-align: left;
+        margin-top: 1.25rem;
+      }
+      .card-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .start-panel .card-link {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <div class="page-content">
+        <h1 class="title">Køkkenting</h1>
+        <div class="start-panel">
+          <a class="card-link" href="ordkort-kokkenting.html">Ordkort Køkkenting</a>
+          <a class="card-link" href="multiple-choice-quiz-kokkenting.html" style="margin-top: 0.5rem;">Multiple choice-quiz Køkkenting</a>
+          <a class="card-link" href="ordkort-flere-kokkenting.html" style="margin-top: 0.5rem;">Flere ordkort Køkkenting</a>
+          <a class="card-link" href="multiple-choice-quiz-flere-kokkenting.html" style="margin-top: 0.5rem;">Multiple choice-quiz Flere køkkenting</a>
+          <a class="card-link" href="kend-dit-kokkengrej.html" style="margin-top: 0.5rem;">Kend dit køkkengrej</a>
+        </div>
+        <a class="back-link" href="index.html">Tilbage</a>
+      </div>
+    </main>
+  </body>
+</html>

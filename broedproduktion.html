@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brødproduktion</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Brød.jpg");
+        background-size: cover;
+        background-position: center 70%;
+        background-repeat: no-repeat;
+        color: #2b1a10;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #3b2314;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+      }
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #3b2314;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 251, 245, 0.78);
+        color: #2b1a10;
+        padding: 2rem;
+        border-radius: 16px;
+        max-width: 1000px;
+        width: 100%;
+        box-shadow: 0 16px 36px rgba(92, 55, 24, 0.22);
+        border: 1px solid rgba(221, 196, 169, 0.9);
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      h2 {
+        margin: 1.5rem 0 0.5rem;
+        font-size: 1.25rem;
+      }
+      p {
+        margin: 0.5rem 0;
+        line-height: 1.6;
+      }
+      .lead {
+        font-weight: 400;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="broedbagning.html">Tilbage</a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/1J7i0ZCfV5HTHXoBO_Vq3yJCas_GEMygG?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent filen som PDF
+      </a>
+      <article class="card">
+        <h1>Brødproduktion</h1>
+        <p class="lead">
+          Brødproduktion kræver præcision og viden om råvarer og teknik. Arbejdet med gærdeje og
+          rugdeje følger faste principper fra opskrift til bagning.
+        </p>
+        <p>
+          Opskrifter bygger på receptteknik, hvor melmængden er udgangspunktet. De øvrige råvarer
+          angives i procent i forhold til melet, så opskriften nemt kan justeres.
+        </p>
+        <p>
+          Korrekt afvejning og dejtemperatur er afgørende for hævning, struktur, smag og holdbarhed.
+          Gær arbejder bedst ved 25–30 °C, og vandets temperatur bruges til at styre dejens samlede
+          temperatur.
+        </p>
+        <p>
+          Dejføring kan være direkte eller indirekte. Ved indirekte dejføring bruges fordej, surdej
+          eller hævestykke, som kan give bedre smag, struktur, volumen og længere holdbarhed.
+        </p>
+        <p>
+          Æltning udvikler gluten og indarbejder luft i dejen. Korrekt æltning giver en elastisk dej
+          med god bageevne. Efter æltning hviler dejen, så smag og struktur udvikles, og dejen bliver
+          moden.
+        </p>
+        <p>
+          Når dejen er moden, formes brødet, hæver og gøres klar til bagning. Under bagning dannes
+          krumme og skorpe, og ovn, temperatur og damp har stor betydning for resultatet.
+        </p>
+        <p>
+          Rugmelsdeje kræver syrning for at sikre korrekt struktur. Surdej giver smag, stabilitet og
+          god kvalitet i rugbrød.
+        </p>
+        <p>
+          Godt brød afhænger af korrekt arbejde med råvarer, tid, temperatur og teknik i hele
+          processen.
+        </p>
+      </article>
+    </main>
+      <audio id="broedAudio" src="Brødproduktion.mp3"></audio>
+    </main>
+  </body>
+  <script>
+    const readButton = document.getElementById("readAloudButton");
+    const audio = document.getElementById("broedAudio");
+    readButton.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        readButton.textContent = "Stop oplæsning";
+      } else {
+        audio.pause();
+        audio.currentTime = 0;
+        readButton.textContent = "Få teksten læst højt";
+      }
+    });
+    audio.addEventListener("ended", () => {
+      readButton.textContent = "Få teksten læst højt";
+    });
+  </script>
+</html>

@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple Choice-quiz</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Brød.jpg");
+        background-size: cover;
+        background-position: center 70%;
+        background-repeat: no-repeat;
+        color: #3b2314;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: transparent;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 251, 245, 0.65);
+        color: #3b2314;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(92, 55, 24, 0.25);
+        border: 1px solid rgba(221, 196, 169, 0.9);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a2f1d;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #3b2314;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #e3cbb1;
+        border-radius: 10px;
+        background: #fff6ea;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(143, 90, 42, 0.18);
+      }
+      .option input {
+        accent-color: #9c5b2a;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #9c5b2a;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(156, 91, 42, 0.28);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(156, 91, 42, 0.32);
+      }
+      button.secondary {
+        background: #5a4637;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #3b2314;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #f4ebe1;
+        border: 1px solid #dcc7b0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="broedbagning.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple Choice-quiz</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="B">
+          <h2>1. Hvad kræver brødproduktion?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. Hurtigt arbejde og høje temperaturer</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. Præcision og viden om råvarer og teknik</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. Kun gode råvarer</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. Lange hævetider</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvad er udgangspunktet i receptteknik?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. Vandmængden</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. Gærmængden</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. Melmængden</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. Bagetiden</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>3. Hvordan angives de øvrige råvarer i en opskrift?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. I gram pr. portion</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. I liter</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. I procent i forhold til melet</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. I deciliter pr. brød</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>4. Hvorfor er korrekt afvejning vigtig?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. For at spare råvarer</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. For at få hurtigere bagning</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. For at sikre hævning, struktur, smag og holdbarhed</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. For at gøre dejen lettere at ælte</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>5. Ved hvilken temperatur arbejder gær bedst?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. 10–15 °C</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. 20–25 °C</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. 25–30 °C</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. 35–40 °C</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>6. Hvad bruges vandets temperatur til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. At styre ovnens temperatur</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. At styre dejens samlede temperatur</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. At give mere smag</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. At gøre dejen fastere</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>7. Hvad kendetegner indirekte dejføring?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. Dejen bages med det samme</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. Der bruges kun rugmel</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. Der anvendes fordej, surdej eller hævestykke</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. Dejen æltes uden gær</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>8. Hvad sker der under æltning?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. Dejen bliver kold</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. Gluten udvikles, og luft indarbejdes</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. Skorpen dannes</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. Syren aktiveres</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>9. Hvad dannes under bagning?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. Gluten og gær</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. Vand og sukker</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. Krumme og skorpe</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. Surdej og hævestykke</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>10. Hvorfor kræver rugmelsdeje syrning?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. For at give mere farve</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. For at sikre korrekt struktur</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. For at forkorte bagetiden</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. For at undgå æltning</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+  </body>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+</html>

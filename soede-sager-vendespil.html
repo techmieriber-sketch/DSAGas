@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Vendespil - Søde sager</title>
+    <style>
+      :root {
+        --bg: #f7fbff;
+        --panel: #ffffff;
+        --panel2: #f2f6ff;
+        --text: #1f2430;
+        --muted: #5a6270;
+        --shadow: 0 20px 40px rgba(16, 24, 40, 0.18);
+        --radius: 20px;
+        --gap: 12px;
+        --card-radius: 18px;
+        --card-border: rgba(60, 80, 120, 0.18);
+        --accent: #ff7a59;
+        --accent-strong: #ff4d4f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.6),
+            rgba(247, 251, 255, 0.5)
+          ),
+          url("Søde sager/Søde sager.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: var(--text);
+        font: 14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        padding: 22px;
+      }
+
+      .app {
+        width: min(1100px, 100%);
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(44, 66, 110, 0.18);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+        overflow: hidden;
+        backdrop-filter: blur(8px) saturate(1.05);
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 18px;
+        background: linear-gradient(90deg, #fff3d4, #ffe1f1, #dff4ff);
+        border-bottom: 1px solid rgba(44, 66, 110, 0.14);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        font-weight: 650;
+      }
+
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid rgba(44, 66, 110, 0.18);
+        box-shadow: 0 6px 14px rgba(30, 50, 90, 0.08);
+      }
+
+      .btn {
+        cursor: pointer;
+        border: 1px solid rgba(255, 122, 89, 0.45);
+        background: linear-gradient(180deg, #ff9b70, #ff7a59);
+        color: #ffffff;
+        padding: 9px 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: transform 0.08s ease, background 0.15s ease,
+          border-color 0.15s ease;
+        user-select: none;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn:hover {
+        background: linear-gradient(180deg, #ff7a59, #ff4d4f);
+        border-color: rgba(255, 77, 79, 0.55);
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(71, 95, 140, 0.25);
+        background: linear-gradient(180deg, #ffffff, #eef6ff);
+        box-shadow: 0 6px 14px rgba(30, 50, 90, 0.12);
+      }
+      .back-link:hover {
+        background: linear-gradient(180deg, #ffffff, #dff4ff);
+      }
+
+      .content {
+        padding: 16px;
+      }
+      .audio-note {
+        margin: 0 0 12px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(44, 66, 110, 0.18);
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .grid {
+        display: grid;
+        gap: var(--gap);
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      @media (min-width: 720px) {
+        .grid {
+          grid-template-columns: repeat(6, 1fr);
+        }
+      }
+      @media (max-width: 420px) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .card {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        border-radius: var(--card-radius);
+        perspective: 1000px;
+        transition: transform 0.18s ease;
+      }
+      .card:hover {
+        transform: translateY(-3px);
+      }
+
+      .inner {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        transform-style: preserve-3d;
+        transition: transform 220ms ease;
+        box-shadow: 0 16px 28px rgba(30, 50, 90, 0.2);
+      }
+
+      .card.flipped .inner {
+        transform: rotateY(180deg);
+      }
+      .card.matched {
+        opacity: 0.78;
+      }
+      .card.matched .inner {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        backface-visibility: hidden;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+      }
+
+      .front {
+        background: repeating-linear-gradient(
+          45deg,
+          #ffffff 0,
+          #ffffff 14px,
+          #e63946 14px,
+          #e63946 28px
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .front::before {
+        content: "";
+        width: 0;
+        height: 0;
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        background: #ffffff;
+      }
+
+      .back img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: saturate(1.12) contrast(1.05);
+      }
+
+      .toast {
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #ffffff;
+        border: 1px solid rgba(44, 66, 110, 0.18);
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <a class="back-link" href="soede-sager.html">Tilbage</a>
+        <h1>Vendespil</h1>
+
+        <div class="stats">
+          <div class="pill">Træk: <strong id="moves">0</strong></div>
+          <div class="pill">
+            Fundet: <strong id="matches">0</strong> /
+            <strong id="totalPairs">0</strong>
+          </div>
+          <div class="pill">Tid: <strong id="time">00:00</strong></div>
+          <button class="btn" id="restartBtn" type="button">
+            Start forfra
+          </button>
+        </div>
+      </header>
+
+      <div class="content">
+        <p class="audio-note">
+          Spillet understøttes af lyd: Når du klikker på en brik, hører du
+          navnet på det, der er på billedet.
+        </p>
+        <div class="grid" id="grid"></div>
+
+        <div class="toast" id="status">
+          <div id="winMsg" class="hidden">
+            <strong>Du vandt!</strong> 🎉
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const IMAGE_ITEMS = [
+        { image: "Søde sager/Æblekage.jpg", audio: "Søde sager/Æblekage.mp3" },
+        { image: "Søde sager/Æbleskiver.png", audio: "Søde sager/Æbleskiver.mp3" },
+        { image: "Søde sager/Æbletærte.jpg", audio: "Søde sager/Æbletærte.mp3" },
+        { image: "Søde sager/Bananasplit.png", audio: "Søde sager/Bananasplit.mp3" },
+        {
+          image: "Søde sager/Belgiske vafler.jpg",
+          audio: "Søde sager/Belgiske vafler.mp3",
+        },
+        { image: "Søde sager/Brownie.jpg", audio: "Søde sager/Brownie.mp3" },
+        { image: "Søde sager/Cheesecake.jpg", audio: "Søde sager/Cheesecake.mp3" },
+        {
+          image: "Søde sager/Chokolademousse.jpg",
+          audio: "Søde sager/Chokolademousse.mp3",
+        },
+        {
+          image: "Søde sager/Citronfromage.jpg",
+          audio: "Søde sager/Citronfromage.mp3",
+        },
+        { image: "Søde sager/Citronkage.jpg", audio: "Søde sager/Citronkage.mp3" },
+        {
+          image: "Søde sager/creme brulee.jpg",
+          audio: "Søde sager/Creme Brulee.mp3",
+        },
+        { image: "Søde sager/Eclair.jpg", audio: "Søde sager/Eclair.mp3" },
+        {
+          image: "Søde sager/Fyldte chokolader.jpg",
+          audio: "Søde sager/Fyldte chokolader.mp3",
+        },
+        {
+          image: "Søde sager/Gulerodskage.jpg",
+          audio: "Søde sager/Gulerodskage.mp3",
+        },
+        {
+          image: "Søde sager/Hvid chokolade.jpg",
+          audio: "Søde sager/Hvid chokolade.mp3",
+        },
+        { image: "Søde sager/Islagkage.jpg", audio: "Søde sager/Islagkage.mp3" },
+        { image: "Søde sager/Macarons.jpg", audio: "Søde sager/Macarons.mp3" },
+        {
+          image: "Søde sager/Mørk chokolade.jpg",
+          audio: "Søde sager/Mørk chokolade.mp3",
+        },
+        { image: "Søde sager/Muffins.jpg", audio: "Søde sager/Muffins.mp3" },
+        {
+          image: "Søde sager/Panna Cotta.jpg",
+          audio: "Søde sager/Panna Cotta.mp3",
+        },
+        { image: "Søde sager/Pandekager.jpg", audio: "Søde sager/Pandekager.mp3" },
+        { image: "Søde sager/Pavlova.jpg", audio: "Søde sager/Pavlova.mp3" },
+        {
+          image: "Søde sager/Profiteroles.jpg",
+          audio: "Søde sager/Profiteroles.mp3",
+        },
+        { image: "Søde sager/Risalamande.png", audio: "Søde sager/Risalamande.mp3" },
+        { image: "Søde sager/Tiramisu.jpg", audio: "Søde sager/Tiramisu.mp3" },
+        { image: "Søde sager/Trifli.jpg", audio: "Søde sager/Trifli.mp3" },
+      ];
+
+      const grid = document.getElementById("grid");
+      const movesEl = document.getElementById("moves");
+      const matchesEl = document.getElementById("matches");
+      const totalPairsEl = document.getElementById("totalPairs");
+      const timeEl = document.getElementById("time");
+      const restartBtn = document.getElementById("restartBtn");
+      const winMsg = document.getElementById("winMsg");
+      const audioPlayer = new Audio();
+
+      let deck = [];
+      let first = null;
+      let second = null;
+      let lock = false;
+
+      let moves = 0;
+      let matches = 0;
+
+      let timerId = null;
+      let startedAt = null;
+
+      function pad2(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function formatTime(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const m = Math.floor(totalSeconds / 60);
+        const s = totalSeconds % 60;
+        return `${pad2(m)}:${pad2(s)}`;
+      }
+
+      function startTimerIfNeeded() {
+        if (timerId) return;
+        startedAt = Date.now();
+        timerId = setInterval(() => {
+          timeEl.textContent = formatTime(Date.now() - startedAt);
+        }, 250);
+      }
+
+      function stopTimer() {
+        if (!timerId) return;
+        clearInterval(timerId);
+        timerId = null;
+      }
+
+      function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function buildDeck() {
+        const base = IMAGE_ITEMS.map((item, idx) => ({
+          id: idx + 1,
+          image: item.image,
+          audio: item.audio,
+        }));
+
+        const doubled = [];
+        for (const item of base) {
+          doubled.push({ ...item, key: crypto.randomUUID() });
+          doubled.push({ ...item, key: crypto.randomUUID() });
+        }
+
+        return shuffle(doubled);
+      }
+
+      function setStats() {
+        movesEl.textContent = String(moves);
+        matchesEl.textContent = String(matches);
+        totalPairsEl.textContent = String(IMAGE_ITEMS.length);
+      }
+
+      function resetState() {
+        deck = buildDeck();
+        first = null;
+        second = null;
+        lock = false;
+        moves = 0;
+        matches = 0;
+        winMsg.classList.add("hidden");
+
+        stopTimer();
+        timeEl.textContent = "00:00";
+        startedAt = null;
+
+        setStats();
+        render();
+      }
+
+      function render() {
+        grid.innerHTML = "";
+
+        for (let i = 0; i < deck.length; i++) {
+          const cardData = deck[i];
+
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "card";
+          card.setAttribute("aria-label", "Kort");
+          card.dataset.index = String(i);
+          card.dataset.id = String(cardData.id);
+          card.dataset.audio = encodeURI(cardData.audio);
+
+          const inner = document.createElement("div");
+          inner.className = "inner";
+
+          const front = document.createElement("div");
+          front.className = "face front";
+
+          const back = document.createElement("div");
+          back.className = "face back";
+
+          const img = document.createElement("img");
+          img.src = encodeURI(cardData.image);
+          img.alt = "Billede";
+          img.loading = "lazy";
+          back.appendChild(img);
+
+          inner.appendChild(front);
+          inner.appendChild(back);
+          card.appendChild(inner);
+
+          card.addEventListener("click", onCardClick);
+          grid.appendChild(card);
+        }
+      }
+
+      function getCardElByIndex(index) {
+        return grid.querySelector(`.card[data-index="${index}"]`);
+      }
+
+      function flip(cardEl) {
+        cardEl.classList.add("flipped");
+        cardEl.disabled = true;
+      }
+
+      function unflip(cardEl) {
+        cardEl.classList.remove("flipped");
+        cardEl.disabled = false;
+      }
+
+      function markMatched(cardEl) {
+        cardEl.classList.add("matched");
+        cardEl.disabled = true;
+      }
+
+      function playCardAudio(cardEl) {
+        const src = cardEl.dataset.audio;
+        if (!src) return;
+
+        audioPlayer.src = src;
+        audioPlayer.load();
+        audioPlayer.currentTime = 0;
+        audioPlayer.play().catch(() => {});
+      }
+
+      async function onCardClick(e) {
+        const cardEl = e.currentTarget;
+        if (lock) return;
+        if (cardEl.classList.contains("matched")) return;
+
+        startTimerIfNeeded();
+
+        const index = Number(cardEl.dataset.index);
+        const id = Number(cardEl.dataset.id);
+
+        if (first && first.index === index) return;
+
+        flip(cardEl);
+        playCardAudio(cardEl);
+
+        if (!first) {
+          first = { index, id };
+          return;
+        }
+
+        second = { index, id };
+        moves += 1;
+        setStats();
+
+        if (first.id === second.id) {
+          const a = getCardElByIndex(first.index);
+          const b = getCardElByIndex(second.index);
+          markMatched(a);
+          markMatched(b);
+
+          matches += 1;
+          setStats();
+
+          first = null;
+          second = null;
+
+          if (matches === IMAGE_ITEMS.length) {
+            stopTimer();
+            winMsg.classList.remove("hidden");
+          }
+          return;
+        }
+
+        lock = true;
+        await new Promise((r) => setTimeout(r, 650));
+
+        const a = getCardElByIndex(first.index);
+        const b = getCardElByIndex(second.index);
+        if (a) unflip(a);
+        if (b) unflip(b);
+
+        first = null;
+        second = null;
+        lock = false;
+      }
+
+      function preloadImages() {
+        for (const item of IMAGE_ITEMS) {
+          const im = new Image();
+          im.src = encodeURI(item.image);
+        }
+      }
+
+      restartBtn.addEventListener("click", resetState);
+
+      preloadImages();
+      resetState();
+    </script>
+  </body>
+</html>

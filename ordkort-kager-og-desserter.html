@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort – desserter</title>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --card: #3b2314;
+        --card2: #2a1b12;
+        --text: #e9edf5;
+        --muted: #b8c0d6;
+        --ring: #7aa2ff;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background-image: url("Søde sager.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: var(--text);
+        line-height: 1.4;
+      }
+
+      header {
+        max-width: 1100px;
+        margin: 28px auto 10px;
+        padding: 0 16px;
+        text-align: center;
+        position: relative;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: var(--text);
+        text-decoration: underline;
+        font-weight: 600;
+        position: absolute;
+        left: 16px;
+        top: 0;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(22px, 3vw, 30px);
+        letter-spacing: 0.2px;
+      }
+      p {
+        margin: 0 auto;
+        color: #3b2314;
+        max-width: 70ch;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 18px auto 44px;
+        padding: 0 16px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        align-items: stretch;
+      }
+
+      .card {
+        perspective: 1000px;
+        min-height: 320px;
+      }
+
+      .inner {
+        position: relative;
+        height: 100%;
+        border-radius: var(--radius);
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+        box-shadow: var(--shadow);
+      }
+
+      .card.is-flipped .inner {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+        backface-visibility: hidden;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        background: linear-gradient(180deg, var(--card) 0%, var(--card2) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .front .imgwrap {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        background: #0b0d12;
+      }
+
+      .front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.02);
+      }
+
+      .label {
+        padding: 12px 12px 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .label strong {
+        font-size: 16px;
+        letter-spacing: 0.2px;
+      }
+
+      .hint {
+        font-size: 12px;
+        color: rgba(233, 237, 245, 0.65);
+        white-space: nowrap;
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        padding: 14px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 10px;
+      }
+
+      .back h2 {
+        margin: 0;
+        font-size: 17px;
+        text-align: center;
+      }
+
+      .back .def {
+        margin: 0;
+        color: var(--text);
+        font-size: 14px;
+        text-align: left;
+      }
+
+      .meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        color: rgba(233, 237, 245, 0.7);
+        font-size: 12px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .flipBtn {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        border-radius: var(--radius);
+      }
+
+      .flipBtn:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 520px) {
+        .card {
+          min-height: 300px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <a class="back-link" href="soede-sager.html">Tilbage</a>
+      <h1>Ordkort om kager, desserter og chokolade</h1>
+      <p>
+        Klik på et kort for at vende det. Ordet på kortet læses op, når du klikker på kortet
+      </p>
+    </header>
+
+    <main>
+      <section class="grid" id="grid" aria-label="Ordkort"></section>
+    </main>
+
+    <script>
+    const audioPlayer = new Audio();
+      const cards = [
+        {
+          title: "bananasplit",
+          file: "Bananasplit.png",
+          def:
+            "En klassisk isdessert med en banan, flere kugler is, flødeskum og typisk chokoladesauce. Pyntes ofte med nødder og cocktailbær.",
+          tags: ["isdessert", "klassiker"],
+        },
+        {
+          title: "belgiske vafler",
+          file: "Belgiske vafler.jpg",
+          def:
+            "Luftige, sprøde vafler med dybe felter. Serveres ofte med flormelis, is, frugt eller chokoladesauce.",
+          tags: ["bagværk", "servering"],
+        },
+        {
+          title: "brownie",
+          file: "Brownie.jpg",
+          def:
+            "En kompakt, chokoladeholdig kage med blød midte. Kan serveres lun med is eller flødeskum.",
+          tags: ["kage", "chokolade"],
+        },
+        {
+          title: "cheesecake",
+          file: "Cheesecake.jpg",
+          def:
+            "En kage med bund (ofte kiks) og en cremet ostecreme. Kan være bagt eller kold, og toppes tit med bær.",
+          tags: ["kage", "cremet"],
+        },
+        {
+          title: "chokolademousse",
+          file: "Chokolademousse.jpg",
+          def:
+            "En luftig dessert lavet på chokolade, som får sin lette struktur af fx pisket fløde eller æggehvider.",
+          tags: ["dessert", "luftig"],
+        },
+        {
+          title: "citronfromage",
+          file: "Citronfromage.jpg",
+          def:
+            "En klassisk, syrlig dessert med citron, der er let og skummende i konsistensen. Serveres ofte kold i glas eller skål.",
+          tags: ["klassiker", "citrus"],
+        },
+        {
+          title: "citronkage",
+          file: "Citronkage.jpg",
+          def:
+            "En saftig kage med citronsmag, ofte med glasur. Smagen er frisk og syrlig-sød.",
+          tags: ["kage", "citrus"],
+        },
+        {
+          title: "crème brûlée",
+          file: "creme brulee.jpg",
+          def:
+            "En dessert med vaniljecreme og et tyndt lag karamelliseret sukker på toppen, som knækker sprødt, når man slår i det med skeen.",
+          tags: ["dessert", "karamel"],
+        },
+        {
+          title: "éclair",
+          file: "Eclair.jpg",
+          def:
+            "Et aflangt vandbakkelsesbagværk fyldt med creme og typisk overtrukket med glasur, ofte chokolade.",
+          tags: ["bagværk", "fyld"],
+        },
+        {
+          title: "fyldte chokolader",
+          file: "Fyldte chokolader.jpg",
+          def:
+            "Små chokolader med forskelligt fyld, fx ganache, nougat, karamel eller frugt. Kaldes også konfekt eller praliner.",
+          tags: ["chokolade", "konfekt"],
+        },
+        {
+          title: "gulerodskage",
+          file: "Gulerodskage.jpg",
+          def:
+            "En krydret, saftig kage med revet gulerod. Toppes ofte med cream cheese-frosting, som giver en cremet og let syrlig finish.",
+          tags: ["kage", "krydderier"],
+        },
+        {
+          title: "hvid chokolade",
+          file: "Hvid chokolade.jpg",
+          def:
+            "Chokolade lavet af kakaosmør, sukker og mælkepulver (uden kakaomasse). Smagen er mild og sød, med en cremet konsistens.",
+          tags: ["chokolade", "råvare"],
+        },
+        {
+          title: "islagkage",
+          file: "Islagkage.jpg",
+          def:
+            "En lagdelt dessertkage med is (ofte flere smagsvarianter), kagebund og pynt. Serveres frossen og skæres i stykker.",
+          tags: ["iskage", "fest"],
+        },
+        {
+          title: "macarons",
+          file: "Macarons.jpg",
+          def:
+            "Små franske mandelkager med sprød skal og blød midte, lagt sammen med fyld som ganache, smørcreme eller marmelade.",
+          tags: ["fransk", "småkage"],
+        },
+        {
+          title: "muffins",
+          file: "Muffins.jpg",
+          def:
+            "Små kager bagt i muffinforme. Kan være neutrale eller smagsatte, fx med bær eller chokolade, og spises ofte som snack eller dessert.",
+          tags: ["bagværk", "portion"],
+        },
+        {
+          title: "mørk chokolade",
+          file: "Mørk chokolade.jpg",
+          def:
+            "Chokolade med højt indhold af kakaomasse og kakaosmør. Smagen er mere intens og bitter end lys chokolade.",
+          tags: ["chokolade", "råvare"],
+        },
+        {
+          title: "pandekager",
+          file: "Pandekager.jpg",
+          def:
+            "Tynde eller tykke kager stegt på pande. Serveres ofte med sukker, syltetøj, is eller chokoladesauce.",
+          tags: ["pandekage", "servering"],
+        },
+        {
+          title: "panna cotta",
+          file: "Panna Cotta.jpg",
+          def:
+            "En italiensk flødedessert, der sættes med gelatine. Konsistensen er blød og cremet, og den serveres ofte med bær eller frugtsauce.",
+          tags: ["italiensk", "cremet"],
+        },
+        {
+          title: "pavlova",
+          file: "Pavlova.jpg",
+          def:
+            "En dessert med marengsbund, sprød udenpå og blød indeni, toppet med flødeskum og frisk frugt eller bær.",
+          tags: ["marengs", "frugt"],
+        },
+        {
+          title: "profiteroles",
+          file: "Profiteroles.jpg",
+          def:
+            "Små vandbakkelser (choux) fyldt med fx flødeskum eller is og ofte overhældt med chokoladesauce.",
+          tags: ["vandbakkelse", "dessert"],
+        },
+      ];
+
+      cards.push(
+        {
+          title: "risalamande",
+          file: "Risalamande.png",
+          def:
+            "En klassisk dansk juledessert af risengrød blandet med flødeskum og hakkede mandler. Serveres typisk med kirsebærsauce, og der gemmes ofte en hel mandel i desserten.",
+          tags: ["dansk", "jul"],
+        },
+        {
+          title: "tiramisu",
+          file: "Tiramisu.jpg",
+          def:
+            "En italiensk dessert i lag med ladyfingers dyppet i kaffe, mascarponecreme og kakao på toppen. Smagen er cremet, kaffepræget og let bitter-sød.",
+          tags: ["italiensk", "kaffe"],
+        },
+        {
+          title: "trifli",
+          file: "Trifli.jpg",
+          def:
+            "En dessert i lag, ofte med kage/bund, frugt eller bær, creme (fx vanilje) og flødeskum. Serveres typisk i glas, så lagene kan ses.",
+          tags: ["lag", "dessertglas"],
+        },
+        {
+          title: "æblekage",
+          file: "Æblekage.jpg",
+          def:
+            "En dansk dessert (ofte i lag) med æblemos, makroner eller rasp og flødeskum. Serveres i skål eller glas og kan pyntes med fx ribsgele.",
+          tags: ["dansk", "æble"],
+        },
+        {
+          title: "æbleskiver",
+          file: "Æbleskiver.png",
+          def:
+            "Små runde pandekageboller, stegt i æbleskivepande. Serveres typisk med flormelis og syltetøj, især i julemåneden.",
+          tags: ["dansk", "jul"],
+        },
+        {
+          title: "æbletærte",
+          file: "Æbletærte.jpg",
+          def:
+            "En tærte med æbler, ofte med gitterlåg eller crumble. Serveres tit lun med flødeskum, cremefraiche eller vaniljeis.",
+          tags: ["tærte", "æble"],
+        }
+      );
+
+      const grid = document.getElementById("grid");
+      const assetFolder = "Søde sager/";
+
+      function capitalizeFirst(text) {
+        if (!text) return "";
+        return text.charAt(0).toUpperCase() + text.slice(1);
+      }
+
+      function createCard(item) {
+        const card = document.createElement("article");
+        card.className = "card";
+        const audioFile =
+          item.audio ||
+          item.file.replace(/\.(jpg|jpeg|png)$/i, ".mp3");
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "flipBtn";
+        const titleText = capitalizeFirst(item.title);
+        const defText = capitalizeFirst(item.def);
+        btn.setAttribute("aria-label", `Vend ordkort: ${titleText}`);
+        btn.dataset.audio = encodeURI(`${assetFolder}${audioFile}`);
+
+        const inner = document.createElement("div");
+        inner.className = "inner";
+
+        const front = document.createElement("div");
+        front.className = "face front";
+
+        const imgwrap = document.createElement("div");
+        imgwrap.className = "imgwrap";
+
+        const img = document.createElement("img");
+        img.alt = titleText;
+        img.src = encodeURI(`${assetFolder}${item.file}`);
+
+        imgwrap.appendChild(img);
+
+        const label = document.createElement("div");
+        label.className = "label";
+
+        const strong = document.createElement("strong");
+        strong.textContent = titleText;
+
+        const hint = document.createElement("span");
+        hint.className = "hint";
+        hint.textContent = "Klik for forklaring";
+
+        label.appendChild(strong);
+        label.appendChild(hint);
+
+        front.appendChild(imgwrap);
+        front.appendChild(label);
+
+        const back = document.createElement("div");
+        back.className = "face back";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = titleText;
+
+        const def = document.createElement("p");
+        def.className = "def";
+        def.textContent = defText;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        (item.tags || []).forEach((t) => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = capitalizeFirst(t);
+          meta.appendChild(tag);
+        });
+
+        back.appendChild(h2);
+        back.appendChild(def);
+        back.appendChild(meta);
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+
+        btn.appendChild(inner);
+        card.appendChild(btn);
+
+        btn.addEventListener("click", () => {
+          card.classList.toggle("is-flipped");
+          if (btn.dataset.audio) {
+            audioPlayer.src = btn.dataset.audio;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch(() => {});
+          }
+        });
+
+        btn.addEventListener("keydown", (e) => {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault();
+            card.classList.toggle("is-flipped");
+          }
+        });
+
+        return card;
+      }
+
+      cards.forEach((item) => grid.appendChild(createCard(item)));
+    </script>
+  </body>
+</html>

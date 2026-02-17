@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kryds og tværs</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Brød.jpg");
+        background-size: cover;
+        background-position: center 70%;
+        background-repeat: no-repeat;
+        color: #fff;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .crossword-card {
+        margin-top: 2rem;
+        background: rgba(255, 255, 255, 0.92);
+        color: #1a1a1a;
+        padding: 1.5rem;
+        border-radius: 12px;
+        max-width: 980px;
+        width: 100%;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+      .crossword-title {
+        margin: 0 0 1rem;
+        font-size: 1.5rem;
+      }
+      .tip-popup {
+        position: fixed;
+        max-width: 280px;
+        background: #fff;
+        color: #111;
+        border: 1px solid #d9cdbf;
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+      }
+      .grid {
+        display: flex;
+        flex-direction: column;
+        gap: var(--cell-gap, 3px);
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        padding: 0.75rem;
+        background: #f5efe8;
+        border-radius: 12px;
+        border: 1px solid #e1d6c9;
+      }
+      .grid-row {
+        display: flex;
+        gap: var(--cell-gap, 3px);
+        justify-content: center;
+      }
+      .cell {
+        width: var(--cell-size, 24px);
+        height: var(--cell-size, 24px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+        background: #fffdf9;
+        border: 1px solid #d9cdbf;
+        border-radius: 6px;
+        text-transform: uppercase;
+        color: #111;
+        outline: none;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      }
+      .cell:focus {
+        outline: 2px solid #8f5a2a;
+        outline-offset: 0;
+        box-shadow: 0 0 0 3px rgba(143, 90, 42, 0.2);
+      }
+      .cell.correct {
+        background: #cfead6;
+        border-color: #6fb58c;
+        color: #1b4d33;
+      }
+      .cell.incorrect {
+        background: #f7c9c9;
+        border-color: #d57c7c;
+        color: #7a1f1f;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          --cell-size: 20px;
+          --cell-gap: 2px;
+        }
+        .cell {
+          font-size: 0.7rem;
+        }
+      }
+      @media (max-width: 700px) {
+        .grid {
+          --cell-size: 17px;
+          --cell-gap: 2px;
+        }
+        .cell {
+          font-size: 0.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <div>
+        <h1 class="title">Kryds og tværs</h1>
+        <a class="back-link" href="broedbagning.html">Tilbage</a>
+        <section class="crossword-card">
+          <h2 class="crossword-title">Brødbagning</h2>
+          <div class="grid" id="crosswordGrid" aria-label="Kryds og tværs gitter"></div>
+        </section>
+      </div>
+    </main>
+  </body>
+  <script>
+    const grid = document.getElementById("crosswordGrid");
+    const tipPopup = document.createElement("div");
+    tipPopup.className = "tip-popup";
+    document.body.appendChild(tipPopup);
+
+    const words = [
+      {
+        label: "Brødproduktion",
+        answer: "BRØDPRODUKTION",
+        clue:
+          "Processen fra opskrift til færdigbagt brød, hvor råvarer, tid, temperatur og teknik har betydning for resultatet.",
+      },
+      {
+        label: "Receptteknik",
+        answer: "RECEPTTEKNIK",
+        clue:
+          "Viden om, hvordan opskrifter er opbygget, og hvordan råvarer beregnes og justeres korrekt.",
+      },
+      {
+        label: "Afvejning",
+        answer: "AFVEJNING",
+        clue:
+          "Præcis måling af råvarer, så de indgår i de rigtige mængder i dejen.",
+      },
+      {
+        label: "Dejtemperatur",
+        answer: "DEJTEMPERATUR",
+        clue:
+          "Den samlede temperatur i dejen, som har stor betydning for gærens arbejde og dejens udvikling.",
+      },
+      {
+        label: "Dejføring",
+        answer: "DEJFØRING",
+        clue:
+          "Den måde dejen fremstilles på, enten direkte i én arbejdsgang eller indirekte med fordej, surdej eller hævestykke.",
+      },
+      {
+        label: "Fordej",
+        answer: "FORDEJ",
+        clue:
+          "En lille del af dejen, der laves på forhånd for at forbedre smag, struktur og hævning.",
+      },
+      {
+        label: "Surdej",
+        answer: "SURDEJ",
+        clue:
+          "En fermenteret dej med mikroorganismer, som giver smag og struktur, især i rugbrød.",
+      },
+      {
+        label: "Æltning",
+        answer: "ÆLTNING",
+        clue:
+          "Bearbejdning af dejen, hvor råvarer blandes, gluten udvikles, og luft indarbejdes.",
+      },
+      {
+        label: "Gluten",
+        answer: "GLUTEN",
+        clue:
+          "Protein i mel, som danner et elastisk netværk og giver dejen styrke og struktur.",
+      },
+      {
+        label: "Syrning",
+        answer: "SYRNING",
+        clue:
+          "Tilsætning af syre i rugmelsdeje for at sikre korrekt struktur og god kvalitet i brødet.",
+      },
+    ];
+
+    const rowCount = words.length;
+
+    const showTip = (cell) => {
+      const cellClues = cell.dataset.clues
+        ? JSON.parse(cell.dataset.clues)
+        : [];
+      const tipText =
+        cellClues.length > 0
+          ? `Tip: ${cellClues.join(" / ")}`
+          : "Tip: Ingen tip knyttet til dette felt.";
+
+      tipPopup.textContent = tipText;
+      tipPopup.style.display = "block";
+
+      requestAnimationFrame(() => {
+        const rect = cell.getBoundingClientRect();
+        const popupRect = tipPopup.getBoundingClientRect();
+        const preferredLeft = rect.left + rect.width / 2 - popupRect.width / 2;
+        const left = Math.min(
+          Math.max(preferredLeft, 8),
+          window.innerWidth - popupRect.width - 8
+        );
+
+        let top = rect.top - popupRect.height - 8;
+        if (top < 8) {
+          top = rect.bottom + 8;
+        }
+        tipPopup.style.left = `${left}px`;
+        tipPopup.style.top = `${top}px`;
+      });
+    };
+
+    const createCell = (row, col, wordData, letter) => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.dataset.solution = letter;
+      cell.dataset.clues = JSON.stringify([wordData.clue]);
+      cell.dataset.row = String(row);
+      cell.dataset.col = String(col);
+      cell.dataset.word = wordData.answer;
+      cell.setAttribute("contenteditable", "true");
+      cell.setAttribute("aria-label", "Kryds og tværs felt");
+      cell.textContent = "";
+
+      cell.addEventListener("click", () => showTip(cell));
+      cell.addEventListener("focus", () => showTip(cell));
+      cell.addEventListener("input", () => {
+        const text = cell.textContent.replace(/\s+/g, "");
+        cell.textContent = text.slice(-1).toUpperCase();
+        const range = document.createRange();
+        range.selectNodeContents(cell);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        validateRow(cell.dataset.row);
+        moveToNextCell(cell);
+      });
+      cell.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          moveToPrevCell(cell);
+        }
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          moveToNextCell(cell);
+        }
+        if (event.key === "Backspace" || event.key === "Delete") {
+          event.preventDefault();
+          cell.textContent = "";
+          validateRow(cell.dataset.row);
+          if (event.key === "Backspace") {
+            moveToPrevCell(cell);
+          }
+        }
+      });
+
+      return cell;
+    };
+
+    words.forEach((wordData, row) => {
+      const rowElement = document.createElement("div");
+      rowElement.className = "grid-row";
+      for (let col = 0; col < wordData.answer.length; col += 1) {
+        rowElement.appendChild(
+          createCell(row, col, wordData, wordData.answer[col])
+        );
+      }
+      grid.appendChild(rowElement);
+    });
+
+    const getEditableCell = (row, col) =>
+      document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+
+    const getRowCells = (row) =>
+      Array.from(document.querySelectorAll(`.cell[data-row="${row}"]`));
+
+    const validateRow = (row) => {
+      if (row === null || row === undefined) return;
+      const rowCells = getRowCells(row);
+      if (rowCells.length === 0) return;
+      const word = rowCells[0].dataset.word || "";
+      const letters = rowCells.map((cell) => cell.textContent.trim());
+      const isComplete = letters.every((l) => l.length === 1);
+      rowCells.forEach((cell) => {
+        cell.classList.remove("correct", "incorrect");
+      });
+      if (!isComplete) return;
+      const attempt = letters.join("").toUpperCase();
+      if (attempt === word) {
+        rowCells.forEach((cell) => cell.classList.add("correct"));
+      } else {
+        rowCells.forEach((cell) => cell.classList.add("incorrect"));
+      }
+    };
+
+    const moveToNextCell = (cell) => {
+      const row = Number(cell.dataset.row);
+      const col = Number(cell.dataset.col);
+      const next = getEditableCell(row, col + 1);
+      if (next) {
+        next.focus();
+        return;
+      }
+      const nextRowFirst = getEditableCell(row + 1, 0);
+      if (nextRowFirst) {
+        nextRowFirst.focus();
+      }
+    };
+
+    const moveToPrevCell = (cell) => {
+      const row = Number(cell.dataset.row);
+      const col = Number(cell.dataset.col);
+      const prev = getEditableCell(row, col - 1);
+      if (prev) {
+        prev.focus();
+        return;
+      }
+      const prevRowCells = getRowCells(row - 1);
+      if (prevRowCells.length > 0) {
+        prevRowCells[prevRowCells.length - 1].focus();
+      }
+    };
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.classList.contains("cell")) {
+        tipPopup.style.display = "none";
+      }
+    });
+  </script>
+</html>

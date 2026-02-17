@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Søde sager.jpg");
+        background-size: cover;
+        background-position: center 70%;
+        background-repeat: no-repeat;
+        color: #fff;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.35) 0%,
+          rgba(0, 0, 0, 0.18) 45%,
+          rgba(0, 0, 0, 0.28) 100%
+        );
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        width: 100%;
+        max-width: 1100px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.25rem 1.5rem 1.75rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(6px);
+      }
+      .ordkort {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.25rem;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      }
+      .ordkort__header {
+        text-align: center;
+        margin-bottom: 0.75rem;
+      }
+      .ordkort__header h2 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.6rem;
+        text-transform: capitalize;
+        letter-spacing: 0.4px;
+      }
+      .ordkort__header p {
+        margin: 0 0 1rem 0;
+        opacity: 0.8;
+      }
+      .ordkort__grid {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .ordkort__grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 960px) {
+        .ordkort__grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      .ordkort__card {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+        perspective: 1000px;
+        transition: transform 140ms ease;
+      }
+      .ordkort__card:hover {
+        transform: translateY(-2px);
+      }
+      .ordkort__inner {
+        position: relative;
+        display: block;
+        min-height: 160px;
+        border-radius: 16px;
+        transform-style: preserve-3d;
+        transition: transform 220ms ease, box-shadow 220ms ease;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+      .ordkort__face {
+        position: absolute;
+        inset: 0;
+        border-radius: 16px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backface-visibility: hidden;
+      }
+      .ordkort__front {
+        background: linear-gradient(135deg, #ffffff 0%, #f9f2ea 100%);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .ordkort__back {
+        background: linear-gradient(135deg, #4a2e1c 0%, #2a1b12 100%);
+        color: #ffffff;
+        transform: rotateY(180deg);
+      }
+      .ordkort__term {
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .ordkort__def {
+        font-size: 1rem;
+        line-height: 1.35;
+        opacity: 0.95;
+      }
+      .ordkort__card[aria-expanded="true"] .ordkort__inner {
+        transform: rotateY(180deg);
+      }
+      .ordkort__card:focus-visible .ordkort__inner {
+        outline: 3px solid rgba(59, 130, 246, 0.75);
+        outline-offset: 3px;
+      }
+      .ordkort__card:hover .ordkort__inner {
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ordkort__inner {
+          transition: none;
+        }
+        .ordkort__card {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="soede-sager.html">Tilbage</a>
+
+      <div class="card">
+        <section class="ordkort" aria-label="digitale ordkort">
+          <header class="ordkort__header">
+            <h2>ordkort</h2>
+            <p>
+              Klik på et kort for at vende det. Ordet på kortet læses op, når du
+              klikker på kortet.
+            </p>
+          </header>
+
+          <div class="ordkort__grid">
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Kakaotræ.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Kakaotræ</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Træet, som kakao kommer fra. Det vokser bedst i varme,
+                    fugtige omgivelser med masser af lys.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Kakaobælg.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Kakaobælg</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Kakaotræets frugt. En stor bælg, der kan blive op til 30 cm
+                    lang og indeholder kakaofrø.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Kakaobønner.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Kakaobønner</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Kakaofrøene inde i bælgene. Når de tørres og ristes, bruges
+                    de til at lave chokolade.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Criollo.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Criollo</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En type kakaotræ, som giver fine kakaobønner, der er mere
+                    aromatiske og mindre bitre.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Forastero.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Forastero</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En hårdfør type kakaotræ, som udgør ca. 80 % af verdens
+                    chokoladeproduktion.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Trinitario.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Trinitario</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En blanding af Criollo og Forastero, som udgør ca. 10 % af
+                    verdens produktion.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Fermentering.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Fermentering</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Når frøene gæres efter høst for at udvikle smagen i kakaoen.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Ristning.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Ristning</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Et trin i produktionen, der reducerer syrlighed og giver
+                    chokoladen dens brune farve.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Nibs.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Nibs</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Det indre af kakaobønnen, efter skallen er fjernet. Nibs
+                    males videre i processen.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Chokoladelikør.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Chokoladelikør</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En flydende masse, som nibs males til. Massen kan blive til
+                    kakaopulver, kakaosmør eller fast chokolade.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Conche.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Conche</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En maskine, der bearbejder chokolademassen og finjusterer
+                    smag og tekstur.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Søde sager/Temperering.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Temperering</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En vigtig proces for at få den rette konsistens og en blank
+                    finish på chokolade.
+                  </span>
+                </span>
+              </span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const audioPlayer = new Audio();
+
+      document.querySelectorAll(".ordkort__card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const expanded = card.getAttribute("aria-expanded") === "true";
+          card.setAttribute("aria-expanded", String(!expanded));
+
+          const audioSrc = card.dataset.audio;
+          if (!audioSrc) return;
+
+          if (audioPlayer.src !== new URL(audioSrc, window.location.href).href) {
+            audioPlayer.src = audioSrc;
+          }
+
+          audioPlayer.currentTime = 0;
+          audioPlayer.play().catch(() => {});
+        });
+
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

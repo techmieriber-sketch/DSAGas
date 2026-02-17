@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple choice – kager og desserter</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Søde sager.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #3b2314;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: transparent;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 251, 245, 0.7);
+        color: #3b2314;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(92, 55, 24, 0.25);
+        border: 1px solid rgba(221, 196, 169, 0.9);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a2f1d;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #3b2314;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #e3cbb1;
+        border-radius: 10px;
+        background: #fff6ea;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(143, 90, 42, 0.18);
+      }
+      .option input {
+        accent-color: #9c5b2a;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #9c5b2a;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(156, 91, 42, 0.28);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(156, 91, 42, 0.32);
+      }
+      button.secondary {
+        background: #5a4637;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #3b2314;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #f4ebe1;
+        border: 1px solid #dcc7b0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="soede-sager.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple choice – kager og desserter</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="D">
+          <h2>1. Hvad er Tiramisu?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. En vaniljeis med nødder</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. En fransk tærte med frugt</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. En britisk karamelkage</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. En italiensk dessert med mascarpone og kaffe</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvad er Cheesecake?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. En ostetærte fra Italien</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. En krydret kage med ingefær</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. En dessert lavet med en base af kiks og flødeost</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. En chokoladekage med nødder</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>3. Hvad er Crème brûlée?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. En fransk dessert med karamelliseret sukkerlag</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. En italiensk isdessert</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. En kage med chokolade og flødeskum</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. En engelsk frugttærte</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>4. Hvad er Chokolademousse?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. En chokoladekage med flødeskum</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. En isdessert med nødder</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. En smeltet chokoladefondant</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. En luftig dessert lavet af chokolade og flødeskum</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>5. Hvad er Panna cotta?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. En fransk chokoladekage</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. En spansk vaniljecreme</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. En italiensk dessert lavet med fløde og gelatine</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. En amerikansk æbletærte</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>6. Hvad er Eclair?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. En italiensk isdessert</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. En kage med marengs og bær</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. En chokoladekage med nødder</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. En fransk dessert af sprød dej med fyld af flødeskum eller creme</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>7. Hvad er Brownie?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. En småkage lavet med kokos</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. En amerikansk chokoladekage</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. En vaniljekage med glasur</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. En fransk tærte med frugt</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>8. Hvad er Islagkage?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. En lagdelt kage med is</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. En kage med chokoladefyld</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. En fransk dessert med flødeskum</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. En britisk frugtdessert</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>9. Hvad er Pavlova?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. En russisk dessert lavet af honning og nødder</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. En kage med chokoladefyld</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. En marengsdessert med flødeskum og frugt</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. En italiensk isdessert</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>10. Hvad er Profiteroles?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. En fransk pandekage med bær</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. En engelsk dessert med brød og smør</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. En amerikansk småkage</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. Små fyldte vandbakkelser med chokolade og flødeskum</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>11. Hvad er Gulerodskage?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q11" value="A" /> A. En kage lavet med friske bær</label>
+            <label class="option"><input type="radio" name="q11" value="B" /> B. En krydret kage lavet med gulerødder og ofte toppet med flødeostglasur</label>
+            <label class="option"><input type="radio" name="q11" value="C" /> C. En vaniljekage med flødeskum</label>
+            <label class="option"><input type="radio" name="q11" value="D" /> D. En citronkage med marengs</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>12. Hvad er Macarons?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q12" value="A" /> A. En småkage med chokoladefyld</label>
+            <label class="option"><input type="radio" name="q12" value="B" /> B. En italiensk frugtkage</label>
+            <label class="option"><input type="radio" name="q12" value="C" /> C. En fransk småkage lavet af mandelmel, sukker og fyld</label>
+            <label class="option"><input type="radio" name="q12" value="D" /> D. En amerikansk tærte med nødder</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>13. Hvad er Æbletærte?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q13" value="A" /> A. En tærte lavet af chokolade</label>
+            <label class="option"><input type="radio" name="q13" value="B" /> B. En tærte lavet af æbler og dej</label>
+            <label class="option"><input type="radio" name="q13" value="C" /> C. En isdessert med vanilje</label>
+            <label class="option"><input type="radio" name="q13" value="D" /> D. En pandekage med bær</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>14. Hvad er Belgiske vafler med is og chokoladesovs?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q14" value="A" /> A. En pandekage med sirup</label>
+            <label class="option"><input type="radio" name="q14" value="B" /> B. En tærte med chokoladefyld</label>
+            <label class="option"><input type="radio" name="q14" value="C" /> C. En italiensk dessert med nødder</label>
+            <label class="option"><input type="radio" name="q14" value="D" /> D. Sprøde vafler serveret med is og chokoladesovs</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>15. Hvad er Æbleskiver?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q15" value="A" /> A. Små, kugleformede pandekager serveret med syltetøj og sukker</label>
+            <label class="option"><input type="radio" name="q15" value="B" /> B. En slags små tærter med æblefyld</label>
+            <label class="option"><input type="radio" name="q15" value="C" /> C. En amerikansk småkage med chokolade</label>
+            <label class="option"><input type="radio" name="q15" value="D" /> D. En kage med appelsinsmag</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>16. Hvad er Trifli?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q16" value="A" /> A. En italiensk dessert med kaffe</label>
+            <label class="option"><input type="radio" name="q16" value="B" /> B. En fransk chokoladekage</label>
+            <label class="option"><input type="radio" name="q16" value="C" /> C. En lagdelt dessert med frugt, kage og flødeskum</label>
+            <label class="option"><input type="radio" name="q16" value="D" /> D. En vaniljeis med bær</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>17. Hvad er Citronfromage?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q17" value="A" /> A. En dessert med citron og flødeskum</label>
+            <label class="option"><input type="radio" name="q17" value="B" /> B. En tærte med citronfyld</label>
+            <label class="option"><input type="radio" name="q17" value="C" /> C. En kage med chokolade</label>
+            <label class="option"><input type="radio" name="q17" value="D" /> D. En lagkage med citronmousse</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>18. Hvad er Bananasplit?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q18" value="A" /> A. En tærte med bananfyld</label>
+            <label class="option"><input type="radio" name="q18" value="B" /> B. En fransk marengs</label>
+            <label class="option"><input type="radio" name="q18" value="C" /> C. En chokoladeis med nødder</label>
+            <label class="option"><input type="radio" name="q18" value="D" /> D. En dessert med en delt banan, iskugler, flødeskum og chokoladesovs</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>19. Hvad er Æblekage?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q19" value="A" /> A. En kage med bær</label>
+            <label class="option"><input type="radio" name="q19" value="B" /> B. En tærte med chokoladefyld</label>
+            <label class="option"><input type="radio" name="q19" value="C" /> C. En lagdelt dessert med æblemos, rasp og flødeskum</label>
+            <label class="option"><input type="radio" name="q19" value="D" /> D. En chokoladeis med appelsin</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>20. Hvad er Pandekager med is?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q20" value="A" /> A. Pandekager serveret med is</label>
+            <label class="option"><input type="radio" name="q20" value="B" /> B. Pandekager fyldt med flødeskum</label>
+            <label class="option"><input type="radio" name="q20" value="C" /> C. En tærte med is</label>
+            <label class="option"><input type="radio" name="q20" value="D" /> D. En småkage med citron</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>21. Hvad er Risalamande?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q21" value="A" /> A. En fransk dessert med chokolade</label>
+            <label class="option"><input type="radio" name="q21" value="B" /> B. En kage med nødder</label>
+            <label class="option"><input type="radio" name="q21" value="C" /> C. En dessert lavet af risengrød, flødeskum og hakkede mandler</label>
+            <label class="option"><input type="radio" name="q21" value="D" /> D. En italiensk isdessert</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>22. Hvad er Muffins?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q22" value="A" /> A. En form for småkage</label>
+            <label class="option"><input type="radio" name="q22" value="B" /> B. Små, bløde kager ofte fyldt med chokolade eller bær</label>
+            <label class="option"><input type="radio" name="q22" value="C" /> C. En tærte med frugt</label>
+            <label class="option"><input type="radio" name="q22" value="D" /> D. En dessert med flødeskum og bær</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>23. Hvad er Citronmåne?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q23" value="A" /> A. En chokoladekage med citron</label>
+            <label class="option"><input type="radio" name="q23" value="B" /> B. En tærte med æbler</label>
+            <label class="option"><input type="radio" name="q23" value="C" /> C. En dessert med marengs og bær</label>
+            <label class="option"><input type="radio" name="q23" value="D" /> D. En kage med en karakteristisk citronsmag og glasur</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+  </body>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+</html>

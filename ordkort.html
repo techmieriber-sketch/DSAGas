@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Brød.jpg");
+        background-size: cover;
+        background-position: center 70%;
+        background-repeat: no-repeat;
+        color: #fff;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.35) 0%,
+          rgba(0, 0, 0, 0.18) 45%,
+          rgba(0, 0, 0, 0.28) 100%
+        );
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        width: 100%;
+        max-width: 1100px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.25rem 1.5rem 1.75rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(6px);
+      }
+      .ordkort {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.25rem;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      }
+      .ordkort__header {
+        text-align: center;
+        margin-bottom: 0.75rem;
+      }
+      .ordkort__header h2 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.6rem;
+        text-transform: capitalize;
+        letter-spacing: 0.4px;
+      }
+      .ordkort__header p {
+        margin: 0 0 1rem 0;
+        opacity: 0.8;
+      }
+      .ordkort__grid {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .ordkort__grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 960px) {
+        .ordkort__grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      .ordkort__card {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+        perspective: 1000px;
+        transition: transform 140ms ease;
+      }
+      .ordkort__card:hover {
+        transform: translateY(-2px);
+      }
+      .ordkort__inner {
+        position: relative;
+        display: block;
+        min-height: 170px;
+        border-radius: 16px;
+        transform-style: preserve-3d;
+        transition: transform 220ms ease, box-shadow 220ms ease;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+      .ordkort__face {
+        position: absolute;
+        inset: 0;
+        border-radius: 16px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backface-visibility: hidden;
+      }
+      .ordkort__front {
+        background: linear-gradient(135deg, #ffffff 0%, #f9f2ea 100%);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .ordkort__back {
+        background: linear-gradient(135deg, #4a2e1c 0%, #2a1b12 100%);
+        color: #ffffff;
+        transform: rotateY(180deg);
+      }
+      .ordkort__term {
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .ordkort__def {
+        font-size: 1rem;
+        line-height: 1.35;
+        opacity: 0.95;
+      }
+      .ordkort__card[aria-expanded="true"] .ordkort__inner {
+        transform: rotateY(180deg);
+      }
+      .ordkort__card:focus-visible .ordkort__inner {
+        outline: 3px solid rgba(59, 130, 246, 0.75);
+        outline-offset: 3px;
+      }
+      .ordkort__card:hover .ordkort__inner {
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ordkort__inner {
+          transition: none;
+        }
+        .ordkort__card {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <a class="back-link" href="broedbagning.html">Tilbage</a>
+      <div class="card">
+        <section class="ordkort" aria-label="digitale ordkort">
+          <header class="ordkort__header">
+            <h2>ordkort</h2>
+            <p>
+              Klik på et kort for at vende det. Ordet på kortet læses op, når du
+              klikker på kortet.
+            </p>
+          </header>
+          <div class="ordkort__grid">
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Brødproduktion.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Brødproduktion</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Processen fra opskrift til færdigbagt brød, hvor råvarer,
+                    tid, temperatur og teknik påvirker resultatet.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Receptteknik.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Receptteknik</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Viden om, hvordan opskrifter er opbygget, og hvordan
+                    råvarer beregnes og justeres korrekt.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Afvejning.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Afvejning</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Præcis måling af råvarer, så de indgår i de rigtige mængder
+                    i dejen.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Dejtemperatur.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Dejtemperatur</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Den samlede temperatur i dejen, som har stor betydning for
+                    gærens arbejde og dejens udvikling.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Dejføring.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Dejføring</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Måden dejen fremstilles på: direkte i én arbejdsgang eller
+                    indirekte med fx fordej, surdej eller hævestykke.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Fordej.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Fordej</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En lille del af dejen, der laves på forhånd for at forbedre
+                    smag, struktur og hævning.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Surdej.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Surdej</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En fermenteret dej med mikroorganismer, som giver smag og
+                    struktur, især i rugbrød.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Æltning.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Æltning</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Bearbejdning af dejen, hvor råvarer blandes, gluten
+                    udvikles, og luft indarbejdes.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Gluten.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Gluten</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Protein i mel, som danner et elastisk netværk og giver dejen
+                    styrke og struktur.
+                  </span>
+                </span>
+              </span>
+            </button>
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Brød/Syrning.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Syrning</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Tilsætning af syre i rugmelsdeje for at sikre korrekt
+                    struktur og god kvalitet i brødet.
+                  </span>
+                </span>
+              </span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script>
+      const audioPlayer = new Audio();
+
+      document.querySelectorAll(".ordkort__card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const expanded = card.getAttribute("aria-expanded") === "true";
+          card.setAttribute("aria-expanded", String(!expanded));
+
+          const audioSrc = card.dataset.audio;
+          if (!audioSrc) return;
+
+          if (audioPlayer.src !== new URL(audioSrc, window.location.href).href) {
+            audioPlayer.src = audioSrc;
+          }
+
+          audioPlayer.currentTime = 0;
+          audioPlayer.play().catch(() => {});
+        });
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

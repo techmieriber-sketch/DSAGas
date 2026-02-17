@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Frugter</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background-image: url("Frugter.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #fff;
+      }
+      .overlay {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.25);
+      }
+      .page-content {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        width: 100%;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .start-panel {
+        text-align: left;
+        margin-top: 1.25rem;
+      }
+      .start-title {
+        margin: 0 0 0.4rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .game-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .text-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .crossword-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .quiz-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .film-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .start-panel .text-link,
+      .start-panel .crossword-link,
+      .start-panel .quiz-link,
+      .start-panel .game-link,
+      .start-panel .film-link {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="overlay">
+      <div class="page-content">
+        <h1 class="title">Frugter</h1>
+        <div class="start-panel">
+          <a class="text-link" href="tekst-om-frugter.html">Tekst om frugter</a>
+          <a class="crossword-link" href="kryds-og-tvaers-frugter.html">
+            Kryds og tværs
+          </a>
+          <a class="quiz-link" href="multiple-choice-quiz-frugter.html">
+            Multiple choice-quiz
+          </a>
+          <a class="game-link" href="vendespil.html">Vendespil</a>
+          <a
+            class="film-link"
+            href="https://youtu.be/Uces6iBiUoc"
+            target="_blank"
+            rel="noopener"
+          >
+            Film om frugter
+          </a>
+        </div>
+        <a class="back-link" href="index.html">Tilbage</a>
+      </div>
+    </main>
+  </body>
+</html>
