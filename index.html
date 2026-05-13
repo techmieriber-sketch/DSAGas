@@ -3,25 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script>
-      /* GitHub Pages: /repo eller /repo/broed uden trailing slash giver forkert basis-URL for relative links */
+    <meta name="description" content="Digitalt undervisningsmateriale til gastronomer: Dansk som andetsprog med temaer, tekster og opgaver." />
+    <meta name="theme-color" content="#0f1b24" />
+        <script>
+      /* GitHub Pages: mapper uden trailing slash - <base> + replaceState retter relative URL'er uden ekstra page load (mindre flicker). */
       (function () {
         if (location.protocol !== "http:" && location.protocol !== "https:") return;
         var p = location.pathname;
         if (p.endsWith("/")) return;
         var last = p.slice(p.lastIndexOf("/") + 1);
         if (!last || last.indexOf(".") !== -1) return;
-        location.replace(p + "/" + location.search + location.hash);
+        var withSlash = p + "/";
+        var b = document.createElement("base");
+        b.href = location.origin + withSlash;
+        document.head.insertBefore(b, document.head.firstChild);
+        history.replaceState(null, "", withSlash + location.search + location.hash);
       })();
     </script>
     <link rel="preload" href="Baggrundsbillede.png" as="image" fetchpriority="high" />
     <title>Dansk som andetsprog for gastronomer</title>
-    <style>
-      body::before {
+    <style id="critical-bg-cover">
+      html::before {
         content: "";
         position: fixed;
         inset: 0;
-        z-index: -1;
+        z-index: 0;
         background-color: #0f1b24;
         background-image: url("Baggrundsbillede.png");
         background-size: cover;
@@ -29,6 +35,18 @@
         background-repeat: no-repeat;
         pointer-events: none;
 
+      }
+      
+      html::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          rgba(30, 144, 255, 0.08),
+          rgba(30, 144, 255, 0.08)
+        );
+        pointer-events: none;
       }
       html {
         margin: 0;
@@ -47,7 +65,7 @@
         font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
         color: #fff;
         position: relative;
-        z-index: 1;
+        z-index: 2;
       }
       .page-shell {
         position: relative;

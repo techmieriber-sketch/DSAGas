@@ -1,1 +1,6 @@
-drikkevarer/
+# Tidligere: drikkevarer/ — det gjorde at GitHub aldrig fik mappen → 404 på Pages.
+# Ikke ignorér drikkevarer her: den skal med i repo'et.
+
+.DS_Store
+Thumbs.db
+desktop.ini
