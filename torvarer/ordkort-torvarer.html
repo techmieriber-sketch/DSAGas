@@ -3,6 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      /* GitHub Pages: /repo eller /repo/broed uden trailing slash giver forkert basis-URL for relative links */
+      (function () {
+        if (location.protocol !== "http:" && location.protocol !== "https:") return;
+        var p = location.pathname;
+        if (p.endsWith("/")) return;
+        var last = p.slice(p.lastIndexOf("/") + 1);
+        if (!last || last.indexOf(".") !== -1) return;
+        location.replace(p + "/" + location.search + location.hash);
+      })();
+    </script>
     <link rel="preload" href="torvarer-bg-16x9.png" as="image" fetchpriority="high" />
     <title>Ordkort – tørvarer</title>
     <style>
@@ -17,11 +28,11 @@
         --radius: 18px;
       }
       * { box-sizing: border-box; }
-      html::before {
+      body::before {
         content: "";
         position: fixed;
         inset: 0;
-        z-index: 0;
+        z-index: -1;
         background-color: #0f1b24;
         background-image: url("torvarer-bg-16x9.png");
         background-size: cover;
@@ -40,7 +51,7 @@
       body {
         margin: 0;
         min-height: 100vh;
-        background: #0f1b24;
+        background: transparent;
         font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
         color: #fff;
         position: relative;
