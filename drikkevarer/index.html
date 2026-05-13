@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+      /* GitHub Pages: mapper uden trailing slash - <base> + replaceState retter relative URL'er uden ekstra page load (mindre flicker). */
+      (function () {
+        if (location.protocol !== "http:" && location.protocol !== "https:") return;
+        var p = location.pathname;
+        if (p.endsWith("/")) return;
+        var last = p.slice(p.lastIndexOf("/") + 1);
+        if (!last || last.indexOf(".") !== -1) return;
+        var withSlash = p + "/";
+        var b = document.createElement("base");
+        b.href = location.origin + withSlash;
+        document.head.insertBefore(b, document.head.firstChild);
+        history.replaceState(null, "", withSlash + location.search + location.hash);
+      })();
+    </script>
+    <title>Drikkevarer – Dansk som andetsprog for gastronomer</title>
+    <link rel="preload" href="../assets/drikkevarer-bg-16x9.png" as="image" fetchpriority="high" />
+    <style id="critical-bg-cover">
+      html::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-image: url("../assets/drikkevarer-bg-16x9.png");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+
+      }
+      
+      html::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          rgba(30, 144, 255, 0.08),
+          rgba(30, 144, 255, 0.08)
+        );
+        pointer-events: none;
+      }
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: transparent;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .page-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        width: 100%;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .start-panel {
+        text-align: left;
+        margin-top: 1.25rem;
+      }
+      .text-link,
+      .crossword-link,
+      .quiz-link,
+      .card-link,
+      .game-link,
+      .video-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .start-panel .text-link,
+      .start-panel .crossword-link,
+      .start-panel .quiz-link,
+      .start-panel .card-link,
+      .start-panel .game-link,
+      .start-panel .video-link {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+    <main class="overlay">
+      <div class="page-content">
+        <a class="back-link" href="../index.html">Tilbage</a>
+        <h1 class="title">Drikkevarer</h1>
+        <div class="start-panel">
+          <a class="text-link" href="tekst-om-drikkevarer.html">Tekst om drikkevarer</a>
+          <a class="crossword-link" href="kryds-og-tvaers-drikkevarer.html">Kryds og tværs</a>
+          <a class="quiz-link" href="multiple-choice-quiz-drikkevarer.html">Multiple choice-quiz</a>
+          <a class="card-link" href="ordkort-drikkevarer.html">Ordkort</a>
+          <a class="game-link" href="vendespil-drikkevarer.html">Vendespil</a>
+          <a class="video-link" href="https://youtu.be/KacV8trpQks?si=ih8XGbrX5ZibTtBW" target="_blank" rel="noopener">Sådan laver du den bedste gin og tonic</a>
+        </div>
+      </div>
+    </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+      /* GitHub Pages: mapper uden trailing slash - <base> + replaceState retter relative URL'er uden ekstra page load (mindre flicker). */
+      (function () {
+        if (location.protocol !== "http:" && location.protocol !== "https:") return;
+        var p = location.pathname;
+        if (p.endsWith("/")) return;
+        var last = p.slice(p.lastIndexOf("/") + 1);
+        if (!last || last.indexOf(".") !== -1) return;
+        var withSlash = p + "/";
+        var b = document.createElement("base");
+        b.href = location.origin + withSlash;
+        document.head.insertBefore(b, document.head.firstChild);
+        history.replaceState(null, "", withSlash + location.search + location.hash);
+      })();
+    </script>
+    <title>Multiple choice – drikkevarer</title>
+    <link rel="preload" href="../assets/drikkevarer-bg-16x9.png" as="image" fetchpriority="high" />
+    <style id="critical-bg-cover">
+      html::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-image: url("../assets/drikkevarer-bg-16x9.png");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+
+      }
+      
+      html::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          rgba(30, 144, 255, 0.08),
+          rgba(30, 144, 255, 0.08)
+        );
+        pointer-events: none;
+      }
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: transparent;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: transparent;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 251, 245, 0.78);
+        color: #2f241c;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(92, 55, 24, 0.25);
+        border: 1px solid rgba(221, 196, 169, 0.9);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a2f1d;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #2f241c;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #e3cbb1;
+        border-radius: 10px;
+        background: #fff6ea;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(143, 90, 42, 0.18);
+      }
+      .option input {
+        accent-color: #9c5b2a;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #9c5b2a;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(156, 91, 42, 0.28);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(156, 91, 42, 0.32);
+      }
+      button.secondary {
+        background: #5a4637;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #2f241c;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #f4ebe1;
+        border: 1px solid #dcc7b0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple choice – drikkevarer</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="B">
+          <h2>1. Hvilken gruppe hører kaffe til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. Spiritus</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. Varme drikke</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. Hedvin</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. Mineralvand</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvad har stor betydning for kaffens smag?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. Glassets form</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. Serveringstemperaturen alene</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. Ristningen</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. Farven på koppen</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>3. Hvad laves te af?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. Blade, som tørres og behandles</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. Druer og sukker</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. Malt og humle</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. Frugt og fløde</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>4. Hvilke typer te nævnes i teksten?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. Rød te, blå te og urtete</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. Iste, chai og mate</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. Mynte, kamille og citronte</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. Sort te, grøn te og hvid te</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>5. Hvad bruges kakaobønner også til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. At lave øl</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. At fremstille chokolade</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. At lave danskvand</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. At lave hedvin</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>6. Hvad sker der med sukkeret i druerne, når vin fremstilles?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. Det bliver til kulsyre</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. Det fordamper</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. Det omdannes til alkohol under gæring</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. Det bliver til mineraler</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>7. Hvilke vintyper nævnes i teksten?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. Rødvin, hvidvin og rosévin</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. Mousserende vin, hedvin og cider</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. Dessertvin, orangevin og portvin</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. Rødvin, hedvin og likør</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>8. Hvilke råvarer indgår især i øl?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. Druer, sukker og citron</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. Kaffe, kakao og mælk</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. Fløde, frugt og urter</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. Malt, humle, vand og gær</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>9. Hvad kendetegner hedvin?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. Den er altid alkoholfri</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. Den har højere alkoholindhold end bordvin</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. Den laves kun af æbler</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. Den serveres kun varm</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>10. Hvordan fremstilles spiritus?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. Ved ristning</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. Ved frysning</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. Ved destillation</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. Ved tørring</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>11. Hvilken af disse drikke er et eksempel på spiritus?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q11" value="A" /> A. Vodka</label>
+            <label class="option"><input type="radio" name="q11" value="B" /> B. Juice</label>
+            <label class="option"><input type="radio" name="q11" value="C" /> C. Kakao</label>
+            <label class="option"><input type="radio" name="q11" value="D" /> D. Danskvand</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>12. Hvad kan likører være tilsat?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q12" value="A" /> A. Kun kaffe</label>
+            <label class="option"><input type="radio" name="q12" value="B" /> B. Kun vand</label>
+            <label class="option"><input type="radio" name="q12" value="C" /> C. Kun malt og humle</label>
+            <label class="option"><input type="radio" name="q12" value="D" /> D. Frugt, urter eller fløde</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>13. Hvilken af disse hører til de alkoholfrie drikke i teksten?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q13" value="A" /> A. Whisky</label>
+            <label class="option"><input type="radio" name="q13" value="B" /> B. Sodavand</label>
+            <label class="option"><input type="radio" name="q13" value="C" /> C. Hedvin</label>
+            <label class="option"><input type="radio" name="q13" value="D" /> D. Likør</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>14. Hvad handler valg af drikkevarer til mad ofte om?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q14" value="A" /> A. Balance</label>
+            <label class="option"><input type="radio" name="q14" value="B" /> B. Pris</label>
+            <label class="option"><input type="radio" name="q14" value="C" /> C. Flaskens størrelse</label>
+            <label class="option"><input type="radio" name="q14" value="D" /> D. Etikettens farve</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>15. Hvad passer ofte godt til fisk og skaldyr?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q15" value="A" /> A. Kun mørk spiritus</label>
+            <label class="option"><input type="radio" name="q15" value="B" /> B. Meget søde drikke</label>
+            <label class="option"><input type="radio" name="q15" value="C" /> C. Lette drikke</label>
+            <label class="option"><input type="radio" name="q15" value="D" /> D. Kun kakao</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>16. Hvad passer ofte til kraftige kødretter?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q16" value="A" /> A. Vand uden smag</label>
+            <label class="option"><input type="radio" name="q16" value="B" /> B. Kun saft</label>
+            <label class="option"><input type="radio" name="q16" value="C" /> C. Meget milde drikke</label>
+            <label class="option"><input type="radio" name="q16" value="D" /> D. Fyldigere vine eller øl</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>17. Hvad vælger man ofte til desserter?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q17" value="A" /> A. Noget bittert</label>
+            <label class="option"><input type="radio" name="q17" value="B" /> B. Noget sødere</label>
+            <label class="option"><input type="radio" name="q17" value="C" /> C. Kun danskvand</label>
+            <label class="option"><input type="radio" name="q17" value="D" /> D. Kun sort kaffe</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>18. Hvad siger drikkevarer også noget om ifølge teksten?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q18" value="A" /> A. Kun tørst</label>
+            <label class="option"><input type="radio" name="q18" value="B" /> B. Kun temperatur</label>
+            <label class="option"><input type="radio" name="q18" value="C" /> C. Råvarer, produktion, smag og madkultur</label>
+            <label class="option"><input type="radio" name="q18" value="D" /> D. Kun pris og emballage</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+    </div>
+  </body>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+</html>

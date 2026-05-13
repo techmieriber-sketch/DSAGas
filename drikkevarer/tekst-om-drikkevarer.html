@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+      /* GitHub Pages: mapper uden trailing slash - <base> + replaceState retter relative URL'er uden ekstra page load (mindre flicker). */
+      (function () {
+        if (location.protocol !== "http:" && location.protocol !== "https:") return;
+        var p = location.pathname;
+        if (p.endsWith("/")) return;
+        var last = p.slice(p.lastIndexOf("/") + 1);
+        if (!last || last.indexOf(".") !== -1) return;
+        var withSlash = p + "/";
+        var b = document.createElement("base");
+        b.href = location.origin + withSlash;
+        document.head.insertBefore(b, document.head.firstChild);
+        history.replaceState(null, "", withSlash + location.search + location.hash);
+      })();
+    </script>
+    <title>Tekst om drikkevarer</title>
+    <link rel="preload" href="../assets/drikkevarer-bg-16x9.png" as="image" fetchpriority="high" />
+    <style id="critical-bg-cover">
+      html::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-image: url("../assets/drikkevarer-bg-16x9.png");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+
+      }
+      
+      html::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          rgba(30, 144, 255, 0.08),
+          rgba(30, 144, 255, 0.08)
+        );
+        pointer-events: none;
+      }
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: transparent;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.85);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem 2rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+      h2 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.3rem;
+      }
+      p {
+        margin: 0 0 0.9rem 0;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/18-gIv6CUgtt8PyBiSK_qwuFbYCFbA0xD?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent filen som PDF
+      </a>
+      <article class="card">
+        <h1>Drikkevarer</h1>
+        <p>
+          Drikkevarer er en vigtig del af både hverdagsmad og måltider ved særlige lejligheder. Nogle drikke bruges mest for smagens skyld, mens andre også kan have en praktisk funktion, for eksempel når de skal passe til en bestemt ret. Man kan opdele drikkevarer i forskellige grupper, blandt andet varme drikke, alkoholholdige drikke og alkoholfrie drikke.
+        </p>
+        <h2>Varme drikke</h2>
+        <p>
+          Varme drikke omfatter især kaffe, te og kakao. Kaffe og te bliver brugt mange steder i verden og indgår ofte i dagligdagen. Kaffe laves af bønner fra kaffebusken, som bliver behandlet og ristet, før de kan bruges. Ristningen har stor betydning for smagen. Nogle kaffetyper er milde, mens andre smager kraftigere. Te laves af blade, som tørres og behandles på forskellige måder. Derfor findes der flere typer te, for eksempel sort te, grøn te og hvid te. Kakao stammer fra kakaobønner, som også bruges til at fremstille chokolade. Kakao kan drikkes både varm og kold.
+        </p>
+        <h2>Alkoholholdige drikke</h2>
+        <p>
+          Alkoholholdige drikke kan deles op i flere grupper. Vin og øl er blandt de mest kendte, men der findes også hedvin og spiritus. Vin bliver fremstillet af druer, hvor sukkeret i druerne omdannes til alkohol under gæring. Der findes både rødvin, hvidvin og rosévin, og de kan være meget forskellige i smag. Smagen afhænger blandt andet af druetype, klima, jordbund og lagring. Øl fremstilles især af malt, humle, vand og gær. Også her har råvarer og fremstillingsmåde betydning for smagen. Nogle øl er lyse og milde, mens andre er mørke og kraftige.
+        </p>
+        <p>
+          Hedvin er vin med et højere alkoholindhold end almindelig bordvin. Det skyldes, at man under fremstillingen tilsætter alkohol. Spiritus er drikkevarer med en endnu højere alkoholprocent. De fremstilles ved destillation. Det gælder for eksempel whisky, vodka, rom og gin. Der findes også likører, som ofte har en sødere smag og kan være tilsat frugt, urter eller fløde.
+        </p>
+        <h2>Alkoholfrie drikke</h2>
+        <p>
+          Alkoholfrie drikke dækker over mange forskellige typer. Det kan være vand, danskvand, saft, juice og sodavand. Nogle mineralvande kommer direkte fra naturlige kilder, mens andre er fremstillet ved, at man tilsætter kulsyre og mineraler til vand. Der findes også alkoholfrie udgaver af for eksempel vin og øl.
+        </p>
+        <h2>Drikkevarer til mad</h2>
+        <p>
+          Når man vælger drikkevarer til mad, handler det ofte om balance. En mild ret passer som regel bedst sammen med en mild drik, mens kraftige retter ofte kræver mere smag i glasset. Fisk og skaldyr bliver ofte serveret med lette drikke, mens kraftige kødretter bedre kan passe sammen med fyldigere vine eller øl. Til desserter vælger man ofte noget sødere, så drikken passer til madens smag.
+        </p>
+        <p>
+          Drikkevarer handler derfor ikke kun om at slukke tørsten. De siger også noget om råvarer, produktion, smag og madkultur. Nogle drikkevarer er tæt knyttet til traditioner, mens andre er blevet en naturlig del af moderne hverdagsmad. På den måde er drikkevarer både en del af det daglige måltid og af den måde, vi oplever mad på.
+        </p>
+      </article>
+    </main>
+    <audio id="drikkevarerAudio" src="Drikkevarer.mp3"></audio>
+    <script>
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("drikkevarerAudio");
+
+      readButton.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          readButton.textContent = "Stop oplæsning";
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          readButton.textContent = "Få teksten læst højt";
+        }
+      });
+    audio.addEventListener("ended", () => {
+      readButton.textContent = "Få teksten læst højt";
+    });
+  </script>
+    </div>
+  </body>
+</html>
