@@ -3,10 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href="Baggrundsbillede.png" as="image" fetchpriority="high" />
     <title>Dansk som andetsprog for gastronomer</title>
-    <link rel="preload" id="forside-bg-preload" href="" as="image" />
-
     <style>
+      html::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-image: url("Baggrundsbillede.png");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+
+      }
       html {
         margin: 0;
         min-height: 100%;
@@ -14,11 +26,9 @@
         scrollbar-gutter: stable;
         background: #0f1b24;
       }
-
       * {
         box-sizing: border-box;
       }
-
       body {
         margin: 0;
         min-height: 100vh;
@@ -26,27 +36,8 @@
         font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
         color: #fff;
         position: relative;
+        z-index: 1;
       }
-
-      .bg-media {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        overflow: hidden;
-        background: #0f1b24;
-      }
-
-      .bg-image {
-        position: absolute;
-        top: -7vmin;
-        left: -7vmin;
-        width: calc(100% + 14vmin);
-        height: calc(100% + 14vmin);
-        object-fit: cover;
-        object-position: center center;
-        display: block;
-      }
-
       .page-shell {
         position: relative;
         z-index: 1;
@@ -145,34 +136,7 @@
   </head>
 
   <body>
-    <div class="bg-media" aria-hidden="true">
-      <img id="forside-bg-img" class="bg-image" src="" alt="" fetchpriority="high" decoding="async" />
-    </div>
-    <script>
-      (function () {
-        var FILE = "Baggrundsbillede.png";
-        function bgUrl() {
-          if (location.protocol === "file:") return "./" + FILE;
-          var p = location.pathname;
-          var last = p.split("/").pop() || "";
-          var dir =
-            last.indexOf(".") !== -1
-              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
-              : p.endsWith("/")
-                ? p
-                : p + "/";
-          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
-          return location.origin + dir + FILE;
-        }
-        var u = bgUrl();
-        var pl = document.getElementById("forside-bg-preload");
-        var im = document.getElementById("forside-bg-img");
-        if (pl) pl.href = u;
-        if (im) im.src = u;
-      })();
-    </script>
-
-    <div class="page-shell">
+<div class="page-shell">
       <main class="content">
         <section class="content-card">
           <h1 class="page-title">Dansk som andetsprog for gastronomer</h1>
@@ -195,21 +159,21 @@
 
           <ul class="categories">
             <li><a class="category-link" href="https://youtu.be/aCQG1ovE7HA?si=eZOr6laXENfwlJB7" target="_blank" rel="noopener noreferrer">Introduktion til AppWriter</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/BroedDSAGas/" target="_blank" rel="noopener noreferrer">Brødbagning</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/DrikDSAGas/drikkevarer.html" target="_blank" rel="noopener noreferrer">Drikkevarer</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/FiskDSAGas/" target="_blank" rel="noopener noreferrer">Fisk</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/FrugtDSAGas/" target="_blank" rel="noopener noreferrer">Frugter</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/GroentDSAGas/index.html" target="_blank" rel="noopener noreferrer">Grøntsager</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/HygDSAGas/" target="_blank" rel="noopener noreferrer">Hygiejne</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/KoedDSAGas/" target="_blank" rel="noopener noreferrer">Kød</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/KrydDSAGas/index.html" target="_blank" rel="noopener noreferrer">Krydderier og krydderurter</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/KoktingDSAGas/" target="_blank" rel="noopener noreferrer">Køkkenting</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/MejDSAGas/index.html" target="_blank" rel="noopener noreferrer">Mejeriprodukter</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/MiddagDSAGas/" target="_blank" rel="noopener noreferrer">Middagsretter</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/SodDSAGas/" target="_blank" rel="noopener noreferrer">Søde sager</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/TorDSAGas/index.html" target="_blank" rel="noopener noreferrer">Tørvarer</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/AegDSAGas/index.html" target="_blank" rel="noopener noreferrer">Æg</a></li>
-            <li><a class="category-link" href="https://techmieriber-sketch.github.io/UdtaleDSAGas/" target="_blank" rel="noopener noreferrer">Udtale</a></li>
+            <li><a class="category-link" href="broed/index.html">Brødbagning</a></li>
+            <li><a class="category-link" href="drikkevarer/index.html">Drikkevarer</a></li>
+            <li><a class="category-link" href="fisk/index.html">Fisk</a></li>
+            <li><a class="category-link" href="frugter/index.html">Frugter</a></li>
+            <li><a class="category-link" href="groentsager/index.html">Grøntsager</a></li>
+            <li><a class="category-link" href="hygiejne/index.html">Hygiejne</a></li>
+            <li><a class="category-link" href="koed/index.html">Kød</a></li>
+            <li><a class="category-link" href="Krydderurter%20og%20krydderurter/index.html">Krydderier og krydderurter</a></li>
+            <li><a class="category-link" href="kokkenting/index.html">Køkkenting</a></li>
+            <li><a class="category-link" href="mejeriprodukter/index.html">Mejeriprodukter</a></li>
+            <li><a class="category-link" href="middagsretter/index.html">Middagsretter</a></li>
+            <li><a class="category-link" href="soede-sager/index.html">Søde sager</a></li>
+            <li><a class="category-link" href="torvarer/index.html">Tørvarer</a></li>
+            <li><a class="category-link" href="aeg/index.html">Æg</a></li>
+            <li><a class="category-link" href="udtale/index.html">Udtale</a></li>
           </ul>
         </section>
       </main>

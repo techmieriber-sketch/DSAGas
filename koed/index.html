@@ -3,9 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href="koed-bg-16x9.png" as="image" fetchpriority="high" />
     <title>Kød</title>
-    <link rel="preload" id="koed-bg-preload" href="" as="image" />
     <style>
+      html::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-image: url("koed-bg-16x9.png");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+
+      }
       html {
         margin: 0;
         min-height: 100%;
@@ -21,16 +34,7 @@
         font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
         color: #fff;
         position: relative;
-      }
-      .bg-media {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        background-color: #0f1b24;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        overflow: hidden;
+        z-index: 1;
       }
       .page-shell {
         position: relative;
@@ -91,32 +95,7 @@
     </style>
   </head>
   <body>
-    <div class="bg-media" aria-hidden="true"></div>
-    <script>
-      (function () {
-        var FILE = "koed-bg-16x9.png";
-        function bgUrl() {
-          if (location.protocol === "file:") return "./" + FILE;
-          var p = location.pathname;
-          var last = p.split("/").pop() || "";
-          var dir =
-            last.indexOf(".") !== -1
-              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
-              : p.endsWith("/")
-                ? p
-                : p + "/";
-          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
-          return location.origin + dir + FILE;
-        }
-        var u = bgUrl();
-        var pl = document.getElementById("koed-bg-preload");
-        if (pl) pl.href = u;
-        var el = document.querySelector(".bg-media");
-        if (el) el.style.backgroundImage = 'url("' + u.replace(/"/g, '\\"') + '")';
-      })();
-    </script>
-
-    <div class="page-shell">
+<div class="page-shell">
     <main class="overlay">
       <div class="page-content">
         <h1 class="title">Kød</h1>
@@ -128,7 +107,7 @@
           <a class="card-link" href="kryds-og-tvaers-koed.html">Kryds og tværs</a>
           <a class="video-link" href="https://youtu.be/uRRD7pd0DGo?si=nn6lqyFodmabZFpy" target="_blank" rel="noopener">Sådan steger du entrecote på panden</a>
         </div>
-        <a class="back-link" href="https://techmieriber-sketch.github.io/ForsideDSAGas/">Tilbage</a>
+        <a class="back-link" href="../index.html">Tilbage</a>
       </div>
     </main>
     </div>

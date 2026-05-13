@@ -3,8 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href="broed.jpg" as="image" fetchpriority="high" />
     <title>Brødbagning</title>
     <style>
+      html::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-image: url("broed.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+
+      }
       html {
         margin: 0;
         min-height: 100%;
@@ -20,19 +34,7 @@
         font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
         color: #fff;
         position: relative;
-      }
-      .bg-media {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        background: #0f1b24;
-        overflow: hidden;
-      }
-      .bg-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
+        z-index: 1;
       }
       .page-shell {
         position: relative;
@@ -136,10 +138,6 @@
     </style>
   </head>
   <body>
-    <div class="bg-media" aria-hidden="true">
-      <img class="bg-image" src="broed.jpg" alt="" fetchpriority="high" decoding="async">
-    </div>
-
     <div class="page-shell">
     <main class="overlay">
       <div class="page-content">
@@ -158,7 +156,7 @@
             Grydebrød - verdens lækreste brød med sprød skorpe bagt i gryde
           </a>
         </div>
-        <a class="back-link" href="https://techmieriber-sketch.github.io/ForsideDSAGas/">Tilbage</a>
+        <a class="back-link" href="../index.html">Tilbage</a>
       </div>
     </main>
     </div>

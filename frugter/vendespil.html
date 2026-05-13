@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Vendespil</title>
-    <link rel="preload" href="Frugter.jpg" as="image" />
+    <link rel="preload" href="Frugter.jpg" as="image" fetchpriority="high" />
     <style>
       :root {
         --bg: #f7fbff;
@@ -20,7 +20,19 @@
         --accent: #ff7a59;
         --accent-strong: #ff4d4f;
       }
+      html::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-image: url("Frugter.jpg");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        pointer-events: none;
 
+      }
       html {
         margin: 0;
         min-height: 100%;
@@ -36,19 +48,7 @@
         font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
         color: #fff;
         position: relative;
-      }
-      .bg-media {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        background: #0f1b24;
-        overflow: hidden;
-      }
-      .bg-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
+        z-index: 1;
       }
       .page-shell {
         position: relative;
@@ -69,7 +69,6 @@
         border-radius: var(--radius);
         overflow: hidden;
       }
-
       header {
         display: flex;
         flex-wrap: wrap;
@@ -80,7 +79,6 @@
         background: linear-gradient(90deg, #fff3d4, #ffe1f1, #dff4ff);
         border-bottom: 1px solid rgba(44, 66, 110, 0.14);
       }
-
       header h1 {
         margin: 0;
         font-size: 16px;
@@ -267,10 +265,6 @@
     </style>
   </head>
   <body>
-    <div class="bg-media" aria-hidden="true">
-      <img class="bg-image" src="Frugter.jpg" alt="" fetchpriority="high" decoding="async">
-    </div>
-
     <div class="page-shell">
     <div class="app">
       <header>
