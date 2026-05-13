@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tekst om krydderier og krydderurter</title>
+    <link rel="preload" id="krydder-bg-preload" href="" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.85);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem 2rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+      h2 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.3rem;
+      }
+      p {
+        margin: 0 0 0.9rem 0;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true"><img id="krydder-bg-img" class="bg-image" src="" alt="" fetchpriority="high" decoding="async"></div>
+    <script>
+      (function () {
+        var FILE = "Krydderurter-og-krydderier.png";
+        function bgUrl() {
+          if (location.protocol === "file:") return "./" + FILE;
+          var p = location.pathname;
+          var last = p.split("/").pop() || "";
+          var dir =
+            last.indexOf(".") !== -1
+              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
+              : p.endsWith("/")
+                ? p
+                : p + "/";
+          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
+          return location.origin + dir + FILE;
+        }
+        var u = bgUrl();
+        var pl = document.getElementById("krydder-bg-preload");
+        var im = document.getElementById("krydder-bg-img");
+        if (pl) pl.href = u;
+        if (im) im.src = u;
+      })();
+    </script>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/1pTPusUcfNMsfY2XJjCj0Cv5Vq4hRckuM?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent teksten som PDF
+      </a>
+      <article class="card">
+        <h1>Krydderier og krydderurter</h1>
+        <p>
+          Krydderier og krydderurter bliver brugt til at give maden mere smag, duft og karakter. De kan fremhæve råvarernes egen smag og gøre en ret mere spændende. Brugen af krydderier har en lang historie og har i mange tusinde år haft betydning i madlavning i store dele af verden. I Danmark bruges krydderier ofte mere forsigtigt end i mange andre lande, fordi man traditionelt ønsker, at man stadig tydeligt kan smage selve retten.
+        </p>
+        <p>
+          Man kan dele dem op i to hovedgrupper: tørrede krydderier og krydderurter. Tørrede krydderier kommer fra forskellige dele af planter, for eksempel bark, frø, rødder, frugter eller blomsterdele. Krydderurter er som regel blade og grønne plantedele, som kan bruges friske eller tørrede. Salt bruges også som krydderi, men det stammer ikke fra planter.
+        </p>
+        <p>
+          I dansk madlavning er salt og peber de mest almindelige smagsgivere. Derefter kommer blandt andet paprika og karry. Når man krydrer mad, er det vigtigt at være forsigtig. For meget krydderi kan hurtigt overdøve resten af retten. Derfor er det bedst at tilsætte lidt ad gangen og smage undervejs. Friske krydderurter smager ofte mildere end tørrede, og derfor kan man normalt bruge mere af dem. En spiseskefuld friske krydderurter svarer cirka til en teskefuld tørrede.
+        </p>
+        <h2>Tørrede krydderier</h2>
+        <p>
+          Tørrede krydderier findes i mange former. Nogle sælges hele, andre som frø, og andre igen er knuste eller malede. De bruges i mange slags retter og kan give både styrke, varme, sødme eller dybde i smagen. Nogle krydderier passer især til det salte køkken, mens andre mest bruges i bagværk og desserter.
+        </p>
+        <p>
+          Karry er et eksempel på en krydderiblanding og ikke ét enkelt krydderi. Den består af flere forskellige ingredienser og bliver ofte brugt i retter, hvor man ønsker en varm og krydret smag. Karry adskiller sig fra mange andre tørrede krydderier ved, at den ofte udvikler bedst smag, når den først opvarmes i fedtstof.
+        </p>
+        <p>
+          Som hovedregel bliver malede krydderier ofte tilsat sent i madlavningen, mens hele krydderier tit kan komme i tidligere. Hele krydderier kan for eksempel bruges i supper, gryderetter eller syltelage, hvor de får tid til at afgive smag. De kan eventuelt lægges i en pose, så de er lettere at tage op igen.
+        </p>
+        <p>
+          Det er også vigtigt at opbevare krydderier rigtigt. De bør stå tørt, mørkt og i tætsluttende emballage. Lys og fugt kan nemlig forringe både smag, duft og farve.
+        </p>
+        <h2>Krydderurter</h2>
+        <p>
+          Krydderurter giver ofte maden et friskere præg end tørrede krydderier. Mange bruges som et grønt drys eller som en del af selve retten. Krydderurter kan være meget forskellige i smag. Nogle er milde og friske, mens andre er stærkere og mere aromatiske.
+        </p>
+        <p>
+          Nogle krydderurter tåler opvarmning godt og kan koge eller stege med retten. Det gælder især de mere faste og kraftige urter som rosmarin, salvie og timian. Andre mister hurtigt både farve og smag ved lang tilberedning og bør derfor først tilsættes til sidst. Det gælder blandt andet dild, basilikum, koriander og kørvel.
+        </p>
+        <p>
+          En klassisk måde at bruge krydderurter på er i en krydderurtebuket, også kaldet bouquet garni. Det er en lille bundt urter, som lægges i supper eller saucer for at give smag under tilberedningen. Når retten er færdig, fjerner man buketten igen. En anden kendt urteblanding er Herbes de Provence, som stammer fra Sydfrankrig og bruges i blandt andet salater, saucer, stuvninger og kødretter.
+        </p>
+        <h2>Eksempler på krydderier og krydderurter</h2>
+        <p>
+          Der findes mange forskellige krydderier og urter, og de bruges til forskellige typer mad. Basilikum passer godt til tomatretter, salater og pastaretter. Dild bruges ofte til fisk, sild og syltning. Estragon kendes blandt andet fra bearnaisesauce og andre kraftige saucer. Koriander bruges i supper, kyllingeretter, salsa og dressinger. Laurbærblade egner sig godt til supper, gryderetter og fond.
+        </p>
+        <p>
+          Blandt de tørrede krydderier er kanel, ingefær, kardemomme og nelliker ofte knyttet til bagværk, desserter og varme drikke, men de kan også bruges i krydrede retter. Chili og cayennepeber giver styrke og varme, mens gurkemeje især er kendt for sin farve og sin rolle i karryblandinger. Enebær bruges ofte i vildtretter og marinader, og muskatnød passer godt til grøntsagsretter, stuvninger og lyse saucer.
+        </p>
+        <p>
+          Krydderier og krydderurter er vigtige redskaber i madlavning, fordi de kan ændre en rets smag meget. De kræver dog omtanke. Det handler ikke bare om at tilsætte mest muligt, men om at vælge de rigtige smage og bruge dem på den rigtige måde. Når man kender forskellen på tørrede krydderier og friske krydderurter, og ved hvornår de skal tilsættes, bliver det lettere at lave mad med god og afbalanceret smag.
+        </p>
+      </article>
+    </main>
+    <audio id="krydderierAudio" src="./Krydderier-og-krydderurter.mp3"></audio>
+    <script>
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("krydderierAudio");
+
+      readButton.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          readButton.textContent = "Stop oplæsning";
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          readButton.textContent = "Få teksten læst højt";
+        }
+      });
+      audio.addEventListener("ended", () => {
+        readButton.textContent = "Få teksten læst højt";
+      });
+    </script>
+    </div>
+  </body>
+</html>

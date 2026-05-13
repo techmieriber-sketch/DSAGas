@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brødproduktion</title>
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+      }
+
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #3b2314;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+      }
+
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #3b2314;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+
+      .card {
+        background: rgba(255, 251, 245, 0.82);
+        color: #2b1a10;
+        padding: 2rem;
+        border-radius: 16px;
+        max-width: 1000px;
+        width: 100%;
+        box-shadow: 0 16px 36px rgba(92, 55, 24, 0.22);
+        border: 1px solid rgba(221, 196, 169, 0.9);
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+
+      p {
+        margin: 0.75rem 0;
+        line-height: 1.7;
+      }
+
+      .lead {
+        font-weight: 400;
+      }
+
+      @media (max-width: 700px) {
+        .page-shell {
+          padding: 1rem;
+        }
+
+        .overlay {
+          padding: 4.5rem 1rem 1rem;
+        }
+
+        .back-link {
+          left: 1rem;
+        }
+
+        .read-aloud,
+        .pdf-link {
+          right: 1rem;
+        }
+
+        .card {
+          padding: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="broed.jpg" alt="" fetchpriority="high" decoding="async" />
+    </div>
+
+    <div class="page-shell">
+      <main class="overlay">
+        <a class="back-link" href="index.html">Tilbage</a>
+
+        <button class="read-aloud" type="button" id="readAloudButton">
+          Få teksten læst højt
+        </button>
+
+        <a
+          class="pdf-link"
+          href="https://drive.google.com/drive/folders/1J7i0ZCfV5HTHXoBO_Vq3yJCas_GEMygG?usp=sharing"
+          target="_blank"
+          rel="noopener"
+        >
+          Hent filen som PDF
+        </a>
+
+        <article class="card">
+          <h1>Brødproduktion</h1>
+
+          <p class="lead">
+            Brødproduktion handler om at forvandle en blanding af mel, væske, gær
+            eller surdej og andre råvarer til et færdigt brød med den ønskede smag,
+            struktur og holdbarhed.
+          </p>
+
+          <p>
+            For at lykkes med det kræver det, at man arbejder præcist gennem hele
+            forløbet. Det gælder både valg af råvarer, mængdeforhold, temperaturer,
+            hviletid, hævning og bagning. Små ændringer undervejs kan få stor
+            betydning for det færdige resultat.
+          </p>
+
+          <p>
+            Når man fremstiller brød, tager man ofte udgangspunkt i melets mængde
+            og beregner de øvrige ingredienser i forhold til denne. Det gør det
+            lettere at tilpasse en opskrift, hvis man vil lave en større eller
+            mindre portion.
+          </p>
+
+          <p>
+            Samtidig er det vigtigt, at alle råvarer bliver målt nøjagtigt af.
+            Hvis forholdet mellem ingredienserne ikke passer, kan det påvirke
+            dejens hævning, smag, form og konsistens.
+          </p>
+
+          <p>
+            Temperaturen i dejen spiller også en central rolle. Gær trives bedst
+            i et bestemt temperaturinterval, og derfor arbejder man bevidst med
+            temperaturen på især væsken, så den færdige dej får de rigtige
+            betingelser. En for kold dej udvikler sig langsommere, mens en for varm
+            dej kan blive vanskeligere at styre.
+          </p>
+
+          <p>
+            Der findes forskellige måder at opbygge en dej på. Nogle deje blandes
+            færdige i én arbejdsgang, mens andre bliver forberedt i flere trin, for
+            eksempel med fordej, hævestykke eller surdej. En sådan fremgangsmåde kan
+            give mere aroma, bedre krumme, større volumen og længere holdbarhed.
+          </p>
+
+          <p>
+            Når råvarerne er blandet, skal dejen æltes, så den bliver smidig og
+            ensartet. Under æltningen udvikles dejens struktur, og der arbejdes luft
+            ind i den. Derefter skal dejen hvile og hæve, så smag og indre
+            opbygning får tid til at udvikle sig.
+          </p>
+
+          <p>
+            Når dejen er klar, formes den til brød eller boller og får derefter
+            endnu en hævning, før den sættes i ovnen.
+          </p>
+
+          <p>
+            Selve bagningen afslutter processen. Her omdannes dejen til brød,
+            skorpen dannes, og krummen bliver fast. Ovnens varme, bagetiden og
+            eventuel damp har stor betydning for, hvordan brødet ender med at se ud
+            og smage.
+          </p>
+
+          <p>
+            Brødproduktion handler derfor ikke kun om at følge en opskrift, men også
+            om at forstå samspillet mellem råvarer, teknik og tid.
+          </p>
+        </article>
+      </main>
+
+      <audio id="broedAudio" src="Broedproduktion.mp3"></audio>
+    </div>
+
+    <script>
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("broedAudio");
+
+      if (readButton && audio) {
+        readButton.addEventListener("click", () => {
+          if (audio.paused) {
+            audio.play().catch(() => {});
+            readButton.textContent = "Stop oplæsning";
+          } else {
+            audio.pause();
+            audio.currentTime = 0;
+            readButton.textContent = "Få teksten læst højt";
+          }
+        });
+
+        audio.addEventListener("ended", () => {
+          readButton.textContent = "Få teksten læst højt";
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort – krydderurter og krydderier</title>
+    <link rel="preload" id="bg-preload" href="" as="image" />
+    <style>
+      :root {
+        --bg-image: none;
+        --bg: #0f1115;
+        --card: rgba(255, 255, 255, 0.93);
+        --card2: rgba(255, 255, 255, 0.97);
+        --text: #e9edf5;
+        --muted: #b8c0d6;
+        --ring: #ffd37a;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+      }
+
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24 var(--bg-image) center/cover no-repeat;
+        overflow: hidden;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      header {
+        max-width: 1100px;
+        margin: 28px auto 10px;
+        padding: 0 16px;
+        text-align: center;
+        position: relative;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: var(--text);
+        text-decoration: underline;
+        font-weight: 600;
+        position: absolute;
+        left: 16px;
+        top: 0;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.9),
+          0 0 4px rgba(0, 0, 0, 0.8),
+          -1px -1px 0 rgba(0, 0, 0, 0.9),
+          1px -1px 0 rgba(0, 0, 0, 0.9),
+          -1px 1px 0 rgba(0, 0, 0, 0.9),
+          1px 1px 0 rgba(0, 0, 0, 0.9);
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(22px, 3vw, 30px);
+        letter-spacing: 0.2px;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.9),
+          0 0 4px rgba(0, 0, 0, 0.8),
+          -1px -1px 0 rgba(0, 0, 0, 0.9),
+          1px -1px 0 rgba(0, 0, 0, 0.9),
+          -1px 1px 0 rgba(0, 0, 0, 0.9),
+          1px 1px 0 rgba(0, 0, 0, 0.9);
+      }
+
+      header p {
+        margin: 0 auto;
+        color: rgba(255, 255, 255, 0.92);
+        max-width: 70ch;
+        text-align: center;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.9),
+          0 0 4px rgba(0, 0, 0, 0.8),
+          -1px -1px 0 rgba(0, 0, 0, 0.9),
+          1px -1px 0 rgba(0, 0, 0, 0.9),
+          -1px 1px 0 rgba(0, 0, 0, 0.9),
+          1px 1px 0 rgba(0, 0, 0, 0.9);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 18px auto 44px;
+        padding: 0 16px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        align-items: stretch;
+        min-height: 50vh;
+      }
+
+      .card {
+        perspective: 1000px;
+        min-height: 320px;
+      }
+
+      .inner {
+        position: relative;
+        height: 100%;
+        border-radius: var(--radius);
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+        box-shadow: var(--shadow);
+      }
+
+      .card.is-flipped .inner {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+        backface-visibility: hidden;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        background: linear-gradient(180deg, var(--card) 0%, var(--card2) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .front {
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          transparent 78%,
+          rgba(255, 255, 255, 0.93) 88%,
+          rgba(255, 255, 255, 0.97) 100%
+        );
+      }
+
+      .front .imgwrap {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      .front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.02);
+      }
+
+      .label {
+        padding: 12px 12px 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .label strong {
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        color: #fff;
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.8),
+          1px -1px 0 rgba(0, 0, 0, 0.8),
+          -1px 1px 0 rgba(0, 0, 0, 0.8),
+          1px 1px 0 rgba(0, 0, 0, 0.8),
+          0 0 4px rgba(0, 0, 0, 0.9);
+      }
+
+      .hint {
+        font-size: 12px;
+        color: rgba(233, 237, 245, 0.75);
+        white-space: nowrap;
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        padding: 14px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 10px;
+        background: linear-gradient(180deg, #1e2d3d 0%, #15202b 100%);
+      }
+
+      .back h2 {
+        margin: 0;
+        font-size: 17px;
+        text-align: center;
+        color: var(--text);
+      }
+
+      .back .def {
+        margin: 0;
+        color: var(--text);
+        font-size: 14px;
+        text-align: left;
+        line-height: 1.5;
+      }
+
+      .meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        color: rgba(233, 237, 245, 0.7);
+        font-size: 12px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .flipBtn {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        border-radius: var(--radius);
+      }
+
+      .flipBtn:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 520px) {
+        .card {
+          min-height: 300px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-media" aria-hidden="true"></div>
+
+    <div class="page-shell">
+      <header>
+        <a class="back-link" href="index.html">Tilbage</a>
+        <h1>Ordkort om krydderurter og krydderier</h1>
+        <p>
+          Klik på et kort for at vende det. Ordet på kortet læses op, når du klikker på kortet
+        </p>
+      </header>
+
+      <main>
+        <section class="grid" id="grid" aria-label="Ordkort"></section>
+      </main>
+
+      <script>
+        const ASSET_BASE = (() => {
+          if (location.protocol === "file:") return "";
+          const p = location.pathname;
+          const last = p.split("/").pop() || "";
+          let dir =
+            last.indexOf(".") !== -1
+              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
+              : p.endsWith("/")
+                ? p
+                : p + "/";
+          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
+          return dir.endsWith("/") ? dir : dir + "/";
+        })();
+
+        function assetPath(relativePath) {
+          const clean = String(relativePath).replace(/^\/+/, "");
+          if (location.protocol === "file:") return clean;
+          const path = ASSET_BASE + clean;
+          return location.origin ? location.origin + path : path;
+        }
+
+        document.documentElement.style.setProperty(
+          "--bg-image",
+          `url("${assetPath("Krydderurter-og-krydderier.png")}")`
+        );
+
+        const bgPreload = document.getElementById("bg-preload");
+        if (bgPreload) bgPreload.href = assetPath("Krydderurter-og-krydderier.png");
+
+        const assetFolder =
+          location.protocol === "file:" ? "./" : ASSET_BASE;
+        const audioPlayer = new Audio();
+
+        function getAudioFile(item) {
+          if (item.audio) return item.audio;
+          return item.file.replace(/\.(jpg|png|jpeg|webp)$/i, ".mp3");
+        }
+
+        const cards = [
+          {
+            title: "basilikum",
+            file: "Basilikum.png",
+            def: "En grøn krydderurt med store, bløde blade og en sødlig, frisk smag. Basilikum bruges ofte i italienske retter, fx pesto, pasta og tomatsalat.",
+            tags: ["krydderurt", "frisk", "italiensk"],
+          },
+          {
+            title: "chili",
+            file: "Chili.png",
+            def: "Et stærkt krydderi, som kan bruges frisk, tørret eller som pulver. Chili giver varme og styrke til maden.",
+            tags: ["krydderi", "stærk", "varme"],
+          },
+          {
+            title: "dild",
+            file: "Dild.png",
+            def: "En fin og let krydderurt med tynde, bløde blade. Dild bruges tit til fisk, kartofler, dressinger og syltning.",
+            tags: ["krydderurt", "fisk", "frisk"],
+          },
+          {
+            title: "estragon",
+            file: "Estragon.png",
+            def: "En krydderurt med smalle blade og en let sødlig smag, som minder lidt om anis. Estragon bruges blandt andet i sauce, kyllingeretter og fransk mad.",
+            tags: ["krydderurt", "fransk", "anissmag"],
+          },
+          {
+            title: "gurkemeje",
+            file: "Gurkemejerod.png",
+            audio: "Gurkemeje.mp3",
+            def: "En rod med kraftig gul-orange farve. Den bruges frisk eller tørret og giver både smag og farve til maden.",
+            tags: ["rod", "gul", "farve"],
+          },
+          {
+            title: "ingefær",
+            file: "Ingefær.png",
+            def: "En rod med en frisk og let stærk smag. Ingefær bruges i både madlavning, bagværk og drikke.",
+            tags: ["rod", "frisk", "stærk"],
+          },
+          {
+            title: "kanel",
+            file: "Kanel.png",
+            def: "Et krydderi, som findes både som stænger og som pulver. Kanel bruges især i bagværk, desserter og varme drikke.",
+            tags: ["krydderi", "sødlig", "bagværk"],
+          },
+          {
+            title: "kardemomme",
+            file: "Kardemomme.png",
+            def: "Et aromatisk krydderi med en sød og krydret smag. Kardemomme bruges ofte i bagværk, desserter og chai.",
+            tags: ["krydderi", "aromatisk", "bagning"],
+          },
+          {
+            title: "karry",
+            file: "Karry.png",
+            def: "En krydderiblanding med gul farve og varm smag. Karry bruges blandt andet i gryderetter, supper og risretter.",
+            tags: ["krydderiblanding", "gul", "varm"],
+          },
+          {
+            title: "koriander",
+            file: "Koriander.png",
+            def: "En krydderurt med friske grønne blade og en karakteristisk smag. Koriander bruges ofte i asiatisk, mexicansk og mellemøstlig mad.",
+            tags: ["krydderurt", "frisk", "asiatisk"],
+          },
+          {
+            title: "kørvel",
+            file: "Kørvel.png",
+            def: "En mild og aromatisk krydderurt med små, fine blade. Kørvel bruges blandt andet i supper, saucer og æggeretter.",
+            tags: ["krydderurt", "mild", "fransk"],
+          },
+          {
+            title: "laurbærblade",
+            file: "Laurbærblade.png",
+            def: "Tørrede blade med en kraftig aroma. Laurbærblade bruges i gryderetter, supper og saucer for at give ekstra smag.",
+            tags: ["krydderi", "blade", "gryderetter"],
+          },
+          {
+            title: "muskatnød",
+            file: "Muskat.png",
+            audio: "Muskatnød.mp3",
+            def: "Et krydderi, som ofte rives fint på et rivejern. Muskatnød bruges blandt andet i kartoffelretter, sovs og grøntsagsretter.",
+            tags: ["krydderi", "revet", "varm smag"],
+          },
+          {
+            title: "nelliker",
+            file: "Nelliker.png",
+            def: "Et meget aromatisk krydderi med stærk smag. Nelliker bruges i både bagværk, desserter og nogle gryderetter.",
+            tags: ["krydderi", "aromatisk", "stærk"],
+          },
+          {
+            title: "paprika",
+            file: "Paprika.png",
+            def: "Et rødt krydderi lavet af tørrede peberfrugter. Paprika giver både farve og smag til retter som gullasch, supper og saucer.",
+            tags: ["krydderi", "rød", "mild"],
+          },
+          {
+            title: "peber",
+            file: "Peber.png",
+            def: "Et af de mest brugte krydderier i verden. Peber bruges til næsten alle slags retter og giver en let stærk smag.",
+            tags: ["krydderi", "stærk", "klassisk"],
+          },
+          {
+            title: "persille",
+            file: "Persille.png",
+            def: "En frisk grøn krydderurt med mild smag. Persille bruges ofte som pynt og smagsgiver i mange retter.",
+            tags: ["krydderurt", "frisk", "grøn"],
+          },
+          {
+            title: "rosmarin",
+            file: "Rosmarin.png",
+            def: "En krydderurt med lange, nåleformede blade og kraftig smag. Rosmarin bruges ofte til kartofler, lam og kylling.",
+            tags: ["krydderurt", "kraftig", "middelhav"],
+          },
+          {
+            title: "salvie",
+            file: "Salvie.png",
+            def: "En krydderurt med bløde, grågrønne blade og en kraftig smag. Salvie bruges blandt andet i kødretter og italiensk mad.",
+            tags: ["krydderurt", "kraftig", "italiensk"],
+          },
+          {
+            title: "timian",
+            file: "Timian.png",
+            def: "En krydderurt med små blade og en varm, aromatisk smag. Timian bruges i mange retter som supper, gryderetter og kødretter.",
+            tags: ["krydderurt", "aromatisk", "gryderetter"],
+          },
+        ];
+
+        const grid = document.getElementById("grid");
+
+        function capitalizeFirst(text) {
+          if (!text) return "";
+          return text.charAt(0).toUpperCase() + text.slice(1);
+        }
+
+        function createCard(item) {
+          const titleText = capitalizeFirst(item.title);
+          const defText = capitalizeFirst(item.def);
+          const audioFile = getAudioFile(item);
+
+          const card = document.createElement("article");
+          card.className = "card";
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "flipBtn";
+          btn.setAttribute("aria-label", `Vend ordkort: ${titleText}`);
+          btn.dataset.audio = encodeURI(assetFolder + audioFile);
+
+          const inner = document.createElement("div");
+          inner.className = "inner";
+
+          const front = document.createElement("div");
+          front.className = "face front";
+
+          const imgwrap = document.createElement("div");
+          imgwrap.className = "imgwrap";
+
+          const img = document.createElement("img");
+          img.alt = titleText;
+          img.src = encodeURI(assetFolder + item.file);
+          img.loading = "eager";
+          imgwrap.appendChild(img);
+
+          const label = document.createElement("div");
+          label.className = "label";
+
+          const strong = document.createElement("strong");
+          strong.textContent = titleText;
+
+          const hint = document.createElement("span");
+          hint.className = "hint";
+          hint.textContent = "Klik for forklaring";
+
+          label.appendChild(strong);
+          label.appendChild(hint);
+
+          front.appendChild(imgwrap);
+          front.appendChild(label);
+
+          const back = document.createElement("div");
+          back.className = "face back";
+
+          const h2 = document.createElement("h2");
+          h2.textContent = titleText;
+
+          const def = document.createElement("p");
+          def.className = "def";
+          def.textContent = defText;
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+
+          (item.tags || []).forEach((t) => {
+            const tag = document.createElement("span");
+            tag.className = "tag";
+            tag.textContent = capitalizeFirst(t);
+            meta.appendChild(tag);
+          });
+
+          back.appendChild(h2);
+          back.appendChild(def);
+          back.appendChild(meta);
+
+          inner.appendChild(front);
+          inner.appendChild(back);
+
+          btn.appendChild(inner);
+          card.appendChild(btn);
+
+          const toggle = () => {
+            card.classList.toggle("is-flipped");
+            if (btn.dataset.audio) {
+              audioPlayer.src = btn.dataset.audio;
+              audioPlayer.currentTime = 0;
+              audioPlayer.play().catch(() => {});
+            }
+          };
+
+          btn.addEventListener("click", toggle);
+          btn.addEventListener("keydown", (e) => {
+            if (e.key === " " || e.key === "Enter") {
+              e.preventDefault();
+              toggle();
+            }
+          });
+
+          return card;
+        }
+
+        cards.forEach((item) => grid.appendChild(createCard(item)));
+      </script>
+    </div>
+  </body>
+</html>

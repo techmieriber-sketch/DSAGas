@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kryds og tværs – frugter</title>
+    <link rel="preload" href="Frugter.jpg" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      }
+
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+
+      .crossword-card {
+        margin-top: 2rem;
+        background: rgba(255, 255, 255, 0.92);
+        color: #1a1a1a;
+        padding: 1.5rem;
+        border-radius: 12px;
+        max-width: 980px;
+        width: 100%;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      .crossword-title {
+        margin: 0 0 1rem;
+        font-size: 1.5rem;
+        text-align: center;
+      }
+
+      .tip-popup {
+        position: fixed;
+        max-width: 320px;
+        background: #fff;
+        color: #111;
+        border: 1px solid #d9cdbf;
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+        text-align: left;
+      }
+
+      .grid {
+        display: flex;
+        flex-direction: column;
+        gap: var(--cell-gap, 3px);
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        padding: 0.75rem;
+        background: #f5efe8;
+        border-radius: 12px;
+        border: 1px solid #e1d6c9;
+      }
+
+      .grid-row {
+        display: flex;
+        gap: var(--cell-gap, 3px);
+        justify-content: center;
+      }
+
+      .cell {
+        width: var(--cell-size, 24px);
+        height: var(--cell-size, 24px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+        background: #fffdf9;
+        border: 1px solid #d9cdbf;
+        border-radius: 6px;
+        text-transform: uppercase;
+        color: #111;
+        outline: none;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      }
+
+      .cell:focus {
+        outline: 2px solid #4a7a3b;
+        outline-offset: 0;
+        box-shadow: 0 0 0 3px rgba(74, 122, 59, 0.2);
+      }
+
+      .cell.correct {
+        background: #cfead6;
+        border-color: #6fb58c;
+        color: #1b4d33;
+      }
+
+      .cell.incorrect {
+        background: #f7c9c9;
+        border-color: #d57c7c;
+        color: #7a1f1f;
+      }
+
+      .legend {
+        max-width: 760px;
+        margin: 0 auto;
+        text-align: left;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .legend h3 {
+        margin: 0 0 0.75rem;
+        text-align: center;
+      }
+
+      .legend ol {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+
+      .legend li + li {
+        margin-top: 0.35rem;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          --cell-size: 20px;
+          --cell-gap: 2px;
+        }
+
+        .cell {
+          font-size: 0.7rem;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .grid {
+          --cell-size: 17px;
+          --cell-gap: 2px;
+        }
+
+        .cell {
+          font-size: 0.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="Frugter.jpg" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <div>
+        <h1 class="title">Kryds og tværs – frugter</h1>
+        <a class="back-link" href="index.html">Tilbage</a>
+
+        <section class="crossword-card">
+          <h2 class="crossword-title">Frugter</h2>
+          <div class="grid" id="crosswordGrid" aria-label="Kryds og tværs gitter"></div>
+
+          <section class="legend" aria-label="Ledetråde">
+            <h3>Ledetråde</h3>
+            <ol id="clueList"></ol>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const grid = document.getElementById("crosswordGrid");
+      const clueList = document.getElementById("clueList");
+
+      const tipPopup = document.createElement("div");
+      tipPopup.className = "tip-popup";
+      document.body.appendChild(tipPopup);
+
+      const words = [
+        {
+          number: 1,
+          answer: "SAFTIGE",
+          clue: "Frugter med meget vand og mange vitaminer og mineraler",
+        },
+        {
+          number: 2,
+          answer: "FEDTRIGE",
+          clue: "Frugter som blandt andet omfatter nødder, frø, oliven og kokosnødder",
+        },
+        {
+          number: 3,
+          answer: "STENFRUGTER",
+          clue: "Frugter med en sten indeni",
+        },
+        {
+          number: 4,
+          answer: "KERNEFRUGTER",
+          clue: "Frugter som omfatter æbler og pærer",
+        },
+        {
+          number: 5,
+          answer: "BÆRFRUGTER",
+          clue: "Frugter med saftig og blød konsistens",
+        },
+        {
+          number: 6,
+          answer: "EKSOTISKE",
+          clue: "Frugter som importeres til Danmark, fx ananas og papaja",
+        },
+        {
+          number: 7,
+          answer: "CITRUSFRUGTER",
+          clue: "Importerede frugter som fx appelsiner og citroner",
+        },
+        {
+          number: 8,
+          answer: "ÆBLER",
+          clue: "Kernefrugter der dyrkes i Danmark",
+        },
+        {
+          number: 9,
+          answer: "PÆRER",
+          clue: "En anden kernefrugt der dyrkes i Danmark",
+        },
+        {
+          number: 10,
+          answer: "MANDLER",
+          clue: "En nød, der nævnes som fedtrig frugt",
+        },
+      ];
+
+      words.forEach((word) => {
+        const li = document.createElement("li");
+        li.textContent = `${word.number}. ${word.clue}`;
+        clueList.appendChild(li);
+      });
+
+      const showTip = (cell) => {
+        const clue = cell.dataset.clue || "Ingen ledetråd";
+        const number = cell.dataset.number || "";
+        tipPopup.textContent = `${number}. ${clue}`;
+        tipPopup.style.display = "block";
+
+        requestAnimationFrame(() => {
+          const rect = cell.getBoundingClientRect();
+          const popupRect = tipPopup.getBoundingClientRect();
+          const preferredLeft = rect.left + rect.width / 2 - popupRect.width / 2;
+          const left = Math.min(
+            Math.max(preferredLeft, 8),
+            window.innerWidth - popupRect.width - 8
+          );
+
+          let top = rect.top - popupRect.height - 8;
+          if (top < 8) {
+            top = rect.bottom + 8;
+          }
+
+          tipPopup.style.left = `${left}px`;
+          tipPopup.style.top = `${top}px`;
+        });
+      };
+
+      const createCell = (row, col, wordData, letter) => {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.dataset.solution = letter;
+        cell.dataset.clue = wordData.clue;
+        cell.dataset.number = String(wordData.number);
+        cell.dataset.row = String(row);
+        cell.dataset.col = String(col);
+        cell.dataset.word = wordData.answer;
+        cell.setAttribute("contenteditable", "true");
+        cell.setAttribute("aria-label", `Felt ${col + 1} i ord ${wordData.number}`);
+        cell.textContent = "";
+
+        cell.addEventListener("click", () => showTip(cell));
+        cell.addEventListener("focus", () => showTip(cell));
+
+        cell.addEventListener("input", () => {
+          const text = cell.textContent.replace(/\s+/g, "");
+          cell.textContent = text.slice(-1).toUpperCase();
+
+          const range = document.createRange();
+          range.selectNodeContents(cell);
+          range.collapse(false);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+
+          validateRow(cell.dataset.row);
+          moveToNextCell(cell);
+        });
+
+        cell.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            moveToPrevCell(cell);
+          }
+
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            moveToNextCell(cell);
+          }
+
+          if (event.key === "Backspace" || event.key === "Delete") {
+            event.preventDefault();
+            cell.textContent = "";
+            validateRow(cell.dataset.row);
+
+            if (event.key === "Backspace") {
+              moveToPrevCell(cell);
+            }
+          }
+        });
+
+        return cell;
+      };
+
+      words.forEach((wordData, row) => {
+        const rowElement = document.createElement("div");
+        rowElement.className = "grid-row";
+
+        for (let col = 0; col < wordData.answer.length; col += 1) {
+          rowElement.appendChild(
+            createCell(row, col, wordData, wordData.answer[col])
+          );
+        }
+
+        grid.appendChild(rowElement);
+      });
+
+      const getEditableCell = (row, col) =>
+        document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+
+      const getRowCells = (row) =>
+        Array.from(document.querySelectorAll(`.cell[data-row="${row}"]`));
+
+      const validateRow = (row) => {
+        if (row === null || row === undefined) return;
+
+        const rowCells = getRowCells(row);
+        if (rowCells.length === 0) return;
+
+        const word = rowCells[0].dataset.word || "";
+        const letters = rowCells.map((cell) => cell.textContent.trim());
+        const isComplete = letters.every((letter) => letter.length === 1);
+
+        rowCells.forEach((cell) => {
+          cell.classList.remove("correct", "incorrect");
+        });
+
+        if (!isComplete) return;
+
+        const attempt = letters.join("").toUpperCase();
+
+        if (attempt === word) {
+          rowCells.forEach((cell) => cell.classList.add("correct"));
+        } else {
+          rowCells.forEach((cell) => cell.classList.add("incorrect"));
+        }
+      };
+
+      const moveToNextCell = (cell) => {
+        const row = Number(cell.dataset.row);
+        const col = Number(cell.dataset.col);
+
+        const next = getEditableCell(row, col + 1);
+        if (next) {
+          next.focus();
+          return;
+        }
+
+        const nextRowFirst = getEditableCell(row + 1, 0);
+        if (nextRowFirst) {
+          nextRowFirst.focus();
+        }
+      };
+
+      const moveToPrevCell = (cell) => {
+        const row = Number(cell.dataset.row);
+        const col = Number(cell.dataset.col);
+
+        const prev = getEditableCell(row, col - 1);
+        if (prev) {
+          prev.focus();
+          return;
+        }
+
+        const prevRowCells = getRowCells(row - 1);
+        if (prevRowCells.length > 0) {
+          prevRowCells[prevRowCells.length - 1].focus();
+        }
+      };
+
+      document.addEventListener("click", (event) => {
+        if (!event.target.classList.contains("cell")) {
+          tipPopup.style.display = "none";
+        }
+      });
+    </script>
+    </div>
+  </body>
+</html>

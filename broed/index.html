@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brødbagning</title>
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        width: 100%;
+      }
+      .page-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .video-link {
+        display: inline-block;
+        margin-top: 0.75rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .crossword-link {
+        display: inline-block;
+        margin-top: 1rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .quiz-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .text-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .card-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .film-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .start-panel {
+        text-align: left;
+        margin-top: 1.25rem;
+      }
+      .start-panel .text-link,
+      .start-panel .crossword-link,
+      .start-panel .card-link,
+      .start-panel .film-link,
+      .start-panel .quiz-link {
+        display: block;
+      }
+      .start-title {
+        margin: 0 0 0.4rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="broed.jpg" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <div class="page-content">
+        <h1 class="title">Brødbagning</h1>
+        <div class="start-panel">
+          <a class="text-link" href="broedproduktion.html">Tekst om brødproduktion</a>
+          <a class="crossword-link" href="kryds-og-tvaers.html">Kryds og tværs</a>
+          <a class="card-link" href="ordkort.html">Ordkort</a>
+          <a class="quiz-link" href="multiple-choice-quiz.html">Multiple choice-quiz</a>
+          <a
+            class="film-link"
+            href="https://youtu.be/u41rCZ3qdSs?si=wyYgT68_o1y7uMFb"
+            target="_blank"
+            rel="noopener"
+          >
+            Grydebrød - verdens lækreste brød med sprød skorpe bagt i gryde
+          </a>
+        </div>
+        <a class="back-link" href="https://techmieriber-sketch.github.io/ForsideDSAGas/">Tilbage</a>
+      </div>
+    </main>
+    </div>
+  </body>
+</html>

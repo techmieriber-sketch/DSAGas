@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort – fisk</title>
+    <link rel="preload" href="assets/fisk-bg-16x9.png" as="image" />
+    <style>
+      :root {
+        --text: #e9edf5;
+        --card-front: #12324a;
+        --card-back: #0f2433;
+        --muted: rgba(233, 237, 245, 0.75);
+        --ring: #7aa2ff;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+      }
+
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      header {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px 16px 10px;
+        text-align: center;
+        position: relative;
+      }
+
+      .back-link {
+        position: absolute;
+        top: 28px;
+        left: 16px;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(24px, 3vw, 34px);
+        color: #fff;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      }
+
+      .intro {
+        margin: 0 auto;
+        max-width: 72ch;
+        color: #0f2433;
+        font-weight: 700;
+        text-shadow:
+          -1px -1px 0 rgba(255, 255, 255, 0.96),
+          1px -1px 0 rgba(255, 255, 255, 0.96),
+          -1px 1px 0 rgba(255, 255, 255, 0.96),
+          1px 1px 0 rgba(255, 255, 255, 0.96);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 18px auto 44px;
+        padding: 0 16px 30px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        min-height: 50vh;
+        gap: 16px;
+      }
+
+      .card {
+        position: relative;
+        height: 340px;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+        border-radius: var(--radius);
+      }
+
+      .card:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 4px;
+      }
+
+      .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.6s ease;
+        border-radius: var(--radius);
+      }
+
+      .card.flipped .card-inner {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+
+      .front {
+        background: linear-gradient(180deg, var(--card-front) 0%, #0d2231 100%);
+        display: grid;
+        grid-template-rows: 1fr auto;
+      }
+
+      .image-wrap {
+        background: #0b0d12;
+        overflow: hidden;
+      }
+
+      .image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .label {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+        padding: 12px 12px 14px;
+      }
+
+      .label strong {
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .hint {
+        font-size: 12px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        background: rgba(15, 36, 51, 0.98);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .back h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: #fff;
+        text-align: center;
+        line-height: 1.3;
+      }
+
+      .def {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.55;
+        color: #fff;
+        text-shadow: none;
+        filter: none;
+      }
+
+      .meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      @media (max-width: 520px) {
+        .back-link {
+          position: static;
+          display: block;
+          text-align: left;
+          margin-bottom: 12px;
+        }
+
+        .card {
+          height: 320px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="assets/fisk-bg-16x9.png" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <div class="overlay">
+      <header>
+        <a class="back-link" href="index.html">Tilbage</a>
+        <h1>Ordkort om fisk og skaldyr</h1>
+        <p class="intro">Klik på et kort for at vende det.</p>
+      </header>
+
+      <main>
+        <section class="grid" id="grid"></section>
+      </main>
+    </div>
+
+    <script>
+      const audioPlayer = new Audio();
+
+      // Billeder og lyd ligger i samme mappe som html-filen
+      const assetFolder = "";
+
+      const cards = [
+        {
+          title: "ceviche",
+          file: "Ceviche.jpg",
+          audio: "Ceviche.mp3?v=2",
+          def: "En ret med rå fisk, der marineres i citrus, for eksempel lime. Syren gør fisken fast og frisk i smagen.",
+          tags: ["rå", "citrus", "sydamerika"]
+        },
+        {
+          title: "fiskeburger",
+          file: "Fiskeburger.jpg",
+          def: "En burger med fiskefilet i bolle, ofte med salat, dressing og citron.",
+          tags: ["fastfood", "panering"]
+        },
+        {
+          title: "fiskefilet med pomfritter",
+          file: "Fiskefilet-med-pomfritter.jpg",
+          def: "Paneret og stegt fiskefilet serveret med pomfritter og ofte remoulade eller tartarsauce.",
+          tags: ["klassiker", "paneret"]
+        },
+        {
+          title: "fiskefrikadeller",
+          file: "Fiskefrikadeller.jpg",
+          def: "Små stegte frikadeller lavet af fiskefars, ofte med løg og krydderier.",
+          tags: ["fars", "stegt"]
+        },
+        {
+          title: "fiskelasagne",
+          file: "Fiskelasagne.jpg",
+          def: "Lasagne med fisk, sauce og pasta. Ofte med spinat eller grøntsager i fyldet.",
+          tags: ["ovn", "pasta"]
+        },
+        {
+          title: "gravad laks",
+          file: "Gravad-laks.jpg",
+          def: "Rå laks, der saltes og krydres og derefter modnes koldt.",
+          tags: ["kold", "saltning"]
+        },
+        {
+          title: "hummerbisque",
+          file: "Hummerbisque.jpg",
+          audio: "Hummerbisque.mp3?v=2",
+          def: "En cremet suppe lavet på skaldyrsfond, typisk hummer, med kraftig smag.",
+          tags: ["suppe", "skaldyr"]
+        },
+        {
+          title: "kogt hummer",
+          file: "Kogt-hummer.jpg",
+          def: "Hummer, der koges og serveres som skaldyrsret, ofte med citron eller smør.",
+          tags: ["skaldyr", "servering"]
+        },
+        {
+          title: "kogt torsk med dild og sennepssovs",
+          file: "Kogt-torsk-med-dild-og-sennepssovs.jpg",
+          audio: "Kogt-torsk.mp3",
+          def: "Kogt eller pocheret torsk serveret med kartofler, grønt, sennepssovs og dild.",
+          tags: ["torsk", "klassiker"]
+        },
+        {
+          title: "laksesalat",
+          file: "Laksesalat.jpg",
+          def: "En salat med laks og grøntsager, ofte serveret med avocado eller citrus.",
+          tags: ["salat", "laks"]
+        },
+        {
+          title: "marinerede sild med karrysalat",
+          file: "Marinede-sild-med-karrysalat.png",
+          def: "Sild i lage serveret med karrysalat, ofte på rugbrød.",
+          tags: ["sild", "smørrebrød"]
+        },
+        {
+          title: "moules frites",
+          file: "Moules-frites.jpg",
+          def: "Dampede blåmuslinger serveret med pommes frites.",
+          tags: ["muslinger", "klassiker"]
+        },
+        {
+          title: "ovnbagt laks",
+          file: "Ovnbagt-laks.jpg",
+          def: "Laks bagt i ovn, ofte med citron og krydderurter.",
+          tags: ["ovn", "laks"]
+        },
+        {
+          title: "paella",
+          file: "Paella.jpg",
+          def: "En spansk risret med fisk eller skaldyr, ofte krydret med safran.",
+          tags: ["spansk", "ris"]
+        },
+        {
+          title: "rejecocktail",
+          file: "Rejecocktail.png",
+          def: "En forret med rejer, dressing, salat og citron, ofte serveret i glas.",
+          tags: ["forret", "rejer"]
+        },
+        {
+          title: "røget makrel",
+          file: "Roegt-makrel.png",
+          def: "Makrel, der er røget, så den får en tydelig røget smag.",
+          tags: ["røget", "makrel"]
+        },
+        {
+          title: "stegt rødspætte med kartofler og persillesovs",
+          file: "Stegt-roedspaette-med-kartofler-og-persillesovs.jpg",
+          audio: "Stegt-roedspaette.mp3",
+          def: "Stegt rødspætte serveret med kartofler og persillesovs.",
+          tags: ["rødspætte", "klassiker"]
+        },
+        {
+          title: "stjerneskud",
+          file: "Stjerneskud.png",
+          def: "En klassisk dansk fiskeret med fisk, rejer, dressing og ofte kaviar på brød.",
+          tags: ["klassiker", "anretning"]
+        },
+        {
+          title: "sushi",
+          file: "Sushi.jpg",
+          def: "Japansk ret med ris og fisk eller skaldyr, for eksempel nigiri, maki og sashimi.",
+          tags: ["japansk", "ris"]
+        },
+        {
+          title: "tunmousse",
+          file: "Tunmousse.png",
+          def: "En kold mousse lavet af tun, ofte rørt med mayonnaise eller cremefraiche.",
+          tags: ["forret", "kold ret"]
+        },
+        {
+          title: "tunsteak",
+          file: "Tunsteak.jpg",
+          audio: "Tunsteak.mp3?v=3",
+          def: "En tyk skive tun, der steges eller grilles kort ved høj varme.",
+          tags: ["hovedret", "stegt"]
+        }
+      ];
+
+      const grid = document.getElementById("grid");
+
+      function capitalizeFirst(text) {
+        if (!text) return "";
+        return text.charAt(0).toUpperCase() + text.slice(1);
+      }
+
+      function makeCard(item) {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "card";
+        card.setAttribute("aria-label", "Vend ordkort: " + capitalizeFirst(item.title));
+
+        const inner = document.createElement("div");
+        inner.className = "card-inner";
+
+        const front = document.createElement("div");
+        front.className = "face front";
+
+        const imageWrap = document.createElement("div");
+        imageWrap.className = "image-wrap";
+
+        const img = document.createElement("img");
+        img.src = assetFolder + item.file;
+        img.alt = capitalizeFirst(item.title);
+        img.loading = "eager";
+
+        imageWrap.appendChild(img);
+
+        const label = document.createElement("div");
+        label.className = "label";
+
+        const strong = document.createElement("strong");
+        strong.textContent = capitalizeFirst(item.title);
+
+        const hint = document.createElement("span");
+        hint.className = "hint";
+        hint.textContent = "Klik for forklaring";
+
+        label.appendChild(strong);
+        label.appendChild(hint);
+
+        front.appendChild(imageWrap);
+        front.appendChild(label);
+
+        const back = document.createElement("div");
+        back.className = "face back";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = capitalizeFirst(item.title);
+
+        const def = document.createElement("p");
+        def.className = "def";
+        def.textContent = capitalizeFirst(item.def);
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        (item.tags || []).forEach((tagText) => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = capitalizeFirst(tagText);
+          meta.appendChild(tag);
+        });
+
+        back.appendChild(h2);
+        back.appendChild(def);
+        back.appendChild(meta);
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+        card.appendChild(inner);
+
+        card.addEventListener("click", () => {
+          card.classList.toggle("flipped");
+
+          const audioFile = item.audio || item.file.replace(/\.(jpg|jpeg|png)$/i, ".mp3");
+          audioPlayer.src = assetFolder + audioFile;
+          audioPlayer.currentTime = 0;
+          audioPlayer.play().catch(() => {});
+        });
+
+        return card;
+      }
+
+      cards.forEach((item) => {
+        grid.appendChild(makeCard(item));
+      });
+    </script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+================================================================================
+  HVORFOR SIGER GITHUB DESKTOP "NO LOCAL CHANGES"?
+================================================================================
+
+Cursor arbejder i mappen "DSA Gastronom". Den mappe er IKKE det samme som din
+ForsideDSAGas-klon på disk — og "DSA Gastronom" er som regel ikke engang et
+git-repository.
+
+GitHub Desktop viser KUN ændringer i den mappe, du har åbnet som repository
+(din lokale klon af ForsideDSAGas). Når jeg retter filer i Cursor, sker det i
+en ANDEN mappe — derfor: "No local changes". Det er ikke fordi intet er rettet;
+det er fordi de to mapper ikke er den samme.
+
+================================================================================
+  SÅDAN FÅR DU BAGGRUND + OPDATERINGER PÅ GITHUB (3 MIN)
+================================================================================
+
+1. I GitHub Desktop: vælg ForsideDSAGas → menu "Repository" →
+   "Show in Explorer" (eller "Åbn i Stifinder").
+
+2. I den mappe der åbner: ERSTAT (eller slet og indsæt) disse tre filer med
+   dem fra mappen "Til-ForsideDSAGas-repo" (lige ved siden af denne fil):
+     • index.html
+     • Baggrundsbillede.png
+     • .nojekyll
+
+3. Gå tilbage til GitHub Desktop — nu SKAL der stå ændringer. Commit og Push.
+
+index.html indeholder samme baggrund-løsning som fx tørvarer-siden (script der
+bygger den rigtige URL til billedet på GitHub Pages).
+
+================================================================================
+  Hvis du vil undgå kopiering fremover
+================================================================================
+
+Åbn selve ForsideDSAGas-mappen i Cursor som projekt, ELLER klon repo ind i
+"DSA Gastronom", så den mappe du redigerer ER den, GitHub Desktop bruger.
+
+================================================================================

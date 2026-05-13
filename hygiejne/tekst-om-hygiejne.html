@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tekst om hygiejne</title>
+    <link rel="preload" href="hygiejne-baggrund.png" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .pdf-link {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.85);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem 2rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+      h2 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.3rem;
+      }
+      p {
+        margin: 0 0 0.9rem 0;
+        line-height: 1.6;
+      }
+      ul,
+      ol {
+        margin: 0 0 1rem 0;
+        padding-left: 1.2rem;
+      }
+      li {
+        margin-bottom: 0.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true"><img class="bg-image" src="hygiejne-baggrund.png" alt="" fetchpriority="high" decoding="async"></div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/1s3MJ4bDdS0auQ0uLTrUdGqdlroebnLxU?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent filen som PDF
+      </a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <article class="card">
+        <h1>Madhygiejne</h1>
+        <p>
+          Madhygiejne handler om at sikre, at den mad vi spiser, ikke gør mennesker syge. I køkkener, restauranter og fødevarevirksomheder findes der derfor regler for, hvordan fødevarer skal opbevares, tilberedes og serveres. Formålet med reglerne er at forhindre, at mikroorganismer i maden udvikler sig eller spredes på en måde, der kan give sygdom.
+        </p>
+
+        <h2>Mikroorganismer</h2>
+        <p>
+          Mikroorganismer findes næsten overalt i naturen. De kan findes i jord, i vand, på dyr og på mennesker. De fleste mikroorganismer er uskadelige eller nyttige, men nogle kan ødelægge fødevarer eller gøre mennesker syge. I fødevarehygiejne arbejder man især med bakterier, svampe, virus og parasitter. Nogle af disse mikroorganismer kan vokse i fødevarer og skabe problemer, hvis maden opbevares eller behandles forkert.
+        </p>
+
+        <h2>Bakterier og temperatur</h2>
+        <p>
+          Bakterier kan formere sig meget hurtigt. Under gode forhold kan en bakterie blive til millioner på få timer. Derfor er det vigtigt at kontrollere de forhold, som bakterierne har brug for for at vokse. Temperatur er en af de vigtigste faktorer. Mange bakterier formerer sig hurtigt ved temperaturer mellem cirka 20 og 40 °C. Ved meget lave temperaturer går bakteriernes vækst langsomt, og ved høj varme kan de dræbes.
+        </p>
+
+        <h2>Opvarmning og genopvarmning</h2>
+        <p>
+          Når man laver mad, er det derfor vigtigt at varme fødevarer tilstrækkeligt. En sikker regel er, at varmebehandlede retter skal opvarmes til mindst 75 °C i hele fødevaren. Ved denne temperatur bliver de fleste bakterier ødelagt. Hvis man senere genopvarmer en ret, bør den igen nå denne temperatur. Når mad skal holdes varm før servering, bør temperaturen være mindst 65 °C, så bakterier ikke kan vokse i maden.
+        </p>
+
+        <h2>Kulde og opbevaring</h2>
+        <p>
+          Kulde bruges også til at begrænse bakteriers vækst. I et almindeligt køleskab bør temperaturen være højst omkring 5 °C. Ved denne temperatur vokser bakterier meget langsomt. Frosne fødevarer opbevares normalt ved cirka −18 °C. Frysning stopper bakteriernes vækst, men dræber dem normalt ikke. Når maden tøs op igen, kan bakterierne begynde at formere sig. Derfor er det bedst at tø frosne varer op i køleskab.
+        </p>
+
+        <h2>Sporer</h2>
+        <p>
+          Nogle bakterier kan danne sporer. Sporer er meget modstandsdygtige og kan overleve almindelig opvarmning. Hvis maden opvarmes til 75 °C, kan de fleste bakterier dræbes, men sporer kan overleve. For at dræbe sporer kræves meget højere temperaturer, for eksempel ved opvarmning under tryk i konservesproduktion.
+        </p>
+
+        <h2>Forskellige fødevarer har forskellige krav</h2>
+        <p>
+          Forskellige fødevarer har forskellige krav til opbevaring. Fisk er en meget letfordærvelig vare og skal derfor opbevares meget koldt, helst på is og ved temperaturer tæt på frysepunktet. Mange andre letfordærvelige varer, for eksempel hakket kød eller færdigretter, bør også opbevares ved omkring 5 °C. Nogle produkter, for eksempel halvkonserves som marinerede sild eller kaviar, kan opbevares ved lidt højere temperaturer, ofte omkring 10 °C.
+        </p>
+
+        <h2>Halvkonserves</h2>
+        <p>
+          Halvkonserves er fødevarer, hvor holdbarheden er forlænget ved hjælp af salt, sukker, syre eller konserveringsmidler. De er ikke varmebehandlede på samme måde som helkonserves og skal derfor stadig opbevares på køl. Eksempler på halvkonserves er blandt andet marinerede fisk og forskellige typer sild.
+        </p>
+
+        <h2>Produkter uden køl</h2>
+        <p>
+          Der findes også fødevarer, som kan opbevares uden køl, fordi de er meget sure eller indeholder konserveringsmidler. Produkter som mayonnaise og remoulade har ofte en lav pH-værdi og kan derfor holde sig ved stuetemperatur, så længe emballagen ikke er åbnet. Når emballagen først er åbnet, bør de sættes på køl.
+        </p>
+
+        <h2>Konserveringsmidler</h2>
+        <p>
+          Konserveringsmidler bruges i nogle fødevarer for at hæmme væksten af mikroorganismer. Eksempler på produkter, hvor konserveringsmidler ofte anvendes, er marmelade, syltetøj og visse typer brød. Formålet er at forlænge holdbarheden og forhindre, at maden bliver fordærvet.
+        </p>
+
+        <h2>Nytte mikroorganismer</h2>
+        <p>
+          Mikroorganismer er dog ikke altid et problem. I mange tilfælde bliver de brugt bevidst i fødevareproduktion. Gær bruges for eksempel til at hæve brød og til fremstilling af øl og vin. Mælkesyrebakterier anvendes til produkter som yoghurt, tykmælk og ost. Også spegepølser og surdejsbrød fremstilles ved hjælp af mikroorganismer.
+        </p>
+
+        <h2>Farlige bakterier</h2>
+        <p>
+          Selv om mikroorganismer kan være nyttige, findes der også bakterier, som kan give sygdom. Blandt de mest kendte er salmonella og campylobacter. Disse bakterier findes ofte i råt kød, især fjerkræ, og i nogle tilfælde også i æg eller upasteuriseret mælk. Hvis maden ikke opvarmes ordentligt, kan bakterierne overleve og gøre mennesker syge.
+        </p>
+        <p>
+          Typiske tegn på fødevarebåren sygdom er diarre, kvalme, opkastning, mavesmerter og feber. Symptomerne kan komme få timer eller flere dage efter, at man har spist den forurenede mad.
+        </p>
+
+        <h2>Krydssmitte og gensmitte</h2>
+        <p>
+          Bakterier kan spredes mellem fødevarer på flere måder. Hvis bakterier fra en rå fødevare overføres til en anden fødevare, kaldes det krydssmitte. Det kan for eksempel ske, hvis kødsaft fra råt kød drypper ned på grøntsager, eller hvis man bruger det samme skærebræt til forskellige råvarer uden at vaske det imellem.
+        </p>
+        <p>
+          Gensmitte er noget andet. Her bliver en fødevare forurenet igen efter tilberedningen. Det kan ske, hvis færdiglavet mad kommer i kontakt med snavsede redskaber, hænder eller overflader. Derfor er god hygiejne i køkkenet meget vigtig.
+        </p>
+
+        <h2>Særlige risici</h2>
+        <p>
+          I nogle retter er der særlige risici, som man skal være opmærksom på. I retter med rå fisk kan der for eksempel være parasitter. Derfor skal fisk, der skal spises rå, normalt have været frosset først. Frysning dræber parasitterne og gør fisken mere sikker at spise.
+        </p>
+
+        <h2>Kritiske punkter</h2>
+        <p>
+          Det er også vigtigt at være opmærksom på kritiske punkter i madlavningen. Det kan være under opvarmning, nedkøling eller opbevaring. Hvis mad ikke opvarmes tilstrækkeligt, eller hvis den køles for langsomt ned, kan bakterier få gode betingelser for at vokse. Derfor er det vigtigt at kontrollere temperaturer og arbejde rent i køkkenet.
+        </p>
+
+        <h2>Personlig hygiejne</h2>
+        <p>
+          Personlig hygiejne spiller også en stor rolle. Personer, der arbejder med fødevarer, skal holde hænderne rene, bruge rent arbejdstøj og undgå at arbejde med mad, hvis de er syge. Arbejdstøjet skal skiftes regelmæssigt for at forhindre, at bakterier spredes i køkkenet.
+        </p>
+
+        <h2>Opsummering</h2>
+        <p>
+          Ved at følge reglerne for opbevaring, temperatur og hygiejne kan man i høj grad reducere risikoen for, at mad gør mennesker syge. Madhygiejne handler derfor både om viden om mikroorganismer og om gode arbejdsrutiner i køkkenet.
+        </p>
+      </article>
+    </main>
+    <audio id="hygiejneAudio" src="Madhygiejne.mp3"></audio>
+    <script>
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("hygiejneAudio");
+
+      readButton.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          readButton.textContent = "Stop oplæsning";
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          readButton.textContent = "Få teksten læst højt";
+        }
+      });
+      audio.addEventListener("ended", () => {
+        readButton.textContent = "Få teksten læst højt";
+      });
+    </script>
+    </div>
+  </body>
+</html>

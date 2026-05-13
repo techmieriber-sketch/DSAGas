@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort – æg og mad med æg</title>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --card: #5a2f0c;
+        --card2: #3c1f08;
+        --text: #f5efe9;
+        --muted: #d9c8b8;
+        --ring: #ffd37a;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+      }
+
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      header {
+        max-width: 1100px;
+        margin: 28px auto 10px;
+        padding: 0 16px;
+        text-align: center;
+        position: relative;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: var(--text);
+        text-decoration: underline;
+        font-weight: 600;
+        position: absolute;
+        left: 16px;
+        top: 0;
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(22px, 3vw, 30px);
+        letter-spacing: 0.2px;
+      }
+
+      header p {
+        margin: 0 auto;
+        color: rgba(255, 255, 255, 0.96);
+        max-width: 70ch;
+        text-align: center;
+        font-weight: 600;
+        font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+        line-height: 1.45;
+        text-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.85),
+          0 0 18px rgba(0, 0, 0, 0.45);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 18px auto 44px;
+        padding: 0 16px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        align-items: stretch;
+        min-height: 50vh;
+      }
+
+      .card {
+        perspective: 1000px;
+        min-height: 340px;
+      }
+
+      .inner {
+        position: relative;
+        height: 100%;
+        border-radius: var(--radius);
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+        box-shadow: var(--shadow);
+      }
+
+      .card.is-flipped .inner {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+        backface-visibility: hidden;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        background: linear-gradient(180deg, var(--card) 0%, var(--card2) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .face.back {
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .front .imgwrap {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        background: #0b0d12;
+      }
+
+      .front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.02);
+      }
+
+      .label {
+        padding: 12px 12px 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .label strong {
+        font-size: 16px;
+        letter-spacing: 0.2px;
+      }
+
+      .hint {
+        font-size: 12px;
+        color: rgba(245, 239, 233, 0.7);
+        white-space: nowrap;
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        padding: 16px 16px 14px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 12px;
+        align-content: start;
+      }
+
+      .back h2 {
+        margin: 0;
+        font-size: clamp(17px, 2.8vw, 19px);
+        font-weight: 700;
+        text-align: center;
+        color: #fff;
+        line-height: 1.25;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+      }
+
+      .back .def {
+        margin: 0;
+        color: #f5f7fb;
+        font-size: clamp(14px, 2.4vw, 16px);
+        line-height: 1.58;
+        text-align: left;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+        min-height: 0;
+      }
+
+      .meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        color: rgba(248, 244, 240, 0.88);
+        font-size: 12px;
+        padding-top: 2px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .flipBtn {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        border-radius: var(--radius);
+      }
+
+      .flipBtn:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 520px) {
+        .card {
+          min-height: 300px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="Æg.jpg" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <header>
+      <a class="back-link" href="index.html">Tilbage</a>
+      <h1>Ordkort æg og mad med æg</h1>
+      <p>
+        Klik på et kort for at vende det. Ordet på kortet læses op, når du klikker på kortet.
+      </p>
+    </header>
+
+    <main>
+      <section class="grid" id="grid" aria-label="Ordkort"></section>
+    </main>
+    </div>
+
+    <script>
+      const audioPlayer = new Audio();
+
+      // Læg alle billeder (og evt. mp3-filer) i mappen "æg/"
+      const cards = [
+        {
+          term: "arme riddere",
+          img: "Arme-riddere.png",
+          def: "En ret lavet af brød, der dyppes i æg og mælk og steges på panden. Serveres ofte med sukker, sirup eller bær.",
+          tags: ["morgenmad", "dessert"],
+          imgFit: "cover"
+        },
+        {
+          term: "porretærte",
+          img: "Tærte.png",
+          audio: "Porretærte.mp3",
+          def: "En tærte med fyld af æg, fløde eller mælk, porrer og ofte bacon, bagt i en sprød tærtebund.",
+          tags: ["tærte", "æg"],
+          imgFit: "cover"
+        },
+        {
+          term: "æggemuffins",
+          img: "Æggemuffins.png",
+          def: "Små ovnbagte muffins lavet af æg, ofte med grøntsager, ost eller bacon.",
+          tags: ["æg", "ovnret"],
+          imgFit: "cover"
+        },
+        {
+          term: "guf",
+          img: "Guf.png",
+          def: "En sød skum lavet af piskede æggehvider og sukker, som bruges som topping på is.",
+          tags: ["dessert"],
+          imgFit: "cover"
+        },
+        {
+          term: "deviled eggs",
+          img: "Deviled-eggs.png",
+          def: "Hårdkogte æg, hvor blommen blandes med mayonnaise og krydderier og fyldes tilbage i æggehviden.",
+          tags: ["æg", "forret"],
+          imgFit: "cover"
+        },
+        {
+          term: "gratin",
+          img: "Gratin.png",
+          def: "En ovnret hvor ingredienser bindes sammen med æg og ofte gratineres med ost.",
+          tags: ["ovnret"],
+          imgFit: "cover"
+        },
+        {
+          term: "skidne æg",
+          img: "Skidne-aeg.png",
+          def: "Hårdkogte æg serveret i en sennepssovs, ofte med bacon eller flæsk.",
+          tags: ["æg", "klassisk ret"],
+          imgFit: "cover"
+        },
+        {
+          term: "soufflé",
+          img: "Soufflé.png",
+          def: "En luftig ovnret lavet med æggehvider, der piskes stive og giver retten volumen.",
+          tags: ["æg", "ovnret"],
+          imgFit: "cover"
+        },
+        {
+          term: "æggesalat",
+          img: "Æggesalat.png",
+          def: "En salat lavet af hakkede hårdkogte æg blandet med mayonnaise og krydderier.",
+          tags: ["æg", "pålæg"],
+          imgFit: "cover"
+        },
+        {
+          term: "croque madame",
+          img: "Croque-Madame.png",
+          def: "En varm sandwich med skinke og ost toppet med et spejlæg.",
+          tags: ["sandwich", "æg"],
+          imgFit: "cover"
+        },
+        {
+          term: "mayonnaise",
+          img: "Mayonnaise.png",
+          def: "En tyk dressing lavet af æggeblommer, olie og syre som eddike eller citronsaft.",
+          tags: ["sauce"],
+          imgFit: "cover"
+        },
+        {
+          term: "eggs florentine",
+          img: "Eggs-Florentine.png",
+          def: "Pocherede æg serveret på brød med spinat og hollandaisesauce.",
+          tags: ["morgenmad", "æg"],
+          imgFit: "cover"
+        },
+        {
+          term: "eggs benedict",
+          img: "Eggs-Benedict.png",
+          def: "Pocherede æg på en engelsk muffin med skinke og hollandaisesauce.",
+          tags: ["morgenmad", "æg"],
+          imgFit: "cover"
+        },
+        {
+          term: "pocheret æg",
+          img: "Pocheret-aeg.png",
+          def: "Et æg der er tilberedt uden skal i varmt vand lige under kogepunktet.",
+          tags: ["æg", "tilberedning"],
+          imgFit: "cover"
+        },
+        {
+          term: "hårdkogt æg",
+          img: "Haardkogt-aeg.png",
+          def: "Et æg kogt så både æggehvide og æggeblomme er faste.",
+          tags: ["æg", "kogning"],
+          imgFit: "cover"
+        },
+        {
+          term: "blødkogt æg",
+          img: "Bloedkogt-aeg.png",
+          def: "Et æg kogt kort tid så blommen stadig er flydende.",
+          tags: ["æg", "morgenmad"],
+          imgFit: "cover"
+        },
+        {
+          term: "æggekage",
+          img: "Æggekage.png",
+          def: "En tyk pandekage lavet af æg og ofte kartofler, serveret med bacon og purløg.",
+          tags: ["æg", "panderet"],
+          imgFit: "cover"
+        },
+        {
+          term: "omelet",
+          img: "Omelet.png",
+          def: "En ret af piskede æg stegt på panden og ofte fyldt med fx ost eller grøntsager.",
+          tags: ["æg", "panderet"],
+          imgFit: "cover"
+        },
+        {
+          term: "røræg",
+          img: "Røræg.png",
+          def: "Piskede æg der steges langsomt på panden mens de røres.",
+          tags: ["æg", "morgenmad"],
+          imgFit: "cover"
+        },
+        {
+          term: "spejlæg",
+          img: "Spejlæg.png",
+          def: "Et æg der steges på panden uden at blive vendt.",
+          tags: ["æg", "panderet"],
+          imgFit: "cover"
+        }
+      ];
+
+      const grid = document.getElementById("grid");
+
+      function capitalizeFirst(text) {
+        if (!text) return "";
+        return text.charAt(0).toUpperCase() + text.slice(1);
+      }
+
+      function createCard(item) {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const audioFile =
+          item.audio || item.img.replace(/\.(jpg|jpeg|png|webp)$/i, ".mp3");
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "flipBtn";
+
+        const titleText = capitalizeFirst(item.term);
+        const defText = capitalizeFirst(item.def);
+
+        btn.setAttribute("aria-label", `Vend ordkort: ${titleText}`);
+        btn.dataset.audio = encodeURI(audioFile);
+
+        const inner = document.createElement("div");
+        inner.className = "inner";
+
+        const front = document.createElement("div");
+        front.className = "face front";
+
+        const imgwrap = document.createElement("div");
+        imgwrap.className = "imgwrap";
+
+        const img = document.createElement("img");
+        img.alt = titleText;
+        img.src = encodeURI(item.img);
+        img.style.objectFit = item.imgFit || "cover";
+        img.loading = "eager";
+
+        imgwrap.appendChild(img);
+
+        const label = document.createElement("div");
+        label.className = "label";
+
+        const strong = document.createElement("strong");
+        strong.textContent = titleText;
+
+        const hint = document.createElement("span");
+        hint.className = "hint";
+        hint.textContent = "Klik for forklaring";
+
+        label.appendChild(strong);
+        label.appendChild(hint);
+
+        front.appendChild(imgwrap);
+        front.appendChild(label);
+
+        const back = document.createElement("div");
+        back.className = "face back";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = titleText;
+
+        const def = document.createElement("p");
+        def.className = "def";
+        def.textContent = defText;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        (item.tags || []).forEach((t) => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = capitalizeFirst(t);
+          meta.appendChild(tag);
+        });
+
+        back.appendChild(h2);
+        back.appendChild(def);
+        back.appendChild(meta);
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+
+        btn.appendChild(inner);
+        card.appendChild(btn);
+
+        btn.addEventListener("click", () => {
+          card.classList.toggle("is-flipped");
+          if (btn.dataset.audio) {
+            audioPlayer.src = btn.dataset.audio;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch(() => {});
+          }
+        });
+
+        btn.addEventListener("keydown", (e) => {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault();
+            card.classList.toggle("is-flipped");
+          }
+        });
+
+        return card;
+      }
+
+      cards.forEach((item) => grid.appendChild(createCard(item)));
+    </script>
+  </body>
+</html>

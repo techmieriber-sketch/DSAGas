@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kød</title>
+    <link rel="preload" id="koed-bg-preload" href="" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .page-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        width: 100%;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .start-panel {
+        text-align: left;
+        margin-top: 1.25rem;
+      }
+      .card-link,
+      .video-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .start-panel .card-link,
+      .start-panel .video-link {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true"></div>
+    <script>
+      (function () {
+        var FILE = "koed-bg-16x9.png";
+        function bgUrl() {
+          if (location.protocol === "file:") return "./" + FILE;
+          var p = location.pathname;
+          var last = p.split("/").pop() || "";
+          var dir =
+            last.indexOf(".") !== -1
+              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
+              : p.endsWith("/")
+                ? p
+                : p + "/";
+          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
+          return location.origin + dir + FILE;
+        }
+        var u = bgUrl();
+        var pl = document.getElementById("koed-bg-preload");
+        if (pl) pl.href = u;
+        var el = document.querySelector(".bg-media");
+        if (el) el.style.backgroundImage = 'url("' + u.replace(/"/g, '\\"') + '")';
+      })();
+    </script>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <div class="page-content">
+        <h1 class="title">Kød</h1>
+        <div class="start-panel">
+          <a class="card-link" href="tekst-om-koed.html">Tekst om kød</a>
+          <a class="card-link" href="ordkort-tilberedte-koedtyper.html">Ordkort Tilberedte kødtyper</a>
+          <a class="card-link" href="vendespil-tilberedte-koedtyper.html">Vendespil</a>
+          <a class="card-link" href="multiple-choice-quiz-koed.html">Multiple choice-quiz</a>
+          <a class="card-link" href="kryds-og-tvaers-koed.html">Kryds og tværs</a>
+          <a class="video-link" href="https://youtu.be/uRRD7pd0DGo?si=nn6lqyFodmabZFpy" target="_blank" rel="noopener">Sådan steger du entrecote på panden</a>
+        </div>
+        <a class="back-link" href="https://techmieriber-sketch.github.io/ForsideDSAGas/">Tilbage</a>
+      </div>
+    </main>
+    </div>
+  </body>
+</html>

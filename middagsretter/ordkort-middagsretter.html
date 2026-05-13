@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort – middagsretter</title>
+    <link rel="preload" id="middagsretter-bg-preload" href="" as="image" />
+    <style>
+      :root {
+        --bg: #0f1115;
+        --card: rgba(255, 255, 255, 0.93);
+        --card2: rgba(255, 255, 255, 0.97);
+        --text: #e9edf5;
+        --muted: #b8c0d6;
+        --ring: #7aa2ff;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+      }
+
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      header {
+        max-width: 1100px;
+        margin: 28px auto 10px;
+        padding: 0 16px;
+        text-align: center;
+        position: relative;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: var(--text);
+        text-decoration: underline;
+        font-weight: 600;
+        position: absolute;
+        left: 16px;
+        top: 0;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.9),
+          0 0 4px rgba(0, 0, 0, 0.8),
+          -1px -1px 0 rgba(0, 0, 0, 0.9),
+          1px -1px 0 rgba(0, 0, 0, 0.9),
+          -1px 1px 0 rgba(0, 0, 0, 0.9),
+          1px 1px 0 rgba(0, 0, 0, 0.9);
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(22px, 3vw, 30px);
+        letter-spacing: 0.2px;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.9),
+          0 0 4px rgba(0, 0, 0, 0.8),
+          -1px -1px 0 rgba(0, 0, 0, 0.9),
+          1px -1px 0 rgba(0, 0, 0, 0.9),
+          -1px 1px 0 rgba(0, 0, 0, 0.9),
+          1px 1px 0 rgba(0, 0, 0, 0.9);
+      }
+
+      header p {
+        margin: 0 auto;
+        color: rgba(255, 255, 255, 0.92);
+        max-width: 70ch;
+        text-align: center;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.9),
+          0 0 4px rgba(0, 0, 0, 0.8),
+          -1px -1px 0 rgba(0, 0, 0, 0.9),
+          1px -1px 0 rgba(0, 0, 0, 0.9),
+          -1px 1px 0 rgba(0, 0, 0, 0.9),
+          1px 1px 0 rgba(0, 0, 0, 0.9);
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 18px auto 44px;
+        padding: 0 16px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        align-items: stretch;
+        min-height: 50vh;
+      }
+
+      .card {
+        perspective: 1000px;
+        min-height: 320px;
+      }
+
+      .inner {
+        position: relative;
+        height: 100%;
+        border-radius: var(--radius);
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+        box-shadow: var(--shadow);
+      }
+
+      .card.is-flipped .inner {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+        backface-visibility: hidden;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        background: linear-gradient(180deg, var(--card) 0%, var(--card2) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .front {
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          transparent 78%,
+          rgba(255, 255, 255, 0.93) 88%,
+          rgba(255, 255, 255, 0.97) 100%
+        );
+      }
+
+      .front .imgwrap {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      .front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.02);
+      }
+
+      .label {
+        padding: 12px 12px 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .label strong {
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        color: #fff;
+        text-shadow:
+          -1px -1px 0 rgba(0, 0, 0, 0.8),
+          1px -1px 0 rgba(0, 0, 0, 0.8),
+          -1px 1px 0 rgba(0, 0, 0, 0.8),
+          1px 1px 0 rgba(0, 0, 0, 0.8),
+          0 0 4px rgba(0, 0, 0, 0.9);
+      }
+
+      .hint {
+        font-size: 12px;
+        color: rgba(233, 237, 245, 0.75);
+        white-space: nowrap;
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        padding: 14px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 10px;
+        background: linear-gradient(180deg, #1e2d3d 0%, #15202b 100%);
+      }
+
+      .back h2 {
+        margin: 0;
+        font-size: 17px;
+        text-align: center;
+        color: var(--text);
+      }
+
+      .back .def {
+        margin: 0;
+        color: var(--text);
+        font-size: 14px;
+        text-align: left;
+      }
+
+      .meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        color: rgba(233, 237, 245, 0.7);
+        font-size: 12px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .flipBtn {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+        border-radius: var(--radius);
+      }
+
+      .flipBtn:focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 520px) {
+        .card {
+          min-height: 300px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img id="middagsretter-bg-img" class="bg-image" src="" alt="" fetchpriority="high" decoding="async">
+    </div>
+    <script>
+      (function () {
+        var FILE = "middagsretter-bg-16x9.png";
+        function bgUrl() {
+          if (location.protocol === "file:") return "./" + FILE;
+          var p = location.pathname;
+          var last = p.split("/").pop() || "";
+          var dir =
+            last.indexOf(".") !== -1
+              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
+              : p.endsWith("/")
+                ? p
+                : p + "/";
+          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
+          return location.origin + dir + FILE;
+        }
+        var u = bgUrl();
+        var pl = document.getElementById("middagsretter-bg-preload");
+        var im = document.getElementById("middagsretter-bg-img");
+        if (pl) pl.href = u;
+        if (im) im.src = u;
+      })();
+    </script>
+
+    <div class="page-shell">
+    <header>
+      <a class="back-link" href="index.html">Tilbage</a>
+      <h1>Ordkort – middagsretter</h1>
+      <p>Ordet på kortet læses op, når du klikker på kortet.</p>
+    </header>
+
+    <main>
+      <section class="grid" id="grid" aria-label="Ordkort"></section>
+    </main>
+    </div>
+
+    <script>
+      const assetFolder = "";
+      const audioPlayer = new Audio();
+
+      function getAudioFile(item) {
+        if (item.audio) return item.audio;
+        return item.img.replace(/\.(jpg|png|jpeg)$/i, ".mp3");
+      }
+
+      const cards = [
+        {
+          term: "biksemad",
+          img: "Biksemad.png",
+          def: "En klassisk ret lavet af stegte kartofler, løg og små stykker kød. Serveres ofte med spejlæg, rødbeder og ketchup eller brun sovs.",
+          tags: ["klassisk ret", "kartofler"],
+        },
+        {
+          term: "boller i karry",
+          img: "Boller-i-karry.jpg",
+          def: "Kødboller i en mild karrysovs. Retten serveres typisk med kogte ris og er en kendt dansk hverdagsret.",
+          tags: ["kødboller", "karrysovs"],
+        },
+        {
+          term: "chili con carne",
+          img: "Chili-con-carne.jpg",
+          def: "En krydret gryderet med hakket kød, bønner, tomat og krydderier. Serveres ofte med brød, ris eller cremefraiche.",
+          tags: ["gryderet", "bønner"],
+        },
+        {
+          term: "fiskefrikadeller på rugbrød med remoulade",
+          img: "Fiskefrikadeller-paa-rugbroed-med-remoulade.png",
+          def: "Fiskefrikadeller serveret på rugbrød, ofte med remoulade og citron. Det er en klassisk dansk frokost- eller let middagsret.",
+          tags: ["fisk", "rugbrød"],
+        },
+        {
+          term: "flæskesteg",
+          img: "Flæskesteg.png",
+          def: "Stegt svinekød med sprød svær. Serveres ofte med kartofler, brun sovs og rødkål.",
+          tags: ["svinekød", "højtider"],
+        },
+        {
+          term: "forloren hare",
+          img: "Forloren-hare.png",
+          def: "En ovnstegt farsret, som minder om et farsbrød. Serveres typisk med kartofler, brun sovs og tyttebær eller surt tilbehør.",
+          tags: ["farsret", "brun sovs"],
+        },
+        {
+          term: "frikadeller med brun sovs",
+          img: "Frikadeller-med-brun-sovs.png",
+          audio: "Frikadeller-med-kartofler-og-brun-sovs.mp3",
+          def: "Stegte frikadeller serveret med brun sovs, kartofler og ofte syltede agurker eller rødkål. En meget traditionel dansk middagsret.",
+          tags: ["frikadeller", "traditionel"],
+        },
+        {
+          term: "frikadeller med kartoffelsalat",
+          img: "Frikadeller-med-kartoffelsalat.png",
+          def: "Stegte frikadeller serveret med kold kartoffelsalat. Retten er især populær om sommeren eller som en nem hverdagsret.",
+          tags: ["frikadeller", "kartoffelsalat"],
+        },
+        {
+          term: "hakkebøf med bløde løg",
+          img: "Hakkeboef-med-bloede-loeg.png",
+          def: "En stegt bøf af hakket oksekød med bløde, stegte løg. Serveres ofte med kartofler, brun sovs og rødbeder.",
+          tags: ["oksekød", "bløde løg"],
+        },
+        {
+          term: "karbonader",
+          img: "Karbonader.png",
+          def: "Karbonader er panerede, stegte stykker af hakket kød. De serveres ofte med kartofler, brun sovs og stuvede grøntsager.",
+          tags: ["hakket kød", "paneret"],
+        },
+        {
+          term: "kylling i karry",
+          img: "Kylling-i-karry.jpg",
+          def: "Kylling i karry er en ret med kyllingestykker i en mild karrysovs. Den serveres som regel med ris.",
+          tags: ["kylling", "karrysovs"],
+        },
+        {
+          term: "lasagne",
+          img: "Lasagne.jpg",
+          def: "Lasagne er en ovnret med lag af pastaplader, kødsovs og ostesovs. Retten stammer fra det italienske køkken.",
+          tags: ["ovnret", "pasta"],
+        },
+        {
+          term: "risengrød",
+          img: "Risengrød.png",
+          def: "Risengrød er en grød lavet af ris, mælk og en knivspids salt. Den serveres ofte med smør og kanelsukker og er en klassisk dansk vinterret.",
+          tags: ["grød", "ris"],
+        },
+        {
+          term: "spaghetti bolognese",
+          img: "Spaghetti-bolognese.png",
+          audio: "Spaghetti-bolognese.mp3?v=2",
+          def: "Spaghetti bolognese er pasta med kødsovs lavet af hakket kød, tomat og krydderier. Det er en meget populær hverdagsret.",
+          tags: ["pasta", "kødsovs"],
+        },
+        {
+          term: "stegt flæsk med persillesovs",
+          img: "Stegt-flaesk-med-persillesovs.png",
+          def: "Stegt flæsk med persillesovs er en klassisk dansk ret med sprøde skiver flæsk, kartofler og persillesovs.",
+          tags: ["flæsk", "persillesovs"],
+        },
+        {
+          term: "stegt kylling med agurkesalat",
+          img: "Stegt-kylling-med-agurkesalat.png",
+          def: "Stegt kylling med agurkesalat er en ret med stegt kylling, kartofler og frisk agurkesalat. Den serveres ofte med sovs.",
+          tags: ["kylling", "agurkesalat"],
+        }
+      ];
+
+      const grid = document.getElementById("grid");
+
+      function capitalizeFirst(text) {
+        if (!text) return "";
+        return text.charAt(0).toUpperCase() + text.slice(1);
+      }
+
+      function createCard(item) {
+        const titleText = capitalizeFirst(item.term);
+        const defText = item.def || "";
+        const audioFile = getAudioFile(item);
+
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "flipBtn";
+        btn.setAttribute("aria-label", `Vend ordkort: ${titleText}`);
+        btn.dataset.audio = encodeURI(assetFolder + audioFile);
+
+        const inner = document.createElement("div");
+        inner.className = "inner";
+
+        const front = document.createElement("div");
+        front.className = "face front";
+
+        const imgwrap = document.createElement("div");
+        imgwrap.className = "imgwrap";
+
+        const img = document.createElement("img");
+        img.alt = titleText;
+        img.src = encodeURI(assetFolder + item.img);
+        img.loading = "eager";
+        imgwrap.appendChild(img);
+
+        const label = document.createElement("div");
+        label.className = "label";
+
+        const strong = document.createElement("strong");
+        strong.textContent = titleText;
+
+        const hint = document.createElement("span");
+        hint.className = "hint";
+        hint.textContent = "Klik for forklaring";
+
+        label.appendChild(strong);
+        label.appendChild(hint);
+
+        front.appendChild(imgwrap);
+        front.appendChild(label);
+
+        const back = document.createElement("div");
+        back.className = "face back";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = titleText;
+
+        const def = document.createElement("p");
+        def.className = "def";
+        def.textContent = defText;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        (item.tags || []).forEach((t) => {
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = capitalizeFirst(t);
+          meta.appendChild(tag);
+        });
+
+        back.appendChild(h2);
+        back.appendChild(def);
+        back.appendChild(meta);
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+
+        btn.appendChild(inner);
+        card.appendChild(btn);
+
+        const toggle = () => {
+          card.classList.toggle("is-flipped");
+          if (btn.dataset.audio) {
+            audioPlayer.src = btn.dataset.audio;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch(() => {});
+          }
+        };
+
+        btn.addEventListener("click", toggle);
+        btn.addEventListener("keydown", (e) => {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+
+        return card;
+      }
+
+      cards.forEach((item) => grid.appendChild(createCard(item)));
+    </script>
+  </body>
+</html>

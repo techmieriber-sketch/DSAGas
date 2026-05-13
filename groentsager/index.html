@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grøntsager</title>
+    <link rel="preload" href="groentsager-bg-16x9.png" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .page-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .title {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        width: 100%;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .start-panel {
+        text-align: left;
+        margin-top: 1.25rem;
+      }
+      .card-link,
+      .text-link,
+      .crossword-link,
+      .quiz-link,
+      .game-link,
+      .video-link {
+        display: inline-block;
+        margin-top: 0.6rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 700;
+      }
+      .start-panel .text-link,
+      .start-panel .crossword-link,
+      .start-panel .quiz-link,
+      .start-panel .card-link,
+      .start-panel .game-link,
+      .start-panel .video-link {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="groentsager-bg-16x9.png" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <div class="page-content">
+        <h1 class="title">Grøntsager</h1>
+        <div class="start-panel">
+          <a class="text-link" href="tekst-om-groentsager.html">Tekst om grøntsager</a>
+          <a class="crossword-link" href="kryds-og-tvaers-groentsager.html">Kryds og tværs</a>
+          <a class="quiz-link" href="multiple-choice-quiz-groentsager.html">Multiple choice-quiz</a>
+          <a class="game-link" href="vendespil-groentsager.html">Vendespil</a>
+          <a class="video-link" href="https://youtu.be/Wt4yeNlTHRk?si=DuiEpkDKMSGyW_WM" target="_blank" rel="noopener">Lynstegte grøntsager</a>
+        </div>
+        <a class="back-link" href="https://techmieriber-sketch.github.io/ForsideDSAGas/">Tilbage</a>
+      </div>
+    </main>
+    </div>
+  </body>
+</html>

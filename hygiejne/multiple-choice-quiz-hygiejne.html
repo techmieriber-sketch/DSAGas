@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple choice – madhygiejne</title>
+    <link rel="preload" href="hygiejne-baggrund.png" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.82);
+        color: #2d2d2d;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a4a4a;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #2d2d2d;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #d6d6d6;
+        border-radius: 10px;
+        background: #ffffff;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+      .option input {
+        accent-color: #3b82f6;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #3b82f6;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(59, 130, 246, 0.35);
+      }
+      button.secondary {
+        background: #6b7280;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #2d2d2d;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #e9f2ff;
+        border: 1px solid #c9dcff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true"><img class="bg-image" src="hygiejne-baggrund.png" alt="" fetchpriority="high" decoding="async"></div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple choice – madhygiejne</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="B">
+          <h2>1. I hvilket temperaturområde trives mange bakterier bedst?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. Mellem -18 og 0 °C</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. Mellem 20 og 40 °C</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. Mellem 50 og 60 °C</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. Over 100 °C</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvad bør temperaturen være i et almindeligt køleskab?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. Højst 10 °C</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. Højst 8 °C</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. Højst omkring 5 °C</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. Højst omkring 12 °C</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>3. Ved hvilken temperatur opbevares frosne fødevarer normalt?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. Cirka -18 °C</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. Cirka -5 °C</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. Cirka 0 °C</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. Cirka 5 °C</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>4. Hvordan bør fisk opbevares?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. Ved stuetemperatur</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. I et varmt køkken</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. Ved cirka 10 °C</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. Meget koldt, helst på is og tæt på frysepunktet</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>5. Til hvilken temperatur skal varmebehandlede retter opvarmes?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. Mindst 50 °C</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. Mindst 75 °C i hele fødevaren</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. Mindst 60 °C i midten</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. Mindst 40 °C</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>6. Kan bakteriesporer dræbes ved opvarmning til 75 °C?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. Ja, altid</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. Ja, hvis maden er saltet</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. Nej, sporer kan overleve og kræver højere temperaturer</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. Nej, men de dør ved nedfrysning</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>7. Ved hvilken temperatur bør man varmholde mad?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. Mindst 65 °C</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. Mindst 45 °C</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. Mindst 25 °C</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. Mindst 5 °C</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>8. Hvad sker der normalt med bakterier, når man fryser dem?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. De bliver altid dræbt</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. De bliver til sporer</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. De formerer sig hurtigere</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. Deres vækst stopper, men de dræbes normalt ikke</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>9. Hvad er krydssmitte?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. Når en person bliver syg af gammel mad</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. Når bakterier overføres fra en rå fødevare til en anden fødevare</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. Når maden opvarmes to gange</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. Når mad nedkøles for hurtigt</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>10. Hvad er gensmitte?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. Når bakterier dør ved opvarmning</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. Når rå fisk fryses før brug</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. Når en fødevare bliver forurenet igen efter tilberedning</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. Når køleskabet er for varmt</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>11. Hvorfor kan mayonnaise og remoulade stå ved stuetemperatur i butikkerne, så længe emballagen er uåbnet?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q11" value="A" /> A. De har ofte lav pH-værdi og kan derfor holde sig uden køl, før de åbnes</label>
+            <label class="option"><input type="radio" name="q11" value="B" /> B. De indeholder ingen bakterier overhovedet</label>
+            <label class="option"><input type="radio" name="q11" value="C" /> C. De skal egentlig altid stå i fryser</label>
+            <label class="option"><input type="radio" name="q11" value="D" /> D. De tåler kun varme, ikke kulde</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>12. Hvad er halvkonserves?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q12" value="A" /> A. Færdigretter, der altid kan stå varmt</label>
+            <label class="option"><input type="radio" name="q12" value="B" /> B. Helkonserves, der er kogt under tryk</label>
+            <label class="option"><input type="radio" name="q12" value="C" /> C. Fødevarer, der kun holder én dag</label>
+            <label class="option"><input type="radio" name="q12" value="D" /> D. Fødevarer med forlænget holdbarhed ved fx salt, sukker, syre eller konserveringsmidler, som stadig skal opbevares på køl</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>13. Hvilke af disse produkter nævnes som eksempler, hvor mikroorganismer er nyttige?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q13" value="A" /> A. Rå kylling og rå fisk</label>
+            <label class="option"><input type="radio" name="q13" value="B" /> B. Yoghurt, ost, spegepølse og surdejsbrød</label>
+            <label class="option"><input type="radio" name="q13" value="C" /> C. Mayonnaise, remoulade og kaviar</label>
+            <label class="option"><input type="radio" name="q13" value="D" /> D. Hakket kød og færdigretter</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>14. Hvor finder man ofte salmonella og campylobacter?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q14" value="A" /> A. I råt kød, især fjerkræ, og nogle gange i æg eller upasteuriseret mælk</label>
+            <label class="option"><input type="radio" name="q14" value="B" /> B. Kun i tørvarer og mel</label>
+            <label class="option"><input type="radio" name="q14" value="C" /> C. Kun i kogte grøntsager</label>
+            <label class="option"><input type="radio" name="q14" value="D" /> D. Kun i syltetøj og marmelade</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>15. Hvorfor skal fisk, der skal spises rå, normalt have været frosset først?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q15" value="A" /> A. For at gøre fisken mere sprød</label>
+            <label class="option"><input type="radio" name="q15" value="B" /> B. For at give bedre smag</label>
+            <label class="option"><input type="radio" name="q15" value="C" /> C. For at dræbe parasitter og gøre fisken mere sikker at spise</label>
+            <label class="option"><input type="radio" name="q15" value="D" /> D. For at ændre fiskens farve</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>16. Hvad er et vigtigt krav til personlig hygiejne, når man arbejder med fødevarer?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q16" value="A" /> A. At man altid bruger handsker i stedet for at vaske hænder</label>
+            <label class="option"><input type="radio" name="q16" value="B" /> B. At man holder hænderne rene, bruger rent arbejdstøj og undgår at arbejde med mad, hvis man er syg</label>
+            <label class="option"><input type="radio" name="q16" value="C" /> C. At man kun vasker hænder efter arbejdstid</label>
+            <label class="option"><input type="radio" name="q16" value="D" /> D. At arbejdstøj aldrig må skiftes</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+
+    <script>
+      const checkButton = document.getElementById("checkAnswers");
+      const resetButton = document.getElementById("resetQuiz");
+      const scoreEl = document.getElementById("score");
+
+      const updateStyles = () => {
+        const questions = document.querySelectorAll(".question");
+        let correctCount = 0;
+
+        questions.forEach((question) => {
+          const correct = question.dataset.correct;
+          const selected = question.querySelector("input:checked");
+          const options = question.querySelectorAll(".option");
+
+          options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+
+          if (selected) {
+            if (selected.value === correct) {
+              selected.closest(".option").classList.add("correct");
+              correctCount += 1;
+            } else {
+              selected.closest(".option").classList.add("incorrect");
+              const correctInput = question.querySelector(`input[value="${correct}"]`);
+              if (correctInput) {
+                correctInput.closest(".option").classList.add("correct");
+              }
+            }
+          }
+        });
+
+        scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+      };
+
+      const resetQuiz = () => {
+        document.querySelectorAll("input[type='radio']").forEach((input) => {
+          input.checked = false;
+        });
+
+        document.querySelectorAll(".option").forEach((opt) => {
+          opt.classList.remove("correct", "incorrect");
+        });
+
+        scoreEl.textContent = "";
+      };
+
+      checkButton.addEventListener("click", updateStyles);
+      resetButton.addEventListener("click", resetQuiz);
+    </script>
+    </div>
+  </body>
+</html>

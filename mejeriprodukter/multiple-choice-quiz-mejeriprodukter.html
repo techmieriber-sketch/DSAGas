@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple Choice-quiz – mejeriprodukter</title>
+    <link rel="preload" id="mejeriprodukter-bg-preload" href="" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: transparent;
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 251, 245, 0.65);
+        color: #3b2314;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(92, 55, 24, 0.25);
+        border: 1px solid rgba(221, 196, 169, 0.9);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a2f1d;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #3b2314;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #e3cbb1;
+        border-radius: 10px;
+        background: #fff6ea;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(143, 90, 42, 0.18);
+      }
+      .option input {
+        accent-color: #9c5b2a;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #9c5b2a;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(156, 91, 42, 0.28);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(156, 91, 42, 0.32);
+      }
+      button.secondary {
+        background: #5a4637;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #3b2314;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #f4ebe1;
+        border: 1px solid #dcc7b0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img id="mejeriprodukter-bg-img" class="bg-image" src="" alt="" fetchpriority="high" decoding="async">
+    </div>
+    <script>
+      (function () {
+        var FILE = "mejeriprodukter-bg-16x9.png";
+        function bgUrl() {
+          if (location.protocol === "file:") return "./" + FILE;
+          var p = location.pathname;
+          var last = p.split("/").pop() || "";
+          var dir =
+            last.indexOf(".") !== -1
+              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
+              : p.endsWith("/")
+                ? p
+                : p + "/";
+          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
+          return location.origin + dir + FILE;
+        }
+        var u = bgUrl();
+        var pl = document.getElementById("mejeriprodukter-bg-preload");
+        var im = document.getElementById("mejeriprodukter-bg-img");
+        if (pl) pl.href = u;
+        if (im) im.src = u;
+      })();
+    </script>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple Choice-quiz</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="B">
+          <h2>1. Hvad er mejeriprodukter fremstillet af?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. Korn</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. Mælk</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. Frugt</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. Olie</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvilken gruppe hører yoghurt til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. Faste oste</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. Konsummælk</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. Surmælksprodukter</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. Smørprodukter</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>3. Hvad betyder homogenisering?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. At fedtet fordeles i små dråber i mælken</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. At mælken fryses ned</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. At ost lagres længere</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. At fløden piskes</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>4. Hvorfor varmebehandles mælk?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. For at gøre den sødere</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. For at ændre farven</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. For at gøre den tykkere</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. For at gøre den mere holdbar og mindske bakterier</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>5. Hvad omdanner mælkesyrebakterier mælkesukker til?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. Fløde</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. Mælkesyre</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. Salt</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. Protein</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>6. Hvilken af disse er en fast ost?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. Brie</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. Hytteost</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. Cheddar</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. Cremefraiche</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>7. Hvad har lagring betydning for i ost?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. Smag, konsistens og styrke</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. Kun farven</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. Kun fedtindholdet</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. Kun emballagen</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>8. Hvad viser plus-angivelsen på ost, for eksempel 45+?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. Fedtindhold i hele osten</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. Hvor gammel osten er</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. Hvor meget salt osten indeholder</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. Fedtindhold i ostens tørstof</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>9. Hvor skal de fleste mejeriprodukter opbevares?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. I fryseren</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. I køleskab</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. Ved stuetemperatur</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. I et tørt skab</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>10. Hvorfor skal ost pakkes godt ind?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. For at blive tungere</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. For at blive mere syrlig</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. For at undgå udtørring og smag fra andre varer</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. For at gøre osten blødere</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+    </div>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+  </body>
+</html>

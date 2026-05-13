@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tekst om kød</title>
+    <link rel="preload" id="koed-bg-preload" href="" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background-color: #0f1b24;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.85);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem 2rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+      h2 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.3rem;
+      }
+      p {
+        margin: 0 0 0.9rem 0;
+        line-height: 1.6;
+      }
+      ul,
+      ol {
+        margin: 0 0 1rem 0;
+        padding-left: 1.2rem;
+      }
+      li {
+        margin-bottom: 0.4rem;
+      }
+      .summary {
+        margin-top: 1.2rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .summary h2 {
+        margin: 0 0 0.6rem 0;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true"></div>
+    <script>
+      (function () {
+        var FILE = "koed-bg-16x9.png";
+        function bgUrl() {
+          if (location.protocol === "file:") return "./" + FILE;
+          var p = location.pathname;
+          var last = p.split("/").pop() || "";
+          var dir =
+            last.indexOf(".") !== -1
+              ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
+              : p.endsWith("/")
+                ? p
+                : p + "/";
+          if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
+          return location.origin + dir + FILE;
+        }
+        var u = bgUrl();
+        var pl = document.getElementById("koed-bg-preload");
+        if (pl) pl.href = u;
+        var el = document.querySelector(".bg-media");
+        if (el) el.style.backgroundImage = 'url("' + u.replace(/"/g, '\\"') + '")';
+      })();
+    </script>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/1QTy9qAVcXY5D_GjbaYWeOqCmAnlGmz8B?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent teksten som PDF
+      </a>
+      <article class="card">
+        <h1>Kød</h1>
+        <p>
+          Kød er en vigtig del af den danske kost og findes i mange forskellige
+          former og tilberedninger. Fra klassiske danske retter som flæskesteg
+          og frikadeller til internationale specialiteter som kebab og osso buco
+          – kød tilberedes på utallige måder og serveres med mange forskellige
+          tilbehør.
+        </p>
+        <p>
+          Stegter som andesteg, flæskesteg og kalvesteg er ofte forbundet med
+          danske højtider og serveres typisk med kartofler, brun sovs og
+          rødkål. Flæskesteg kendes især på sin sprøde svær, mens andesteg
+          tilberedes af andekød og er en populær juleret. Kalvesteg er lavet af
+          kalvekød og bruges ofte til ovnretter med sovs og grøntsager.
+        </p>
+        <p>
+          Retter af hakket kød er meget almindelige i den danske hverdag.
+          Frikadeller er stegte boller af hakket kød, der spises med kartofler,
+          sovs eller som pålæg på rugbrød. Hakkebøffer er bøffer lavet af hakket
+          oksekød og serveres tit med kartofler og brun sovs. Karbonader er
+          panerede og stegte stykker af hakket kød, der ofte serveres med
+          kartofler, brun sovs og stuvede grøntsager.
+        </p>
+        <p>
+          Pølser og pålæg udgør også en stor del af kødforbrug. Grillpølser
+          tilberedes på grill eller pande og serveres ofte med brød og
+          kartoffelsalat. Medisterpølse er en krydret pølse af hakket svinekød,
+          der steges på pande. Rullepølse, røget skinke og spegepølse bruges
+          typisk som pålæg på rugbrød.
+        </p>
+        <p>
+          Kød kan tilberedes på mange måder: stegt på pande eller grill, i ovn,
+          kogt eller braiseret. Entrecôte er en mør og saftigt bøf af oksekød,
+          roastbeef er stegt oksekød skåret i tynde skiver, og pulled pork er
+          svinekød der tilberedes så længe, at det kan trækkes i strimler – ofte
+          serveret i burger eller wraps.
+        </p>
+        <section class="summary">
+          <h2>Resumé</h2>
+          <ul>
+            <li>
+              Kød findes i mange tilberedninger fra stegter til hakket kød og
+              pølser.
+            </li>
+            <li>
+              Klassiske danske retter inkluderer flæskesteg, andesteg,
+              frikadeller og hakkebøffer.
+            </li>
+            <li>
+              Pålæg som rullepølse, røget skinke og spegepølse bruges ofte på
+              rugbrød.
+            </li>
+            <li>
+              Kød tilberedes ved stegning, ovnbagning, kogning eller
+              langtidsstegning.
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <audio id="koedAudio"></audio>
+    <script>
+      const ASSET_BASE = (() => {
+        if (location.protocol === "file:") return "";
+        const p = location.pathname;
+        const last = p.split("/").pop() || "";
+        let dir =
+          last.indexOf(".") !== -1
+            ? p.slice(0, p.lastIndexOf("/") + 1) || "/"
+            : p.endsWith("/")
+              ? p
+              : p + "/";
+        if (!dir.startsWith("/")) dir = "/" + dir.replace(/^\/*/, "");
+        return dir.endsWith("/") ? dir : dir + "/";
+      })();
+
+      function assetPath(relativePath) {
+        const clean = String(relativePath).replace(/^\/+/, "");
+        if (location.protocol === "file:") return clean;
+        const path = ASSET_BASE + clean;
+        return location.origin ? location.origin + path : path;
+      }
+
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("koedAudio");
+      audio.src = assetPath("tilberedte-koedtyper/Kød.mp3");
+
+      readButton.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          readButton.textContent = "Stop oplæsning";
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          readButton.textContent = "Få teksten læst højt";
+        }
+      });
+      audio.addEventListener("ended", () => {
+        readButton.textContent = "Få teksten læst højt";
+      });
+    </script>
+    </div>
+  </body>
+</html>

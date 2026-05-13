@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tekst om grøntsager</title>
+    <link rel="preload" href="groentsager-bg-16x9.png" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.85);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem 2rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+      h2 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.3rem;
+      }
+      p {
+        margin: 0 0 0.9rem 0;
+        line-height: 1.6;
+      }
+      ul,
+      ol {
+        margin: 0 0 1rem 0;
+        padding-left: 1.2rem;
+      }
+      li {
+        margin-bottom: 0.4rem;
+      }
+      .summary {
+        margin-top: 1.2rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .summary h2 {
+        margin: 0 0 0.6rem 0;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="groentsager-bg-16x9.png" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/1JJfjlvjQWNW6OVSPYzyOqFAVAA4N-Ph5?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent teksten som PDF
+      </a>
+      <article class="card">
+        <h1>Grøntsager</h1>
+        <p>
+          Grøntsager er en vigtig del af vores kost, og de kommer i mange
+          forskellige former og smage. Vi kan finde grøntsager, der vokser både
+          under og over jorden. Rodfrugter er også grøntsager. Det er f.eks.
+          gulerødder, jordskokker og majroer. De har en rod og kan tilberedes
+          på mange forskellige måder. De kan koges, steges eller bages og bruges
+          som tilbehør eller ingrediens i retter og salater.
+        </p>
+        <p>
+          Der er også bladgrøntsager som salat og spinat, der skal spises rå i
+          salater eller som pynt på smørrebrød. Det er vigtigt at skylle dem
+          grundigt for at fjerne jord, og de kan kun holde sig et par dage i
+          køleskabet.
+        </p>
+        <p>
+          Nogle grøntsager, der egentlig er frugter, kan også bruges som
+          grøntsager. F.eks. Avokado, agurk og peberfrugt er eksempler på dette.
+          Disse frugter kan spises året rundt og bruges i forskellige retter som
+          guacamole og salater.
+        </p>
+        <p>
+          Kartofler er en vigtig madvare, der kan bruges på mange forskellige
+          måder. Der findes forskellige kartoffelsorter, der hver har deres
+          egne karakteristika. Kartofler kan koges, steges, bages og bruges til
+          forskellige kartoffelprodukter som pommes frites og kartoffelmos.
+        </p>
+        <p>
+          Der er også andre grøntsager som kål, løg og svampe, der har
+          forskellige typer og anvendelsesmuligheder. Kål kan bruges i
+          forskellige retter som suppe og salat, løg kan bruges som smagsgiver i
+          mange retter, og svampe kan bruges rå, stegt eller i saucer.
+        </p>
+        <p>
+          Det er vigtigt at opbevare grøntsager korrekt for at bevare deres smag
+          og næringsstoffer. De fleste grøntsager skal opbevares i køleskabet ved
+          en temperatur på omkring 5–8 °C. Nogle grøntsager kan fryses, mens
+          andre ikke egner sig til frysning.
+        </p>
+        <p>
+          Før man tilbereder grøntsager, skal de gøres klar ved at renses,
+          skylles, skrælles og/eller skæres i mindre stykker. Grøntsager skal
+          tilberedes forsigtigt for at bevare både smagen og vitaminerne bedst
+          muligt. Dampning, kogning og smørdampning er tre gode måder at
+          tilberede grøntsager på.
+        </p>
+        <section class="summary">
+          <h2>Resumé</h2>
+          <ul>
+            <li>
+              Grøntsager er en vigtig del af vores kost og kommer i mange
+              forskellige former og smage.
+            </li>
+            <li>
+              Rodfrugter som f.eks. gulerødder, jordskokker og majroer er også
+              grøntsager og kan tilberedes på forskellige måder.
+            </li>
+            <li>
+              Bladgrøntsager som salat og spinat skal spises rå og skylles
+              grundigt.
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <audio id="groentsagerAudio" src="Groentsager-Tekst.mp3"></audio>
+    <script>
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("groentsagerAudio");
+
+      readButton.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          readButton.textContent = "Stop oplæsning";
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          readButton.textContent = "Få teksten læst højt";
+        }
+      });
+      audio.addEventListener("ended", () => {
+        readButton.textContent = "Få teksten læst højt";
+      });
+    </script>
+    </div>
+  </body>
+</html>

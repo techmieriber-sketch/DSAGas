@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multiple choice – æg</title>
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.82);
+        color: #2d2d2d;
+        padding: 2rem;
+        border-radius: 18px;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+      }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 0 1.5rem;
+        text-align: center;
+        color: #4a4a4a;
+        font-size: 1rem;
+      }
+      .question {
+        border-top: 1px solid #ececec;
+        padding: 1rem 0;
+      }
+      .question:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+      .question h2 {
+        margin: 0 0 0.6rem;
+        font-size: 1.1rem;
+        color: #2d2d2d;
+      }
+      .options {
+        display: grid;
+        gap: 0.5rem;
+      }
+      .option {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #d6d6d6;
+        border-radius: 10px;
+        background: #ffffff;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease;
+      }
+      .option:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+      .option input {
+        accent-color: #3b82f6;
+        margin-top: 0.2rem;
+      }
+      .option.correct {
+        background: #d7ead6;
+        border-color: #7bb58b;
+      }
+      .option.incorrect {
+        background: #f2c2c2;
+        border-color: #d17a7a;
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      button {
+        border: none;
+        background: #3b82f6;
+        color: #fff;
+        padding: 0.65rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 16px rgba(59, 130, 246, 0.35);
+      }
+      button.secondary {
+        background: #6b7280;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      button.secondary:hover {
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+      }
+      .score {
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 700;
+        color: #2d2d2d;
+      }
+      .score:not(:empty) {
+        display: inline-block;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #e9f2ff;
+        border: 1px solid #c9dcff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="Æg.jpg" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <section class="card">
+        <h1>Multiple choice – æg</h1>
+        <p class="subtitle">Vælg det rigtige svar og tjek din score</p>
+
+        <div class="question" data-correct="B">
+          <h2>1. Hvilken type æg bruger man oftest i madlavning?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="A" /> A. Andeæg</label>
+            <label class="option"><input type="radio" name="q1" value="B" /> B. Hønseæg</label>
+            <label class="option"><input type="radio" name="q1" value="C" /> C. Gåseæg</label>
+            <label class="option"><input type="radio" name="q1" value="D" /> D. Mågeæg</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>2. Hvilke tre hoveddele består et æg af?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="A" /> A. Skal, kim og foster</label>
+            <label class="option"><input type="radio" name="q2" value="B" /> B. Skal, hinde og luft</label>
+            <label class="option"><input type="radio" name="q2" value="C" /> C. Skal, hvide og blomme</label>
+            <label class="option"><input type="radio" name="q2" value="D" /> D. Blomme, skal og kalk</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>3. Hvad sker der med luftlommen i et æg, når ægget bliver ældre?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="A" /> A. Den bliver større</label>
+            <label class="option"><input type="radio" name="q3" value="B" /> B. Den forsvinder helt</label>
+            <label class="option"><input type="radio" name="q3" value="C" /> C. Den bliver fyldt med blomme</label>
+            <label class="option"><input type="radio" name="q3" value="D" /> D. Den bliver mindre</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>4. Hvordan bør æg opbevares?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="A" /> A. Varmt og tæt ved andre råvarer</label>
+            <label class="option"><input type="radio" name="q4" value="B" /> B. På køkkenbordet i solen</label>
+            <label class="option"><input type="radio" name="q4" value="C" /> C. Uden bakke og åbent</label>
+            <label class="option"><input type="radio" name="q4" value="D" /> D. Køligt og gerne i deres bakke</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>5. Hvad skal man bruge til kolde retter med æg, som ikke opvarmes nok?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="A" /> A. Kun økologiske æg</label>
+            <label class="option"><input type="radio" name="q5" value="B" /> B. Pasteuriserede ægprodukter</label>
+            <label class="option"><input type="radio" name="q5" value="C" /> C. Meget gamle æg</label>
+            <label class="option"><input type="radio" name="q5" value="D" /> D. Frosne æg</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="A">
+          <h2>6. Hvad er tegn på et friskt æg?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="A" /> A. Blommen er fast og hvælvet</label>
+            <label class="option"><input type="radio" name="q6" value="B" /> B. Hviden flyder meget ud</label>
+            <label class="option"><input type="radio" name="q6" value="C" /> C. Ægget står op i vand</label>
+            <label class="option"><input type="radio" name="q6" value="D" /> D. Skallen lugter kraftigt</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>7. Hvordan kan man undersøge, om et æg er frisk?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="A" /> A. Ved at trykke hårdt på skallen</label>
+            <label class="option"><input type="radio" name="q7" value="B" /> B. Ved at ryste ægget</label>
+            <label class="option"><input type="radio" name="q7" value="C" /> C. Ved at lægge det i vand</label>
+            <label class="option"><input type="radio" name="q7" value="D" /> D. Ved at varme det op</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="D">
+          <h2>8. Hvordan opfører et kogt æg sig, når man snurrer det på en plan flade?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q8" value="A" /> A. Det vælter straks</label>
+            <label class="option"><input type="radio" name="q8" value="B" /> B. Det stopper hurtigere end et råt æg</label>
+            <label class="option"><input type="radio" name="q8" value="C" /> C. Det hopper</label>
+            <label class="option"><input type="radio" name="q8" value="D" /> D. Det snurrer lettere og mere stabilt</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="B">
+          <h2>9. Hvad kan æg bruges som i farsretter og æggeretter?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q9" value="A" /> A. Farvestof</label>
+            <label class="option"><input type="radio" name="q9" value="B" /> B. Bindemiddel</label>
+            <label class="option"><input type="radio" name="q9" value="C" /> C. Sødemiddel</label>
+            <label class="option"><input type="radio" name="q9" value="D" /> D. Konserveringsmiddel</label>
+          </div>
+        </div>
+
+        <div class="question" data-correct="C">
+          <h2>10. Hvad gør æggeblomme i mayonnaise og klassiske saucer?</h2>
+          <div class="options">
+            <label class="option"><input type="radio" name="q10" value="A" /> A. Gør dem sprøde</label>
+            <label class="option"><input type="radio" name="q10" value="B" /> B. Får dem til at hæve</label>
+            <label class="option"><input type="radio" name="q10" value="C" /> C. Får fedt og væske til at binde sammen</label>
+            <label class="option"><input type="radio" name="q10" value="D" /> D. Gør dem sure</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkAnswers">Tjek svar</button>
+          <button class="secondary" id="resetQuiz">Nulstil</button>
+        </div>
+        <p class="score" id="score"></p>
+      </section>
+    </main>
+    </div>
+  </body>
+  <script>
+    const checkButton = document.getElementById("checkAnswers");
+    const resetButton = document.getElementById("resetQuiz");
+    const scoreEl = document.getElementById("score");
+
+    const updateStyles = () => {
+      const questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+      questions.forEach((question) => {
+        const correct = question.dataset.correct;
+        const selected = question.querySelector("input:checked");
+        const options = question.querySelectorAll(".option");
+        options.forEach((opt) => opt.classList.remove("correct", "incorrect"));
+        if (selected) {
+          if (selected.value === correct) {
+            selected.closest(".option").classList.add("correct");
+            correctCount += 1;
+          } else {
+            selected.closest(".option").classList.add("incorrect");
+            const correctInput = question.querySelector(`input[value="${correct}"]`);
+            if (correctInput) {
+              correctInput.closest(".option").classList.add("correct");
+            }
+          }
+        }
+      });
+      scoreEl.textContent = `Du har ${correctCount} ud af ${questions.length} rigtige.`;
+    };
+
+    const resetQuiz = () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".option").forEach((opt) => {
+        opt.classList.remove("correct", "incorrect");
+      });
+      scoreEl.textContent = "";
+    };
+
+    checkButton.addEventListener("click", updateStyles);
+    resetButton.addEventListener("click", resetQuiz);
+  </script>
+  </body>
+</html>

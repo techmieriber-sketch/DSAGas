@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tekst om æg</title>
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .read-aloud {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        font-size: 1rem;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .pdf-link {
+        position: absolute;
+        top: 3.1rem;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        text-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.75),
+          0 0 6px rgba(0, 0, 0, 0.6);
+      }
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.85);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem 2rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+      h2 {
+        margin: 1.2rem 0 0.6rem;
+        font-size: 1.3rem;
+      }
+      p {
+        margin: 0 0 0.9rem 0;
+        line-height: 1.6;
+      }
+      ul,
+      ol {
+        margin: 0 0 1rem 0;
+        padding-left: 1.2rem;
+      }
+      li {
+        margin-bottom: 0.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true">
+      <img class="bg-image" src="Æg.jpg" alt="" fetchpriority="high" decoding="async">
+    </div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+      <button class="read-aloud" type="button" id="readAloudButton">
+        Få teksten læst højt
+      </button>
+      <a
+        class="pdf-link"
+        href="https://drive.google.com/drive/folders/1BjiCl_oJwxQcrAfRTbV9KQ1vF--2k4t5?usp=sharing"
+        target="_blank"
+        rel="noopener"
+      >
+        Hent teksten som PDF
+      </a>
+      <article class="card">
+        <h1>Æg</h1>
+        <p>
+          Æg er en vigtig råvare i køkkenet, fordi de kan bruges på mange forskellige måder. Det er især hønseæg, man anvender i madlavning, men der findes også æg fra andre fugle, for eksempel vagtler. Æg indgår både i enkle retter og i mere sammensatte tilberedninger, hvor de har stor betydning for konsistens, smag og udseende.
+        </p>
+        <h2>Produktion og typer af æg</h2>
+        <p>
+          Et æg bliver dannet i hønen i løbet af cirka et døgn. Når ægget er lagt, går der som regel få dage, før det når frem til butikken. De æg, der sælges til forbrugere, kommer fra godkendte pakkerier, hvor de bliver sorteret og kontrolleret.
+        </p>
+        <p>
+          Høner kan holdes på forskellige måder. Nogle lever i bure, andre er skrabehøns, og nogle går frit. Der findes også økologiske æg, hvor der stilles særlige krav til dyrevelfærd og foder. Produktionsformen har betydning for prisen. Æg fra mere plads- og ressourcekrævende produktion koster som regel mere end andre æg.
+        </p>
+        <h2>Æggets opbygning</h2>
+        <p>
+          Et æg består af tre hoveddele: skal, hvide og blomme. Skallen beskytter æggets indhold og udgør den mindste del af ægget. Inden for skallen ligger æggehviden, som fylder mest, og i midten findes æggeblommen.
+        </p>
+        <p>
+          Blommen holdes nogenlunde på plads af to snoede tråde, som ligger inde i hviden. I den brede ende af ægget findes der desuden en lille luftlomme. Den bliver større, efterhånden som ægget bliver ældre.
+        </p>
+        <p>
+          Æg indeholder mange næringsstoffer og er sammensat sådan, at de kan fungere som næring for et kyllingefoster. Derfor rummer de både protein, fedt, vitaminer og mineraler.
+        </p>
+        <h2>Opbevaring og hygiejne</h2>
+        <p>
+          Når man arbejder med æg, er god hygiejne vigtig. Æg kan bære bakterier, og derfor skal de behandles omhyggeligt i køkkenet. De bør opbevares køligt og adskilt fra andre fødevarer, så man mindsker risikoen for smitte fra råvarer til færdig mad.
+        </p>
+        <p>
+          Køleskabet skal være rent, og temperaturen skal være lav. Æg opbevares bedst i deres bakke, så de er beskyttet og ikke kommer i direkte kontakt med andre varer. Det er også vigtigt kun at gemme hele æg. Hvis man skiller æg i blomme og hvide, skal de bruges med det samme eller håndteres meget forsigtigt.
+        </p>
+        <p>
+          Redskaber, skåle og arbejdsflader skal være rene, når man laver mad med æg. Efter kontakt med rå æg skal man vaske både hænder og udstyr grundigt. Retter med æg bør som udgangspunkt gennemvarmes godt, så eventuelle bakterier bliver uskadeliggjort.
+        </p>
+        <p>
+          Til kolde retter, hvor ægget ikke bliver varmet ordentligt igennem, skal man bruge pasteuriserede æggeprodukter. Det gælder for eksempel desserter, mayonnaise og andre kolde æggeretter. Her er risikoen større, fordi maden ofte står færdig i noget tid før servering.
+        </p>
+        <p>
+          Æg kan normalt holde sig i flere uger, hvis de opbevares rigtigt. De skal samtidig beskyttes mod udtørring og mod stærke lugte, da skallen ikke er helt tæt. Æg kan nemlig optage smag og lugt fra omgivelserne.
+        </p>
+        <h2>Hvordan man vurderer friskhed</h2>
+        <p>
+          Friske æg har nogle tydelige kendetegn. Blommen er fast og hvælvet, og hviden ligger pænt samlet omkring den. Når et æg bliver ældre, flyder både blomme og hvide mere ud.
+        </p>
+        <p>
+          Man kan også undersøge friskheden ved at lægge ægget i vand. Et meget frisk æg synker og bliver liggende. Jo ældre ægget er, desto mere vil det løfte sig, fordi luftlommen inde i ægget bliver større med tiden.
+        </p>
+        <p>
+          Der kan også være forskel på kvaliteten alt efter hønens alder. Æg fra yngre høner har ofte en bedre fasthed og kan være mere velegnede i madlavning, hvor man stiller krav til for eksempel piskeevne.
+        </p>
+        <h2>Kogt eller råt?</h2>
+        <p>
+          Hvis man er i tvivl om, hvorvidt et æg er kogt eller råt, kan man dreje det rundt på en plan overflade. Et kogt æg snurrer lettere og mere stabilt, mens et råt æg hurtigt mister farten. Det skyldes, at indholdet i det rå æg stadig er flydende.
+        </p>
+        <h2>Pasteuriserede ægprodukter</h2>
+        <p>
+          Pasteuriserede ægprodukter er varmebehandlede, så de er mere sikre at bruge i retter, der ikke opvarmes tilstrækkeligt. De findes i flere former, for eksempel som hele æg, blommer eller hvider. Nogle produkter er tilsat sukker eller salt, så de passer til bestemte typer madlavning og bagning.
+        </p>
+        <p>
+          Disse produkter er praktiske i professionelle køkkener, fordi de både letter arbejdet og øger fødevaresikkerheden.
+        </p>
+        <h2>Anvendelse af æg i madlavning</h2>
+        <p>
+          Æg kan bruges i mange forskellige retter. De kan være hovedingrediens i for eksempel omelet, røræg og æggekage, men de spiller også en vigtig rolle i mange andre sammenhænge.
+        </p>
+        <p>
+          I køkkenet er æg især værdifulde på grund af deres madtekniske egenskaber:
+        </p>
+        <ul>
+          <li><strong>Som bindemiddel:</strong> Æg kan samle en masse, så ingredienserne hænger bedre sammen. Det udnytter man blandt andet i æggeretter og farsretter.</li>
+          <li><strong>Som hævemiddel:</strong> Pisket æggehvide kan indeholde meget luft. Det gør den nyttig i retter og kager, hvor man ønsker en let og luftig konsistens.</li>
+          <li><strong>Som jævnemiddel:</strong> Æggeblomme kan være med til at gøre supper, cremer og saucer mere fyldige og ensartede.</li>
+          <li><strong>Som emulgeringsmiddel:</strong> Æggeblommen kan få fedt og væske til at binde sammen. Det er en vigtig egenskab i for eksempel mayonnaise og klassiske saucer.</li>
+        </ul>
+        <h2>Sammenfatning</h2>
+        <p>
+          Æg er en alsidig råvare med stor betydning i både hverdagsmad og mere avanceret madlavning. De bidrager med næring, men især også med funktion i køkkenet. Derfor er det vigtigt at kende både æggets opbygning, korrekt opbevaring, god hygiejne og de mange måder, æg kan bruges på i madlavningen.
+        </p>
+      </article>
+    </main>
+    <audio id="aegAudio" src="Æg.mp3" preload="auto"></audio>
+    <script>
+      const readButton = document.getElementById("readAloudButton");
+      const audio = document.getElementById("aegAudio");
+
+      readButton.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play().catch(() => {});
+          readButton.textContent = "Stop oplæsning";
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          readButton.textContent = "Få teksten læst højt";
+        }
+      });
+      audio.addEventListener("ended", () => {
+        readButton.textContent = "Få teksten læst højt";
+      });
+    </script>
+    </div>
+  </body>
+</html>

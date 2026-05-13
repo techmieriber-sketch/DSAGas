@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ordkort – madhygiejne</title>
+    <link rel="preload" href="hygiejne-baggrund.png" as="image" />
+    <style>
+      html {
+        margin: 0;
+        min-height: 100%;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #0f1b24;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0f1b24;
+        font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        position: relative;
+      }
+      .bg-media {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: #0f1b24;
+        overflow: hidden;
+      }
+      .bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .overlay {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        padding: 3rem 2rem 2rem;
+        position: relative;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.35) 0%,
+          rgba(0, 0, 0, 0.18) 45%,
+          rgba(0, 0, 0, 0.28) 100%
+        );
+      }
+      .back-link {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.5rem;
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .card {
+        width: 100%;
+        max-width: 1100px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #111;
+        border-radius: 18px;
+        padding: 1.25rem 1.5rem 1.75rem;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(6px);
+      }
+      .ordkort {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.25rem;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      }
+      .ordkort__header {
+        text-align: center;
+        margin-bottom: 0.75rem;
+      }
+      .ordkort__header h2 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.6rem;
+        text-transform: capitalize;
+        letter-spacing: 0.4px;
+      }
+      .ordkort__header p {
+        margin: 0 0 1rem 0;
+        opacity: 0.8;
+      }
+      .ordkort__grid {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .ordkort__grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 960px) {
+        .ordkort__grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      .ordkort__card {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+        perspective: 1000px;
+        transition: transform 140ms ease;
+      }
+      .ordkort__card:hover {
+        transform: translateY(-2px);
+      }
+      .ordkort__inner {
+        position: relative;
+        display: block;
+        min-height: 160px;
+        border-radius: 16px;
+        transform-style: preserve-3d;
+        transition: transform 220ms ease, box-shadow 220ms ease;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+      .ordkort__face {
+        position: absolute;
+        inset: 0;
+        border-radius: 16px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backface-visibility: hidden;
+      }
+      .ordkort__front {
+        background: linear-gradient(135deg, #ffffff 0%, #eef6f0 100%);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .ordkort__back {
+        background: linear-gradient(135deg, #24543a 0%, #173627 100%);
+        color: #ffffff;
+        transform: rotateY(180deg);
+      }
+      .ordkort__term {
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .ordkort__def {
+        font-size: 1rem;
+        line-height: 1.35;
+        opacity: 0.95;
+      }
+      .ordkort__card[aria-expanded="true"] .ordkort__inner {
+        transform: rotateY(180deg);
+      }
+      .ordkort__card:focus-visible .ordkort__inner {
+        outline: 3px solid rgba(59, 130, 246, 0.75);
+        outline-offset: 3px;
+      }
+      .ordkort__card:hover .ordkort__inner {
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ordkort__inner {
+          transition: none;
+        }
+        .ordkort__card {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-media" aria-hidden="true"><img class="bg-image" src="hygiejne-baggrund.png" alt="" fetchpriority="high" decoding="async"></div>
+
+    <div class="page-shell">
+    <main class="overlay">
+      <a class="back-link" href="index.html">Tilbage</a>
+
+      <div class="card">
+        <section class="ordkort" aria-label="digitale ordkort">
+          <header class="ordkort__header">
+            <h2>ordkort</h2>
+            <p>
+              Klik på et kort for at vende det. Ordet på kortet læses op, når du
+              klikker på kortet.
+            </p>
+          </header>
+
+          <div class="ordkort__grid">
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="1Madhygiejne.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Madhygiejne</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Regler og rutiner, der skal sikre, at mad ikke gør mennesker
+                    syge.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Mikroorganismer.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Mikroorganismer</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Meget små organismer, som findes næsten overalt i naturen.
+                    Nogle er nyttige, mens andre kan gøre mad dårlig eller gøre
+                    mennesker syge.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Bakterier.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Bakterier</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Mikroorganismer, der kan formere sig hurtigt i fødevarer,
+                    især når temperatur og forhold er gode.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Svampe.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Svampe</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En type mikroorganismer, som indgår i fødevarehygiejne og
+                    kan påvirke fødevarers holdbarhed.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Virus.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Virus</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Mikroorganismer, som også kan spille en rolle i
+                    fødevarehygiejne og smitte gennem mad.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Parasitter.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Parasitter</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Organismer, der blandt andet kan findes i rå fisk. De kan
+                    dræbes ved frysning.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Temperatur.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Temperatur</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En af de vigtigste faktorer for, om bakterier vokser hurtigt
+                    eller langsomt i mad.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Varmebehandling.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Varmebehandling</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Opvarmning af mad, så de fleste bakterier bliver ødelagt. En
+                    ret bør nå mindst 75 °C i hele fødevaren.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Genopvarmning.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Genopvarmning</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Når en tilberedt ret varmes op igen. Den bør igen nå mindst
+                    75 °C.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Varmholdning.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Varmholdning</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Når mad holdes varm før servering. Temperaturen bør være
+                    mindst 65 °C.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Koeleskab.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Køleskab</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Her bør temperaturen være højst omkring 5 °C, så bakterier
+                    vokser meget langsomt.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Frysning.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Frysning</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Opbevaring ved cirka −18 °C. Frysning stopper normalt
+                    bakteriers vækst, men dræber dem ikke.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Sporer.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Sporer</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Meget modstandsdygtige former for bakterier, som kan overleve
+                    almindelig opvarmning.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Halvkonserves.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Halvkonserves</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Fødevarer med forlænget holdbarhed ved hjælp af for eksempel
+                    salt, sukker, syre eller konserveringsmidler, som stadig
+                    skal opbevares på køl.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Konserveringsmidler.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Konserveringsmidler</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Stoffer, der bruges i nogle fødevarer for at hæmme væksten af
+                    mikroorganismer og forlænge holdbarheden.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Maelkesyrebakterier.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Mælkesyrebakterier</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Nyttige mikroorganismer, som bruges til produkter som
+                    yoghurt, tykmælk og ost.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Salmonella.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Salmonella</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En sygdomsfremkaldende bakterie, som kan findes i råt kød,
+                    æg eller upasteuriseret mælk.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Campylobacter.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Campylobacter</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    En kendt bakterie, som ofte findes i råt kød, især fjerkræ,
+                    og som kan gøre mennesker syge.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Krydssmitte.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Krydssmitte</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Når bakterier overføres fra en rå fødevare til en anden
+                    fødevare, for eksempel via kødsaft eller et snavset
+                    skærebræt.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Gensmitte.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Gensmitte</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Når færdiglavet mad bliver forurenet igen efter
+                    tilberedningen, for eksempel fra hænder, redskaber eller
+                    overflader.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Personlig-hygiejne.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Personlig hygiejne</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Handler blandt andet om rene hænder, rent arbejdstøj og om
+                    ikke at arbejde med mad, når man er syg.
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="ordkort__card"
+              type="button"
+              aria-expanded="false"
+              data-audio="Kritiske-punkter.mp3"
+            >
+              <span class="ordkort__inner">
+                <span class="ordkort__face ordkort__front">
+                  <span class="ordkort__term">Kritiske punkter</span>
+                </span>
+                <span class="ordkort__face ordkort__back">
+                  <span class="ordkort__def">
+                    Vigtige steder i madlavningen, for eksempel opvarmning,
+                    nedkøling og opbevaring, hvor fejl kan give bakterier gode
+                    vækstbetingelser.
+                  </span>
+                </span>
+              </span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const audioPlayer = new Audio();
+
+      document.querySelectorAll(".ordkort__card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const expanded = card.getAttribute("aria-expanded") === "true";
+          card.setAttribute("aria-expanded", String(!expanded));
+
+          const audioSrc = card.dataset.audio;
+          if (!audioSrc) return;
+
+          if (audioPlayer.src !== new URL(audioSrc, window.location.href).href) {
+            audioPlayer.src = audioSrc;
+          }
+
+          audioPlayer.currentTime = 0;
+          audioPlayer.play().catch(() => {});
+        });
+
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+    </script>
+    </div>
+  </body>
+</html>
